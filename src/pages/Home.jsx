@@ -1021,7 +1021,8 @@ export default function Home() {
   const [newProjectOpen, setNewProjectOpen]   = useState(false);
   const [collaboTracks, setCollaboTracks]     = useState([]);
   const [songTracks, setSongTracks]           = useState([]);
-  const [enrichedRecent, setEnrichedRecent]   = useState([]);
+  const { recentlyPlayed, setQueue } = usePlayer();
+  const [enrichedRecent, setEnrichedRecent]   = useState(() => recentlyPlayed ?? []);
   const [collaboLoading, setCollaboLoading]   = useState(true);
   const [songsLoading, setSongsLoading]       = useState(true);
   const [shareTrack, setShareTrack]           = useState(null);
@@ -1029,7 +1030,6 @@ export default function Home() {
   const [forYouLoading, setForYouLoading]     = useState(true);
 
   useEffect(() => { setReady(true); }, []);
-  const { recentlyPlayed, setQueue } = usePlayer();
 
   useEffect(() => {
     if (songTracks.length > 0) {

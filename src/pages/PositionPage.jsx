@@ -18,7 +18,6 @@ const POSITION_MAP = {
   "music-creator": { label: "Music Creator",textColor: "#F2DE7E", dbKey: "MUSIC CREATOR" },
   "producer":      { label: "Producer",     textColor: "#B4E6F2", dbKey: "PRODUCER" },
   "engineer":      { label: "Engineer",     textColor: "#B7F3A1", dbKey: "ENGINEER" },
-  "session":       { label: "Session",      textColor: "#D39CF7", dbKey: "SESSION" },
 };
 
 export default function PositionPage() {
