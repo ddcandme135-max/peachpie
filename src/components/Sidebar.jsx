@@ -201,7 +201,7 @@ ${isOpen ? "w-[210px] p-4" : "w-[72px] p-2"}`}
                 transition: "opacity 600ms cubic-bezier(0.32,0.72,0,1), width 600ms cubic-bezier(0.32,0.72,0,1)",
               }}
             >
-              <span style={{ fontFamily: "'Agbalumo', cursive", color: "#F5854D", fontSize: 28, fontWeight: 400, letterSpacing: "0.01em", marginLeft: 8 }}>Bridge</span>
+              <span style={{ fontFamily: "'Agbalumo', cursive", color: "#F5854D", fontSize: 28, fontWeight: 400, letterSpacing: "0.01em", marginLeft: 8 }}>Peachpie</span>
             </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
