@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Collegiate+One&family=Agbalumo&display=swap');
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.rank-row { background: transparent; }
+.rank-row:hover { background: rgba(255,255,255,0.05); }
+.rank-row:hover .rank-num { color: #FF505A !important; }
+.rank-row:hover .play-overlay { opacity: 1 !important; }
+.rank-arrow { opacity: 0; transform: translateX(-4px); transition: opacity 150ms, transform 150ms; }
+.rank-row:hover .rank-arrow { opacity: 1; transform: translateX(0); }
+
+html, body {
+  overscroll-behavior: none;
+  background: #000;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #00010D;
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.banner-live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #FC3C44;
+  box-shadow: 0 0 12px rgba(252,60,68,0.7);
+  animation: pulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.collabo-status-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor;
+  animation: pulse 1.6s ease-in-out infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ===== Position text plate ===== */
+.pos-plate {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%); z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+
+.masonry-grid { display: flex; gap: 16px; }
+.masonry-grid_column { display: flex; flex-direction: column; gap: 16px; }

@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(npm run *)",
+      "Read(//private/tmp/**)",
+      "Bash(cp /Users/invasion/.claude/projects/-Users-invasion-notel/0514f5ed-fb8e-4415-b5f0-a96cae2088e0/tool-results/webfetch-1777468377692-5gy2rx.bin design.tar.gz)",
+      "Bash(tar -xzf design.tar.gz)",
+      "Bash(cp /Users/invasion/.claude/projects/-Users-invasion-notel/0514f5ed-fb8e-4415-b5f0-a96cae2088e0/tool-results/webfetch-1777472211293-ep0sju.bin design2.tar.gz)",
+      "Bash(tar -xzf design2.tar.gz)",
+      "Bash(mkdir -p /tmp/design_handoff)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/RMyIYYErHeKWnA9fwZILfg?open_file=Projects.html\" -o /tmp/design_handoff/handoff.tar.gz)",
+      "Read(//tmp/design_handoff/**)",
+      "Bash(tar -xzf handoff.tar.gz)",
+      "Bash(gunzip -c \"/Users/invasion/.claude/projects/-Users-invasion-notel/e2b0c4ed-d327-4674-b144-42c2cd2d6173/tool-results/webfetch-1777891244789-dlqkz9.bin\")",
+      "Bash(npx vite *)",
+      "Bash(mkdir -p /tmp/notel2_design)",
+      "Bash(cp /tmp/notel2.bin /tmp/notel2.tar.gz)",
+      "Bash(tar -xzf /tmp/notel2.tar.gz -C /tmp/notel2_design)",
+      "Read(//tmp/**)",
+      "Bash(python3 *)",
+      "Bash(curl -s \"https://api.anthropic.com/v1/design/h/U4tOFZUn9XaFZ9bZHA3wsg?open_file=Twitter-Feed-2col.html\")",
+      "Bash(curl -v \"https://api.anthropic.com/v1/design/h/U4tOFZUn9XaFZ9bZHA3wsg?open_file=Twitter-Feed-2col.html\" -o /tmp/design_raw)",
+      "Bash(security find-generic-password *)"
+    ]
+  }
+}
