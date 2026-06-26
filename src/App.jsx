@@ -83,13 +83,12 @@ function MobileBlock() {
   return (
     <div style={{
       position: "fixed", inset: 0, zIndex: 99999,
-      width: "100vw", height: "100dvh", minHeight: "100dvh",
+      width: "100%", height: "100%",
       background: "#00010D",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center",
       padding: 32, textAlign: "center"
     }}>
-      <img src="/peachpie-icon.png" alt="Peachpie" style={{ width: 80, marginBottom: 12 }} />
       <div style={{ fontFamily: "'Agbalumo', cursive", fontSize: 30, fontWeight: 400, color: "#F286C7", letterSpacing: "0.01em", marginBottom: 24 }}>
         Peachpie
       </div>
