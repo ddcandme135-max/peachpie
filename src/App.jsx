@@ -90,7 +90,7 @@ function MobileBlock() {
       padding: 32, textAlign: "center"
     }}>
       <img src="/peachpie-icon.png" alt="Peachpie" style={{ width: 80, marginBottom: 12 }} />
-      <div style={{ fontFamily: "'Agbalumo', cursive", fontSize: 30, fontWeight: 400, color: "#F5854D", letterSpacing: "0.01em", marginBottom: 24 }}>
+      <div style={{ fontFamily: "'Agbalumo', cursive", fontSize: 30, fontWeight: 400, color: "#F286C7", letterSpacing: "0.01em", marginBottom: 24 }}>
         Peachpie
       </div>
       <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 12 }}>

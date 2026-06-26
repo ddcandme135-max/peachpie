@@ -14,7 +14,7 @@ export default function TopNav() {
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex items-center px-10 py-4">
 
-      <div className="text-white font-semibold text-[20px]">
+      <div className="font-semibold text-[20px]" style={{ color: "#F286C7" }}>
         Peachpie
       </div>
 

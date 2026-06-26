@@ -32,7 +32,7 @@ export default function Privacy() {
         </button>
 
         <h1 style={{ fontSize: 30, fontWeight: 800, letterSpacing: "-0.02em", margin: 0 }}>
-          <span style={{ fontFamily: "'Agbalumo', cursive", color: "#F5854D", fontWeight: 400 }}>Peachpie</span>{" "}
+          <span style={{ fontFamily: "'Agbalumo', cursive", color: "#F286C7", fontWeight: 400 }}>Peachpie</span>{" "}
           {t("privacy.title")}
         </h1>
         <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, marginTop: 10 }}>

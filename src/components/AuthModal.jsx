@@ -110,7 +110,7 @@ export default function AuthModal({ onClose }) {
         </button>
 
         <h1 style={{ margin:"6px 0 0", textAlign:"center", fontSize:26, fontWeight:700, letterSpacing:"-0.02em", color:"#fff" }}>
-          Welcome <span style={{ fontFamily:"'Agbalumo', cursive", color:"#F5854D", fontWeight:400, letterSpacing:"0.01em" }}>Peachpie</span>
+          Welcome <span style={{ fontFamily:"'Agbalumo', cursive", color:"#F286C7", fontWeight:400, letterSpacing:"0.01em" }}>Peachpie</span>
         </h1>
         <p style={{ margin:"14px auto 0", maxWidth:300, textAlign:"center", fontSize:14, color:"rgba(255,255,255,0.72)", lineHeight:1.5, wordBreak:"break-word", overflowWrap:"break-word" }}>
           {t("auth.tagline")}
