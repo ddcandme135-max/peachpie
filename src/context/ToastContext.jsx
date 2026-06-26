@@ -7,6 +7,7 @@ export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   const [sidebarW, setSidebarW] = useState(100);
   const [sidebarPlayer, setSidebarPlayer] = useState(false);
+  const [miniPlayerVisible, setMiniPlayerVisible] = useState(false);
   const timersRef = useRef({});
 
   useEffect(() => {
@@ -19,6 +20,12 @@ export function ToastProvider({ children }) {
     function handler(e) { setSidebarPlayer(e.detail.sidebarPlayer); }
     window.addEventListener("player-sidebar-toggle", handler);
     return () => window.removeEventListener("player-sidebar-toggle", handler);
+  }, []);
+
+  useEffect(() => {
+    function handler(e) { setMiniPlayerVisible(e.detail.visible); }
+    window.addEventListener("miniplayer-visibility", handler);
+    return () => window.removeEventListener("miniplayer-visibility", handler);
   }, []);
 
   const dismissToast = useCallback((id) => {
@@ -46,7 +53,7 @@ export function ToastProvider({ children }) {
       {children}
       <div style={{
         position: "fixed",
-        bottom: sidebarPlayer ? 24 : 102,
+        bottom: miniPlayerVisible ? 102 : 24,
         left: "50%",
         transform: `translateX(calc(-50% - ${sidebarPlayer ? 0 : 60 + (290 - sidebarW) * 0.5}px))`,
         transition: "bottom 600ms cubic-bezier(0.16,1,0.3,1), transform 600ms cubic-bezier(0.16,1,0.3,1)",

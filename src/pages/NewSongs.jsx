@@ -11,6 +11,7 @@ import { supabase } from "../lib/supabase";
 import { fetchTracks } from "../lib/api";
 import ShareModal from "../components/ShareModal";
 import NewTrackModal from "../components/NewTrackModal";
+import AuthModal from "../components/AuthModal";
 import { ml } from "../lib/ml";
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
@@ -333,6 +334,7 @@ export default function NewSongs() {
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
   const [shareData, setShareData] = useState(null);
   const [editTrack, setEditTrack] = useState(null);
   const { i18n } = useTranslation();
@@ -402,6 +404,7 @@ export default function NewSongs() {
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       <ShareModal isOpen={!!shareData} onClose={() => setShareData(null)} shareData={shareData} />
       <NewTrackModal
         open={!!editTrack || uploadOpen}
@@ -441,16 +444,14 @@ export default function NewSongs() {
                 </button>
                 <h1 style={{ margin: 0, fontSize: 26, fontWeight: 900, letterSpacing: "-0.03em" }}>{ml("k121")}</h1>
               </div>
-              {myId && (
-                <button onClick={() => setUploadOpen(true)}
-                  style={{ all: "unset", display: "inline-flex", alignItems: "center", gap: 7, height: 38, padding: "0 18px", borderRadius: 999, background: "rgba(255,255,255,0.07)", color: "#fff", fontSize: 13.5, fontWeight: 700, cursor: "pointer", letterSpacing: "-0.01em", border: "1px solid rgba(255,255,255,0.12)", transition: "background 150ms" }}
-                  onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}
-                  onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-                  {ml("k026")}
-                </button>
-              )}
+              <button onClick={() => { if (myId) setUploadOpen(true); else setAuthOpen(true); }}
+                style={{ all: "unset", display: "inline-flex", alignItems: "center", gap: 7, height: 38, padding: "0 18px", borderRadius: 999, background: "rgba(255,255,255,0.07)", color: "#fff", fontSize: 13.5, fontWeight: 700, cursor: "pointer", letterSpacing: "-0.01em", border: "1px solid rgba(255,255,255,0.12)", transition: "background 150ms" }}
+                onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}
+                onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                {ml("k026")}
+              </button>
             </div>
           </div>
 

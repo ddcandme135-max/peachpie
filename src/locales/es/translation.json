@@ -207,7 +207,7 @@
         "R&B coreano de la semana",
         "9 temas nuevos"
       ],
-      "sub": "Nuevos temas de R&B coreano elegidos por los curadores de Notel. Imprescindibles esta semana.",
+      "sub": "Nuevos temas de R&B coreano elegidos por los curadores de Peachpie. Imprescindibles esta semana.",
       "cta": "Playlist",
       "ghost": "Ver todo"
     },
@@ -233,7 +233,7 @@
     }
   ],
   "systemMsg": {
-    "welcome": "¡Bienvenido a BandCollabo! 🎵 Todas las funciones son gratuitas durante el periodo beta.",
+    "welcome": "¡Bienvenido a Peachpie! 🎵 Todas las funciones son gratuitas durante el periodo beta.",
     "beta_update": "Hay una nueva actualización. ¡Mejoramos continuamente para una mejor experiencia!",
     "collab_feed": "Echa un vistazo al nuevo feed de colab. Explora las publicaciones de un vistazo en un diseño de 2 columnas.",
     "feedback_request": "Si tienes algún inconveniente o sugerencia, ¡envíanos tus comentarios cuando quieras!",
@@ -431,5 +431,22 @@
     "noResultsQuery": "Sin resultados para «{{query}}»",
     "tagDone": "{{n}} artista(s) etiquetado(s)",
     "undo": "Deshacer"
+  },
+  "privacy": {
+    "back": "Atrás",
+    "title": "Política de Privacidad",
+    "lastUpdated": "Última actualización: 23 de junio de 2026",
+    "intro": "Peachpie (el «Servicio») valora tu privacidad y cumple con las leyes de protección de datos aplicables. Esta política explica qué información personal recopila el Servicio, cómo se utiliza, cuánto tiempo se conserva y cómo contactarnos.",
+    "s1Title": "1. Información que recopilamos",
+    "s1Body": "Peachpie recopila la siguiente información para prestar el Servicio.",
+    "s1Item1": "Dirección de correo electrónico",
+    "s1Item2": "Información de perfil (nombre de usuario, identificador, biografía, imagen de perfil, etc.)",
+    "s1Item3": "Datos de carga de música (pistas subidas y metadatos relacionados)",
+    "s2Title": "2. Cómo usamos tu información",
+    "s2Body": "La información recopilada se utiliza únicamente para identificar a los miembros y prestar el servicio de colaboración musical.",
+    "s3Title": "3. Período de conservación de datos",
+    "s3Body": "Toda la información personal recopilada se elimina sin demora al darse de baja la cuenta. No obstante, podrá conservarse durante el período requerido cuando la ley aplicable exija su conservación.",
+    "s4Title": "4. Contacto",
+    "s4Body": "Para consultas sobre el tratamiento de datos personales, contacta con el operador en el correo electrónico que figura a continuación."
   }
 }

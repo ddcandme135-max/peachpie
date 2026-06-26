@@ -207,7 +207,7 @@
         "R&B coréen de la semaine",
         "9 nouveaux titres"
       ],
-      "sub": "Nouveaux titres de R&B coréen sélectionnés par les curateurs de Notel. À ne pas manquer cette semaine.",
+      "sub": "Nouveaux titres de R&B coréen sélectionnés par les curateurs de Peachpie. À ne pas manquer cette semaine.",
       "cta": "Playlist",
       "ghost": "Tout voir"
     },
@@ -233,7 +233,7 @@
     }
   ],
   "systemMsg": {
-    "welcome": "Bienvenue sur BandCollabo ! 🎵 Toutes les fonctionnalités sont gratuites pendant la période bêta.",
+    "welcome": "Bienvenue sur Peachpie ! 🎵 Toutes les fonctionnalités sont gratuites pendant la période bêta.",
     "beta_update": "Une nouvelle mise à jour est disponible. Nous nous améliorons en continu pour une meilleure expérience !",
     "collab_feed": "Découvrez le nouveau fil de collab. Parcourez les publications en un coup d'œil dans une mise en page à 2 colonnes.",
     "feedback_request": "Si vous rencontrez des problèmes ou avez des suggestions, n'hésitez pas à nous envoyer un commentaire à tout moment !",
@@ -431,5 +431,22 @@
     "noResultsQuery": "Aucun résultat pour « {{query}} »",
     "tagDone": "{{n}} artiste(s) identifié(s)",
     "undo": "Annuler"
+  },
+  "privacy": {
+    "back": "Retour",
+    "title": "Politique de Confidentialité",
+    "lastUpdated": "Dernière mise à jour : 23 juin 2026",
+    "intro": "Peachpie (le « Service ») accorde de l'importance à votre vie privée et respecte les lois applicables en matière de protection des données. Cette politique explique quelles informations personnelles le Service collecte, comment elles sont utilisées, combien de temps elles sont conservées et comment nous contacter.",
+    "s1Title": "1. Informations que nous collectons",
+    "s1Body": "Peachpie collecte les informations suivantes pour fournir le Service.",
+    "s1Item1": "Adresse e-mail",
+    "s1Item2": "Informations de profil (nom d'utilisateur, identifiant, bio, image de profil, etc.)",
+    "s1Item3": "Données de téléversement musical (titres téléversés et métadonnées associées)",
+    "s2Title": "2. Utilisation de vos informations",
+    "s2Body": "Les informations collectées sont utilisées uniquement pour identifier les membres et fournir le service de collaboration musicale.",
+    "s3Title": "3. Durée de conservation des données",
+    "s3Body": "Toutes les informations personnelles collectées sont supprimées sans délai lors de la suppression du compte. Toutefois, elles peuvent être conservées pendant la durée requise lorsque la loi applicable l'exige.",
+    "s4Title": "4. Contact",
+    "s4Body": "Pour toute question concernant le traitement des données personnelles, veuillez contacter l'exploitant à l'adresse e-mail ci-dessous."
   }
 }

@@ -15,7 +15,7 @@ export default function TopNav() {
     <div className="fixed top-0 left-0 w-full z-50 flex items-center px-10 py-4">
 
       <div className="text-white font-semibold text-[20px]">
-        notel
+        Peachpie
       </div>
 
       <div className="flex items-center gap-5 ml-10">

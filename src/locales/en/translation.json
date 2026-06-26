@@ -207,7 +207,7 @@
         "Korean R&B of the Week",
         "9 new tracks"
       ],
-      "sub": "New Korean R&B tracks handpicked by Notel curators. Must-listens for this week.",
+      "sub": "New Korean R&B tracks handpicked by Peachpie curators. Must-listens for this week.",
       "cta": "Playlist",
       "ghost": "View All"
     },
@@ -233,7 +233,7 @@
     }
   ],
   "systemMsg": {
-    "welcome": "Welcome to BandCollabo! 🎵 All features are free during the beta period.",
+    "welcome": "Welcome to Peachpie! 🎵 All features are free during the beta period.",
     "beta_update": "There's a new update. We're continuously improving for a better experience!",
     "collab_feed": "Check out the new Collab Feed. Browse posts at a glance in a 2-column layout.",
     "feedback_request": "If you have any inconveniences or suggestions, feel free to send us feedback anytime!",
@@ -431,5 +431,22 @@
     "noResultsQuery": "No results for \"{{query}}\"",
     "tagDone": "Tag {{n}} artists",
     "undo": "Undo"
+  },
+  "privacy": {
+    "back": "Back",
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: June 23, 2026",
+    "intro": "Peachpie (the \"Service\") values your privacy and complies with applicable data protection laws. This policy explains what personal information the Service collects, how it is used, how long it is retained, and how to contact us.",
+    "s1Title": "1. Information We Collect",
+    "s1Body": "Peachpie collects the following information to provide the Service.",
+    "s1Item1": "Email address",
+    "s1Item2": "Profile information (username, handle, bio, profile image, etc.)",
+    "s1Item3": "Music upload data (uploaded tracks and related metadata)",
+    "s2Title": "2. How We Use Your Information",
+    "s2Body": "The information collected is used solely to identify members and provide the music collaboration service.",
+    "s3Title": "3. Data Retention Period",
+    "s3Body": "All collected personal information is deleted without delay upon account withdrawal. However, it may be retained for the required period where preservation is mandated by applicable laws.",
+    "s4Title": "4. Contact",
+    "s4Body": "For inquiries regarding the handling of personal information, please contact the operator at the email below."
   }
 }

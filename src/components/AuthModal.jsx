@@ -110,13 +110,13 @@ export default function AuthModal({ onClose }) {
         </button>
 
         <h1 style={{ margin:"6px 0 0", textAlign:"center", fontSize:26, fontWeight:700, letterSpacing:"-0.02em", color:"#fff" }}>
-          Welcome <span style={{ fontFamily:"'Carter One', cursive", color:"#F54D4D", fontWeight:400, letterSpacing:"0.01em" }}>Bridge</span>
+          Welcome <span style={{ fontFamily:"'Agbalumo', cursive", color:"#F5854D", fontWeight:400, letterSpacing:"0.01em" }}>Peachpie</span>
         </h1>
         <p style={{ margin:"14px auto 0", maxWidth:300, textAlign:"center", fontSize:14, color:"rgba(255,255,255,0.72)", lineHeight:1.5, wordBreak:"break-word", overflowWrap:"break-word" }}>
           {t("auth.tagline")}
         </p>
 
-        {/* 소셜 */}
+        {/* 소셜 로그인(구글) 임시 비활성화 — 추후 복구
         <div style={{ display:"flex", flexDirection:"column", gap:11, marginTop:32 }}>
           <button className="auth-soc" onClick={handleGoogle} style={{ position:"relative", display:"flex", alignItems:"center", justifyContent:"center", height:52, borderRadius:999, background:"transparent", border:"1px solid rgba(255,255,255,0.16)", color:"#fff", cursor:"pointer", fontSize:14, fontWeight:600, letterSpacing:"-0.015em", transition:"background 200ms, border-color 200ms", fontFamily:"inherit", overflow:"hidden", whiteSpace:"nowrap", textOverflow:"ellipsis", paddingLeft:52, paddingRight:16 }}>
             <span style={{ position:"absolute", left:20, top:"50%", transform:"translateY(-50%)" }}>
@@ -131,6 +131,9 @@ export default function AuthModal({ onClose }) {
           {t("auth.or")}
           <div style={{ flex:1, height:1, background:"rgba(255,255,255,0.08)" }} />
         </div>
+        */}
+
+        <div style={{ marginTop:32 }} />
 
         {/* 로그인 */}
         {mode === "login" && (

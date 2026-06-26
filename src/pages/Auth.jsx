@@ -36,7 +36,7 @@ export default function Auth() {
         {/* 로고 */}
         <div style={{ textAlign: "center", marginBottom: 36 }}>
           <div style={{ fontSize: 28, fontWeight: 800, color: "#fff", letterSpacing: "-0.03em", marginBottom: 8 }}>
-            BandCollabo
+            Peachpie
           </div>
           <div style={{ fontSize: 14, color: "rgba(255,255,255,0.4)" }}>
             {mode === "login" ? t("auth.loginSubtitle") : t("auth.signupSubtitle")}

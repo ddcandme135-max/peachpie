@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { supabase } from "./lib/supabase";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { PlayerProvider, usePlayer } from "./context/PlayerContext";
@@ -23,6 +23,38 @@ const PositionPage    = lazy(() => import("./pages/PositionPage"));
 const SearchResults   = lazy(() => import("./pages/SearchResults"));
 const Admin           = lazy(() => import("./pages/Admin"));
 const Playlist        = lazy(() => import("./pages/Playlist"));
+const Privacy         = lazy(() => import("./pages/Privacy"));
+
+function MobileBlock() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  if (!isMobile) return null;
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 99999,
+      background: "#00010D",
+      display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center",
+      padding: 32, textAlign: "center"
+    }}>
+      <img src="/peachpie-icon.png" alt="Peachpie" style={{ width: 80, marginBottom: 24 }} />
+      <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 12 }}>
+        모바일에서는 사용이 어려워요..
+      </div>
+      <div style={{ fontSize: 15, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
+        데스크톱으로 다시 방문 해주세요!
+      </div>
+    </div>
+  );
+}
 
 function PageLoader() {
   return (
@@ -56,9 +88,22 @@ function SpacebarHandler() {
 
 function ConditionalMiniPlayer() {
   const { pathname } = useLocation();
-  if (pathname === "/chat" || pathname === "/admin") return null;
-  if (/^\/(track|song|collabo|project)\//.test(pathname)) return null;
+  const { currentTrack, sidebarPlayer } = usePlayer();
+  const hiddenRoute = pathname === "/chat" || pathname === "/admin" || /^\/(track|song|collabo|project)\//.test(pathname);
+  const visible = !hiddenRoute && !!currentTrack && !sidebarPlayer;
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("miniplayer-visibility", { detail: { visible } }));
+  }, [visible]);
+  if (hiddenRoute) return null;
   return <MiniPlayer />;
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 }
 
 export default function App() {
@@ -89,7 +134,9 @@ export default function App() {
     <LangProvider>
     <AppProvider>
     <PlayerProvider>
+      <MobileBlock />
       <SpacebarHandler />
+      <ScrollToTop />
       <div className="text-white min-h-screen" style={{ background: "#000000" }}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
@@ -114,6 +161,7 @@ export default function App() {
             <Route path="/board"         element={<CollabFeed />} />
             <Route path="/admin"         element={<Admin />} />
             <Route path="/playlist/:id"  element={<Playlist />} />
+            <Route path="/privacy"       element={<Privacy />} />
           </Routes>
         </Suspense>
         <ConditionalMiniPlayer />

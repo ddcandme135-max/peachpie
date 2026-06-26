@@ -207,7 +207,7 @@
         "R&B coreano da semana",
         "9 faixas novas"
       ],
-      "sub": "Novas faixas de R&B coreano selecionadas pelos curadores da Notel. Imperdíveis nesta semana.",
+      "sub": "Novas faixas de R&B coreano selecionadas pelos curadores da Peachpie. Imperdíveis nesta semana.",
       "cta": "Playlist",
       "ghost": "Ver tudo"
     },
@@ -233,7 +233,7 @@
     }
   ],
   "systemMsg": {
-    "welcome": "Bem-vindo ao BandCollabo! 🎵 Todos os recursos são gratuitos durante o período beta.",
+    "welcome": "Bem-vindo ao Peachpie! 🎵 Todos os recursos são gratuitos durante o período beta.",
     "beta_update": "Há uma nova atualização. Estamos sempre melhorando para uma experiência melhor!",
     "collab_feed": "Confira o novo feed de colab. Navegue pelas publicações de relance em um layout de 2 colunas.",
     "feedback_request": "Se tiver qualquer problema ou sugestão, envie seu feedback a qualquer momento!",
@@ -431,5 +431,22 @@
     "noResultsQuery": "Nenhum resultado para \"{{query}}\"",
     "tagDone": "{{n}} artista(s) marcado(s)",
     "undo": "Desfazer"
+  },
+  "privacy": {
+    "back": "Voltar",
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: 23 de junho de 2026",
+    "intro": "A Peachpie (o «Serviço») valoriza a sua privacidade e cumpre as leis de proteção de dados aplicáveis. Esta política explica quais informações pessoais o Serviço coleta, como são usadas, por quanto tempo são retidas e como entrar em contato conosco.",
+    "s1Title": "1. Informações que Coletamos",
+    "s1Body": "A Peachpie coleta as seguintes informações para fornecer o Serviço.",
+    "s1Item1": "Endereço de e-mail",
+    "s1Item2": "Informações de perfil (nome de usuário, identificador, biografia, imagem de perfil, etc.)",
+    "s1Item3": "Dados de upload de música (faixas enviadas e metadados relacionados)",
+    "s2Title": "2. Como Usamos Suas Informações",
+    "s2Body": "As informações coletadas são usadas apenas para identificar os membros e fornecer o serviço de colaboração musical.",
+    "s3Title": "3. Período de Retenção de Dados",
+    "s3Body": "Todas as informações pessoais coletadas são excluídas sem demora após o encerramento da conta. No entanto, podem ser retidas pelo período exigido quando a lei aplicável determinar sua conservação.",
+    "s4Title": "4. Contato",
+    "s4Body": "Para dúvidas sobre o tratamento de dados pessoais, entre em contato com o operador pelo e-mail abaixo."
   }
 }

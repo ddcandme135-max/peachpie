@@ -207,7 +207,7 @@
         "R&B Korea Minggu Ini",
         "9 lagu baru"
       ],
-      "sub": "Lagu R&B Korea baru pilihan kurator Notel. Wajib didengar minggu ini.",
+      "sub": "Lagu R&B Korea baru pilihan kurator Peachpie. Wajib didengar minggu ini.",
       "cta": "Playlist",
       "ghost": "Lihat Semua"
     },
@@ -233,7 +233,7 @@
     }
   ],
   "systemMsg": {
-    "welcome": "Selamat datang di BandCollabo! 🎵 Semua fitur gratis selama masa beta.",
+    "welcome": "Selamat datang di Peachpie! 🎵 Semua fitur gratis selama masa beta.",
     "beta_update": "Ada pembaruan baru. Kami terus meningkatkan untuk pengalaman yang lebih baik!",
     "collab_feed": "Lihat Umpan Kolaborasi baru. Jelajahi postingan sekilas dalam tata letak 2 kolom.",
     "feedback_request": "Jika ada kendala atau saran, jangan ragu untuk mengirimkan masukan kapan saja!",
@@ -431,5 +431,22 @@
     "noResultsQuery": "Tidak ada hasil untuk \"{{query}}\"",
     "tagDone": "{{n}} artis ditandai",
     "undo": "Urungkan"
+  },
+  "privacy": {
+    "back": "Kembali",
+    "title": "Kebijakan Privasi",
+    "lastUpdated": "Terakhir diperbarui: 23 Juni 2026",
+    "intro": "Peachpie (\"Layanan\") menghargai privasi Anda dan mematuhi undang-undang perlindungan data yang berlaku. Kebijakan ini menjelaskan informasi pribadi apa yang dikumpulkan Layanan, bagaimana penggunaannya, berapa lama disimpan, dan cara menghubungi kami.",
+    "s1Title": "1. Informasi yang Kami Kumpulkan",
+    "s1Body": "Peachpie mengumpulkan informasi berikut untuk menyediakan Layanan.",
+    "s1Item1": "Alamat email",
+    "s1Item2": "Informasi profil (nama pengguna, handle, bio, gambar profil, dll.)",
+    "s1Item3": "Data unggahan musik (lagu yang diunggah dan metadata terkait)",
+    "s2Title": "2. Cara Kami Menggunakan Informasi Anda",
+    "s2Body": "Informasi yang dikumpulkan hanya digunakan untuk mengidentifikasi anggota dan menyediakan layanan kolaborasi musik.",
+    "s3Title": "3. Periode Penyimpanan Data",
+    "s3Body": "Semua informasi pribadi yang dikumpulkan dihapus tanpa penundaan saat akun ditutup. Namun, informasi dapat disimpan selama periode yang diwajibkan apabila peraturan yang berlaku mengharuskan penyimpanannya.",
+    "s4Title": "4. Kontak",
+    "s4Body": "Untuk pertanyaan mengenai penanganan data pribadi, silakan hubungi operator melalui email di bawah ini."
   }
 }

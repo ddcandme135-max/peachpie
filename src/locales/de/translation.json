@@ -207,7 +207,7 @@
         "Koreanischer R&B der Woche",
         "9 neue Titel"
       ],
-      "sub": "Neue koreanische R&B-Titel, ausgewählt von Notels Kuratoren. Diese Woche ein Muss.",
+      "sub": "Neue koreanische R&B-Titel, ausgewählt von Peachpies Kuratoren. Diese Woche ein Muss.",
       "cta": "Playlist",
       "ghost": "Alle ansehen"
     },
@@ -233,7 +233,7 @@
     }
   ],
   "systemMsg": {
-    "welcome": "Willkommen bei BandCollabo! 🎵 Alle Funktionen sind während der Beta-Phase kostenlos.",
+    "welcome": "Willkommen bei Peachpie! 🎵 Alle Funktionen sind während der Beta-Phase kostenlos.",
     "beta_update": "Es gibt ein neues Update. Wir verbessern uns ständig für ein besseres Erlebnis!",
     "collab_feed": "Sieh dir den neuen Collab-Feed an. Durchstöbere Beiträge auf einen Blick in einem 2-Spalten-Layout.",
     "feedback_request": "Wenn du Probleme oder Vorschläge hast, sende uns jederzeit dein Feedback!",
@@ -431,5 +431,22 @@
     "noResultsQuery": "Keine Ergebnisse für „{{query}}\"",
     "tagDone": "{{n}} Künstler markiert",
     "undo": "Rückgängig"
+  },
+  "privacy": {
+    "back": "Zurück",
+    "title": "Datenschutzrichtlinie",
+    "lastUpdated": "Zuletzt aktualisiert: 23. Juni 2026",
+    "intro": "Peachpie (der „Dienst“) schätzt Ihre Privatsphäre und hält die geltenden Datenschutzgesetze ein. Diese Richtlinie erläutert, welche personenbezogenen Daten der Dienst erhebt, wie sie verwendet werden, wie lange sie gespeichert werden und wie Sie uns kontaktieren können.",
+    "s1Title": "1. Welche Daten wir erheben",
+    "s1Body": "Peachpie erhebt die folgenden Daten zur Bereitstellung des Dienstes.",
+    "s1Item1": "E-Mail-Adresse",
+    "s1Item2": "Profilinformationen (Benutzername, Handle, Bio, Profilbild usw.)",
+    "s1Item3": "Musik-Upload-Daten (hochgeladene Titel und zugehörige Metadaten)",
+    "s2Title": "2. Verwendung Ihrer Daten",
+    "s2Body": "Die erhobenen Daten werden ausschließlich zur Identifizierung der Mitglieder und zur Bereitstellung des Musik-Kollaborationsdienstes verwendet.",
+    "s3Title": "3. Speicherdauer",
+    "s3Body": "Alle erhobenen personenbezogenen Daten werden bei Kontolöschung unverzüglich gelöscht. Sofern gesetzliche Vorschriften eine Aufbewahrung verlangen, können sie jedoch für den erforderlichen Zeitraum gespeichert werden.",
+    "s4Title": "4. Kontakt",
+    "s4Body": "Bei Fragen zur Verarbeitung personenbezogener Daten wenden Sie sich bitte an den Betreiber unter der untenstehenden E-Mail-Adresse."
   }
 }

@@ -6,7 +6,7 @@ import ShareModal from "../components/ShareModal";
 import { usePlayer } from "../context/PlayerContext";
 import { supabase } from "../lib/supabase";
 import { fetchTrackById } from "../lib/api";
-import cdImg from "../assets/642AE0A8-7C25-4E26-B115-2B1537BA8590.jpeg 19-05-12-247.jpeg";
+import cdImg from "../assets/_-removebg-preview.png";
 import cdImgNew from "../assets/_-removebg-preview.png";
 import { useToast } from "../context/ToastContext";
 import { useApp } from "../context/AppContext";

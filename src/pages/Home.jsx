@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import cdImg from "../assets/_-removebg-preview.png";
 import theWeekendImg from "../assets/The Weekend.png";
@@ -1014,7 +1014,7 @@ function CardRow({ cards, type, emptyText = "아직 등록된 항목이 없습�
 }
 
 export default function Home() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const lang = i18n.language?.slice(0, 2) ?? "en";
   const [ready, setReady]                     = useState(false);
   const [isOpen, setIsOpen]                   = useState(() => sessionStorage.getItem("sidebar_open") !== "0");
@@ -1263,6 +1263,10 @@ export default function Home() {
           </section>
         ))}
       </div>
+
+      <footer style={{ textAlign: "center", padding: "20px", fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+        <Link to="/privacy" style={{ color: "rgba(255,255,255,0.3)", textDecoration: "underline" }}>{t("privacy.title")}</Link>
+      </footer>
     </div>
     <ShareModal
       isOpen={!!shareTrack}

@@ -90,13 +90,6 @@ const FB = [
 
 const SLIDE_META = [
   {
-    tone: "warm",
-    tint: `radial-gradient(1000px 560px at 50% 0%, rgba(190,80,160,0.20), transparent 62%),
-           radial-gradient(700px 420px at 12% 80%, rgba(120,60,170,0.14), transparent 65%),
-           radial-gradient(700px 420px at 88% 80%, rgba(220,120,90,0.10), transparent 65%)`,
-    ctaRoute: "/",
-  },
-  {
     tone: "lime",
     tint: `radial-gradient(1000px 560px at 50% 0%, rgba(170,210,70,0.18), transparent 62%),
            radial-gradient(700px 420px at 12% 80%, rgba(40,120,90,0.16), transparent 65%),
@@ -115,7 +108,7 @@ const SLIDE_META = [
 export default function HeroBanner({ padLeft = 0 }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const slides = SLIDE_META.map((meta, i) => ({ ...meta, ...t("heroBanner", { returnObjects: true })[i] }));
+  const slides = SLIDE_META.map((meta, i) => ({ ...meta, ...t("heroBanner", { returnObjects: true }).slice(1)[i] }));
   const [cur, setCur] = useState(0);
   const [hovered, setHovered] = useState(false);
   const timerRef = useRef(null);
@@ -174,89 +167,16 @@ export default function HeroBanner({ padLeft = 0 }) {
           return (
             <div key={idx} style={{ position: "absolute", inset: 0, opacity: on ? 1 : 0, pointerEvents: on ? "auto" : "none", transition: "opacity 720ms cubic-bezier(0.4,0,0.2,1)" }}>
 
-              {/* ── Slide 1: app screen filmstrip ── */}
+              {/* ── Slide 1: 2-col scrolling post cards ── */}
               {idx === 0 && (
-                <div style={{ position: "absolute", left: "34%", top: 0, right: 0, bottom: 0, zIndex: 2, overflow: "hidden", WebkitMaskImage: "linear-gradient(90deg, transparent 0%, #000 18%, #000 90%, transparent 100%)", maskImage: "linear-gradient(90deg, transparent 0%, #000 18%, #000 90%, transparent 100%)" }}>
-                  <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", perspective: 1100 }}>
-                    <div style={{ display: "flex", gap: 20, transform: "rotateY(-13deg)" }}>
-                      {[0, 1].map(copy => (
-                        <div key={copy} style={{ display: "flex", gap: 20, animation: `stripMv 34s linear infinite` }}>
-                          <MiniScreen content={MS_HOME} />
-                          <MiniScreen content={
-                            <div style={{ display: "flex", flexDirection: "column", gap: 8, height: "100%" }}>
-                              <div style={{ display: "flex", gap: 12, alignItems: "flex-end" }}>
-                                <div style={{ borderBottom: "2px solid #FF5A4D", paddingBottom: 3 }}><div style={{ height: 6, width: 26, borderRadius: 3, background: "rgba(255,255,255,0.85)" }} /></div>
-                                <div style={{ height: 6, width: 26, borderRadius: 3, background: "rgba(255,255,255,0.18)" }} />
-                                <div style={{ height: 6, width: 26, borderRadius: 3, background: "rgba(255,255,255,0.18)" }} />
-                              </div>
-                              <div style={{ display: "flex", gap: 9, flex: 1 }}>
-                                {[["linear-gradient(135deg,#7c2d12,#1a0a05)","linear-gradient(135deg,#7c3aed,#4c1d95)"],["linear-gradient(135deg,#be185d,#831843)","linear-gradient(135deg,#1e3a8a,#0c0a1f)"]].map((col, ci) => (
-                                  <div key={ci} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
-                                    <div style={{ flex: 1, borderRadius: 6, background: col[0], position: "relative", overflow: "hidden" }}><div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 90% at 26% 16%, rgba(255,255,255,0.14), transparent 55%)" }} /></div>
-                                    <div style={{ flex: 1, borderRadius: 6, background: col[1], position: "relative", overflow: "hidden" }}><div style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 90% at 26% 16%, rgba(255,255,255,0.14), transparent 55%)" }} /></div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          } />
-                          <MiniScreen content={
-                            <div style={{ display: "flex", gap: 9, flex: 1 }}>
-                              <div style={{ width: "35%", display: "flex", flexDirection: "column", gap: 7, borderRight: "1px solid rgba(255,255,255,0.08)", paddingRight: 9 }}>
-                                {["linear-gradient(135deg,#d97706,#92400e)","linear-gradient(135deg,#4b4f57,#15161a)","linear-gradient(135deg,#059669,#064e3b)"].map((g,i) => (
-                                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                                    <div style={{ width: 13, height: 13, borderRadius: 999, background: g, flexShrink: 0 }} />
-                                    <div style={{ height: 6, borderRadius: 3, background: "rgba(255,255,255,0.15)", flex: 1 }} />
-                                  </div>
-                                ))}
-                              </div>
-                              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 7 }}>
-                                <div style={{ height: 13, borderRadius: 7, background: "rgba(255,255,255,0.10)", width: "62%", display: "flex", alignItems: "center", gap: 5, padding: "0 6px" }}>
-                                  <div style={{ width: 14, height: 14, borderRadius: 4, flexShrink: 0, background: "linear-gradient(135deg,#831843,#1a0207)" }} />
-                                  <div style={{ height: 6, borderRadius: 3, background: "rgba(255,255,255,0.18)", flex: 1 }} />
-                                </div>
-                                <div style={{ height: 13, borderRadius: 7, background: "#FF5A4D", width: "24%", marginLeft: "auto" }} />
-                                <div style={{ height: 13, borderRadius: 7, background: "rgba(255,255,255,0.10)", width: "30%" }} />
-                              </div>
-                            </div>
-                          } />
-                          <MiniScreen content={
-                            <div style={{ display: "flex", gap: 12, flex: 1 }}>
-                              <div style={{ width: "42%", borderRadius: 8, flexShrink: 0, background: "linear-gradient(150deg,#26262c,#101014)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.10)", position: "relative" }}>
-                                <div style={{ position: "absolute", left: "53%", top: "50%", width: "72%", aspectRatio: "1", transform: "translate(-50%,-50%)", borderRadius: 999, background: "radial-gradient(circle at 50% 50%, #e6e6ee 0 9%, #2a2a30 9% 17%, #0b0b0e 17% 100%)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.14)" }} />
-                              </div>
-                              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 7 }}>
-                                <div style={{ height: 10, width: 34, borderRadius: 5, background: "rgba(255,90,77,0.22)", boxShadow: "inset 0 0 0 1px rgba(255,90,77,0.4)", flexShrink: 0 }} />
-                                <div style={{ height: 9, borderRadius: 4, background: "rgba(255,255,255,0.85)", width: "76%" }} />
-                                <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 22, flexShrink: 0 }}>
-                                  {[55,80,65,90,70,40,85,60,95,75,50,88,68,42,78].map((h, i) => (
-                                    <div key={i} style={{ flex: 1, borderRadius: 1, height: `${h}%`, background: i < 9 ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.22)" }} />
-                                  ))}
-                                </div>
-                                <div style={{ display: "flex", gap: 14, alignItems: "center", justifyContent: "center", marginTop: 3 }}>
-                                  <div style={{ width: 10, height: 9, background: "rgba(255,255,255,0.4)", clipPath: "polygon(100% 50%,45% 0,45% 35%,0 0,0 100%,45% 65%,45% 100%)", transform: "scaleX(-1)" }} />
-                                  <div style={{ width: 0, height: 0, borderLeft: "10px solid #fff", borderTop: "6.5px solid transparent", borderBottom: "6.5px solid transparent" }} />
-                                  <div style={{ width: 10, height: 9, background: "rgba(255,255,255,0.4)", clipPath: "polygon(100% 50%,45% 0,45% 35%,0 0,0 100%,45% 65%,45% 100%)" }} />
-                                </div>
-                              </div>
-                            </div>
-                          } />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* ── Slide 2: 2-col scrolling post cards ── */}
-              {idx === 1 && (
                 <div style={{ position: "absolute", top: 0, bottom: 0, right: 48, width: "40%", maxWidth: 480, zIndex: 2, display: "flex", gap: 16, alignItems: "stretch", overflow: "hidden", transform: "perspective(1400px) rotateY(-7deg)", WebkitMaskImage: "linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%)", maskImage: "linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%)" }}>
                   <DemoCol posts={[DPOSTS[0], DPOSTS[1], DPOSTS[4], DPOSTS[3]]} reverse={false} />
                   <DemoCol posts={[DPOSTS[2], DPOSTS[6], DPOSTS[5], DPOSTS[1]]} reverse={true} />
                 </div>
               )}
 
-              {/* ── Slide 3: feedback form + rising bubbles ── */}
-              {idx === 2 && (
+              {/* ── Slide 2: feedback form + rising bubbles ── */}
+              {idx === 1 && (
                 <div style={{ position: "absolute", top: 0, bottom: 0, right: 48, width: "42%", maxWidth: 500, zIndex: 2, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   {/* bubbles */}
                   <div style={{ position: "absolute", inset: 0, overflow: "hidden", WebkitMaskImage: "linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%)", maskImage: "linear-gradient(180deg, transparent 0%, #000 20%, #000 80%, transparent 100%)" }}>
