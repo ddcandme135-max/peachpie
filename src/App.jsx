@@ -37,20 +37,67 @@ function MobileBlock() {
 
   if (!isMobile) return null;
 
+  const lang = navigator.language?.slice(0, 2) ?? "ko";
+
+  const messages = {
+    ko: {
+      title: "모바일에서는 사용이 어려워요..",
+      desc: "데스크톱으로 다시 방문 해주세요!"
+    },
+    en: {
+      title: "Not available on mobile..",
+      desc: "Please visit us on desktop!"
+    },
+    ja: {
+      title: "モバイルでは利用が難しいです..",
+      desc: "デスクトップからアクセスしてください!"
+    },
+    fr: {
+      title: "Difficile à utiliser sur mobile..",
+      desc: "Veuillez nous rendre visite sur ordinateur!"
+    },
+    es: {
+      title: "Difícil de usar en móvil..",
+      desc: "¡Por favor visítanos desde un escritorio!"
+    },
+    de: {
+      title: "Auf Mobilgeräten schwer zu nutzen..",
+      desc: "Bitte besuche uns auf dem Desktop!"
+    },
+    pt: {
+      title: "Difícil de usar no celular..",
+      desc: "Por favor, acesse pelo computador!"
+    },
+    it: {
+      title: "Difficile da usare su mobile..",
+      desc: "Si prega di visitarci dal desktop!"
+    },
+    id: {
+      title: "Sulit digunakan di ponsel..",
+      desc: "Silakan kunjungi kami di desktop!"
+    },
+  };
+
+  const msg = messages[lang] ?? messages.en;
+
   return (
     <div style={{
       position: "fixed", inset: 0, zIndex: 99999,
+      width: "100vw", height: "100dvh", minHeight: "100dvh",
       background: "#00010D",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center",
       padding: 32, textAlign: "center"
     }}>
-      <img src="/peachpie-icon.png" alt="Peachpie" style={{ width: 80, marginBottom: 24 }} />
+      <img src="/peachpie-icon.png" alt="Peachpie" style={{ width: 80, marginBottom: 12 }} />
+      <div style={{ fontFamily: "'Agbalumo', cursive", fontSize: 30, fontWeight: 400, color: "#F5854D", letterSpacing: "0.01em", marginBottom: 24 }}>
+        Peachpie
+      </div>
       <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 12 }}>
-        모바일에서는 사용이 어려워요..
+        {msg.title}
       </div>
       <div style={{ fontSize: 15, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
-        데스크톱으로 다시 방문 해주세요!
+        {msg.desc}
       </div>
     </div>
   );
