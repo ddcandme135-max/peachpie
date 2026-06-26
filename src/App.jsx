@@ -82,8 +82,8 @@ function MobileBlock() {
 
   return (
     <div style={{
-      position: "fixed", inset: 0, zIndex: 99999,
-      width: "100%", height: "100%",
+      position: "fixed", top: 0, left: 0, zIndex: 99999,
+      width: "100vw", height: "100lvh", minHeight: "100lvh",
       background: "#00010D",
       display: "flex", flexDirection: "column",
       alignItems: "center", justifyContent: "center",
