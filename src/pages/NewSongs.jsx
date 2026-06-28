@@ -444,7 +444,7 @@ export default function NewSongs() {
                 </button>
                 <h1 style={{ margin: 0, fontSize: 26, fontWeight: 900, letterSpacing: "-0.03em" }}>{ml("k121")}</h1>
               </div>
-              <button onClick={() => { if (myId) setUploadOpen(true); else setAuthOpen(true); }}
+              <button onClick={() => setUploadOpen(true)}
                 style={{ all: "unset", display: "inline-flex", alignItems: "center", gap: 7, height: 38, padding: "0 18px", borderRadius: 999, background: "rgba(255,255,255,0.07)", color: "#fff", fontSize: 13.5, fontWeight: 700, cursor: "pointer", letterSpacing: "-0.01em", border: "1px solid rgba(255,255,255,0.12)", transition: "background 150ms" }}
                 onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.12)"}
                 onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}

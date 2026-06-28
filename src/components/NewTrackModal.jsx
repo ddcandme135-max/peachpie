@@ -225,9 +225,10 @@ export default function NewTrackModal({ open, onClose, editData, onSaved }) {
 
   async function handleUpload() {
     if (!canUpload || loading) return;
+    const userId = session?.user?.id;
+    if (!userId) { showToast("로그인 후 업로드 해주세요.", "error"); return; }
     setLoading(true);
     try {
-      const userId = session?.user?.id;
 
       // Upload cover (only if new file selected)
       let coverUrl = isEdit ? (editData.cover_url ?? null) : null;
