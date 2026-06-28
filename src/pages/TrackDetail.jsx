@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { Share2, Play, Pause } from "lucide-react";
+import { Share2, Play, Pause, User } from "lucide-react";
 import Sidebar from "../components/Sidebar";
 import ShareModal from "../components/ShareModal";
 import { usePlayer } from "../context/PlayerContext";
@@ -20,6 +20,15 @@ const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 const DURATION = "600ms";
 
 const AV_COLORS = ["#0369a1","#7c3aed","#be185d","#16a34a","#b45309","#4c1d95","#0891b2","#9333ea"];
+
+// Pick a stable color from the palette for a given seed (username/id).
+// Falls back to a random palette color when there is no seed (anonymous).
+function avatarColor(seed) {
+  if (!seed) return AV_COLORS[Math.floor(Math.random() * AV_COLORS.length)];
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+  return AV_COLORS[h % AV_COLORS.length];
+}
 
 let _tdCdDeg = 0;
 let _tdCdLastTs = null;
@@ -330,7 +339,7 @@ function RecommendedSidebar({ tracks, playTrack, currentTrack, isPlaying }) {
 }
 
 // ── ReplyItem ─────────────────────────────────────────────────
-function ReplyItem({ r, onDelete, onEdit, onReply, parentId, currentUser, currentUserAvatar, lang }) {
+function ReplyItem({ r, onDelete, onEdit, onReply, parentId, currentUser, currentUserAvatar, currentUserColor, lang }) {
   const [hov, setHov]           = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing]   = useState(false);
@@ -410,8 +419,8 @@ function ReplyItem({ r, onDelete, onEdit, onReply, parentId, currentUser, curren
         {showReplyInput && (
           <div style={{ marginTop: 10 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ width: 26, height: 26, borderRadius: "50%", background: currentUserAvatar ? "#000" : "#FC3C44", flexShrink: 0, display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700, color: "#fff", overflow: "hidden" }}>
-                {currentUserAvatar ? <img loading="eager" decoding="async" src={currentUserAvatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "나"}
+              <div style={{ width: 26, height: 26, borderRadius: "50%", background: currentUserAvatar ? "#000" : currentUserColor, flexShrink: 0, display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700, color: "#fff", overflow: "hidden" }}>
+                {currentUserAvatar ? <img loading="eager" decoding="async" src={currentUserAvatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <User size={14} color="#fff" strokeWidth={2.4} />}
               </div>
               <input ref={replyRef} value={replyText} onChange={e => setReplyText(e.target.value)} onKeyDown={e => { if (e.key === "Enter") submitReply(); if (e.key === "Escape") setShowReplyInput(false); }} placeholder={`@${r.author}`} style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 13 }} />
               <button onClick={() => setShowReplyInput(false)} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 12, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>{t("comment.cancel")}</button>
@@ -441,7 +450,7 @@ function ReplyItem({ r, onDelete, onEdit, onReply, parentId, currentUser, curren
 }
 
 // ── CommentItem ──────────────────────────────────────────────
-function CommentItem({ c, replies = [], onLike, onDelete, onEdit, onReply, currentUser, currentUserAvatar, lang }) {
+function CommentItem({ c, replies = [], onLike, onDelete, onEdit, onReply, currentUser, currentUserAvatar, currentUserColor, lang }) {
   const [hov, setHov]                     = useState(false);
   const [menuOpen, setMenuOpen]           = useState(false);
   const [editing, setEditing]             = useState(false);
@@ -549,8 +558,8 @@ function CommentItem({ c, replies = [], onLike, onDelete, onEdit, onReply, curre
       {showReplyInput && (
         <div style={{ paddingLeft: 58, paddingRight: 16, paddingBottom: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <div style={{ width: 28, height: 28, borderRadius: "50%", background: currentUserAvatar ? "#000" : "#FC3C44", flexShrink: 0, display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700, color: "#fff", overflow: "hidden" }}>
-              {currentUserAvatar ? <img loading="eager" decoding="async" src={currentUserAvatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : "나"}
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: currentUserAvatar ? "#000" : currentUserColor, flexShrink: 0, display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700, color: "#fff", overflow: "hidden" }}>
+              {currentUserAvatar ? <img loading="eager" decoding="async" src={currentUserAvatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <User size={15} color="#fff" strokeWidth={2.4} />}
             </div>
             <input ref={replyRef} value={replyText} onChange={e => setReplyText(e.target.value)} onKeyDown={e => { if (e.key === "Enter") submitReply(); if (e.key === "Escape") setShowReplyInput(false); }} placeholder={`@${c.author}${"에게 답글..."}`} style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 13 }} />
             <button onClick={() => setShowReplyInput(false)} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 12, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>{t("comment.cancel")}</button>
@@ -571,7 +580,7 @@ function CommentItem({ c, replies = [], onLike, onDelete, onEdit, onReply, curre
           {showReplies && (
             <div style={{ marginTop: 8 }}>
               {replies.map(r => (
-                <ReplyItem key={r.id} r={r} onDelete={onDelete} onEdit={onEdit} onReply={onReply} parentId={c.id} currentUser={currentUser} currentUserAvatar={currentUserAvatar} lang={lang} />
+                <ReplyItem key={r.id} r={r} onDelete={onDelete} onEdit={onEdit} onReply={onReply} parentId={c.id} currentUser={currentUser} currentUserAvatar={currentUserAvatar} currentUserColor={currentUserColor} lang={lang} />
               ))}
             </div>
           )}
@@ -750,6 +759,10 @@ export default function TrackDetail() {
   const ownerAuthorIdRef  = useRef(null);
   const isComposing       = useRef(false);
   const currentUserAvatar = appProfile?.avatar_url ?? null;
+  const currentUserColor  = useMemo(
+    () => avatarColor(appProfile?.username || appProfile?.id || currentUser?.id),
+    [appProfile?.username, appProfile?.id, currentUser?.id]
+  );
   const [input, setInput]          = useState("");
   const [collaborators, setCollaborators]       = useState([]);
   const [trackList, setTrackList] = useState(navState?.trackList ?? []);
@@ -1206,8 +1219,12 @@ export default function TrackDetail() {
           <div style={{ flex: 1, overflowY: "auto", padding: "22px 40px 60px", minHeight: 0 }}>
             {/* Composer */}
             <div style={{ display: "flex", alignItems: "center", gap: 12, margin: "2px 0 22px" }}>
-              <div style={{ width: 40, height: 40, borderRadius: "50%", flexShrink: 0, background: "#FC3C44", display: "grid", placeItems: "center", overflow: "hidden" }}>
-                {currentUserAvatar ? <img loading="eager" decoding="async" src={currentUserAvatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 15, fontWeight: 900, color: "#fff" }}>{appProfile?.username?.[0]?.toUpperCase() ?? "나"}</span>}
+              <div style={{ width: 40, height: 40, borderRadius: "50%", flexShrink: 0, background: currentUserColor, display: "grid", placeItems: "center", overflow: "hidden" }}>
+                {currentUserAvatar
+                  ? <img loading="eager" decoding="async" src={currentUserAvatar} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  : appProfile?.username
+                    ? <span style={{ fontSize: 15, fontWeight: 900, color: "#fff" }}>{appProfile.username[0].toUpperCase()}</span>
+                    : <User size={20} color="#fff" strokeWidth={2.4} />}
               </div>
               <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, height: 46, padding: "0 8px 0 16px", borderRadius: 999, background: "rgba(255,255,255,0.05)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
                 <input value={input} onChange={e => setInput(e.target.value)}
@@ -1236,7 +1253,7 @@ export default function TrackDetail() {
                 <CommentItem key={c.id + currentLang} c={c} replies={repliesMap[c.id] ?? []}
                   onLike={likeComment} onDelete={deleteComment} onEdit={editComment}
                   onReply={sendReply} currentUser={currentUser} currentUserAvatar={currentUserAvatar}
-                  lang={currentLang} />
+                  currentUserColor={currentUserColor} lang={currentLang} />
               ))
             )}
           </div>
