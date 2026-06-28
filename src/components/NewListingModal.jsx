@@ -177,8 +177,8 @@ function LinkPopover({ link, onSet, onClose, anchorRef }) {
 
       {/* header */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
-        <div style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "rgba(99,102,241,0.15)", flexShrink: 0 }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <div style={{ width: 28, height: 28, borderRadius: 8, display: "grid", placeItems: "center", background: "rgba(255,255,255,0.06)", flexShrink: 0 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
           </svg>
@@ -241,7 +241,7 @@ function LinkPopover({ link, onSet, onClose, anchorRef }) {
           const canConfirm = !val.trim() || isValid;
           return (
             <button type="button" onClick={submit} disabled={!canConfirm}
-              style={{ flex: 2, height: 38, borderRadius: 9, background: canConfirm ? R : "rgba(255,255,255,0.1)", border: "none", color: canConfirm ? "#fff" : "rgba(255,255,255,0.35)", fontFamily: "inherit", fontSize: 13.5, fontWeight: 700, cursor: canConfirm ? "pointer" : "not-allowed", letterSpacing: "-0.01em", boxShadow: canConfirm ? "0 6px 18px -6px rgba(252,60,68,0.55)" : "none", transition: "background 150ms" }}
+              style={{ flex: 2, height: 38, borderRadius: 9, background: canConfirm ? R : "rgba(255,255,255,0.1)", border: "none", color: canConfirm ? "#fff" : "rgba(255,255,255,0.35)", fontFamily: "inherit", fontSize: 13.5, fontWeight: 700, cursor: canConfirm ? "pointer" : "not-allowed", letterSpacing: "-0.01em", transition: "background 150ms" }}
               onMouseEnter={e => { if (canConfirm) e.currentTarget.style.background = "#FF505A"; }}
               onMouseLeave={e => { if (canConfirm) e.currentTarget.style.background = R; }}
             >{ml("k050")}</button>
