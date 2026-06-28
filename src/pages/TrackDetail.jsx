@@ -1261,7 +1261,7 @@ export default function TrackDetail() {
 
         {/* ── RIGHT SIDEBAR: Up Next (only when sidebar collapsed) ── */}
         {!isOpen && (
-        <section style={{ display: "flex", flexDirection: "column", height: "100vh", borderLeft: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.04)", overflow: "hidden" }}>
+        <section style={{ display: "flex", flexDirection: "column", height: "100vh", borderLeft: "1px solid rgba(255,255,255,0.06)", background: "rgba(28,28,30,0.85)", backdropFilter: "blur(24px) saturate(140%)", WebkitBackdropFilter: "blur(24px) saturate(140%)", overflow: "hidden" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "0 20px", height: 80, flexShrink: 0, background: "transparent", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
             <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em", color: "#fff" }}>
               {currentLang === "ko" ? "다음 트랙" : currentLang === "ja" ? "次のトラック" : "Up Next"}
