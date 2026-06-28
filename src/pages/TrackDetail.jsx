@@ -300,8 +300,14 @@ function RecommendedRow({ t, onPlay, isPlaying, index }) {
 function RecommendedSidebar({ tracks, playTrack, currentTrack, isPlaying }) {
   if (!tracks.length) return null;
   return (
-    <div style={{ width: 200, flexShrink: 0 }}>
-      <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", margin: "0 0 12px 10px" }}>다음 트랙</h2>
+    <div style={{
+      width: 200, flexShrink: 0, padding: 12, borderRadius: 16,
+      background: "rgba(28,28,30,0.85)",
+      backdropFilter: "blur(24px) saturate(140%)",
+      WebkitBackdropFilter: "blur(24px) saturate(140%)",
+      border: "1px solid rgba(255,255,255,0.06)",
+    }}>
+      <h2 style={{ fontSize: 18, fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", margin: "0 0 12px 2px" }}>다음 트랙</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {tracks.map(t => (
           <RecommendedRow
