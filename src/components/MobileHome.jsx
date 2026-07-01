@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Home, Search, Library, MessageCircle, Play, Pause, ChevronDown } from "lucide-react";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
+import cdImg from "../assets/_-removebg-preview.png";
 
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
 const ACCENT = "#FC3C44";
@@ -11,10 +12,23 @@ const GLASS = { background: "rgba(30,30,34,0.45)", backdropFilter: "blur(32px) s
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 
 function Tile({ cover, title, subtitle, onClick, style }) {
+  const size = 160;
+  const ms = (size + 4) / 174; // 170px 디스크(박스 174) 기준 마스크 반지름을 크기에 비례
+  const coverMask = `radial-gradient(circle at 50% 49.8%, transparent ${19 * ms}px, black ${20 * ms}px), radial-gradient(circle at 50% 49.8%, black, black ${82 * ms}px, transparent ${85 * ms}px)`;
   return (
-    <div style={{ flex: "none", width: 160, cursor: "pointer", ...style }} onClick={onClick}>
-      <div style={{ width: 160, height: 160, borderRadius: 14, overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: cover ? "#000" : FALLBACK }}>
-        {cover && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
+    <div style={{ flex: "none", width: size, cursor: "pointer", ...style }} onClick={onClick}>
+      <div style={{ width: size, height: size, position: "relative" }}>
+        <img loading="eager" decoding="async" src={cdImg} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", zIndex: 1 }} />
+        {cover && (
+          <div style={{
+            position: "absolute", inset: "-2px", zIndex: 2,
+            backgroundImage: `url(${cover})`, backgroundSize: "95.5%", backgroundPosition: "center",
+            WebkitMaskImage: coverMask, WebkitMaskComposite: "source-in, source-over",
+            maskImage: coverMask, maskComposite: "intersect, add",
+          }} />
+        )}
+        <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none", borderRadius: "50%", background: "radial-gradient(circle closest-side, transparent 97.5%, rgba(200,210,230,0.25) 98.5%, rgba(160,170,195,0.15) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", borderRadius: "50%", overflow: "hidden", boxShadow: "inset 0 0 0 1.5px rgba(255,255,255,0.3), inset 0 0 8px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(255,255,255,0.1)", WebkitMaskImage: "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)", maskImage: "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)" }} />
       </div>
       <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", marginTop: 11, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
       {subtitle && <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{subtitle}</div>}
