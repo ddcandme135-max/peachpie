@@ -123,7 +123,7 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 22, ...GLASS }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 30, height: 66, borderRadius: 22, ...GLASS }}>
           {tabs.map(tab => {
             const active = pathname === tab.to;
             return (
