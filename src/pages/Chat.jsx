@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { CDPlayer } from "./CollabFeed";
 import { useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+import MobileDock from "../components/MobileDock";
+import { useIsMobile } from "../lib/useIsMobile";
 import AttachMenu from "../components/AttachMenu";
 import { Plus, Smile, Mic, Send, X, Paperclip, PencilLine, CornerUpLeft } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -250,6 +252,7 @@ export default function Chat() {
     return new Intl.DateTimeFormat(i18n.language, { month: "long", day: "numeric" }).format(dt);
   }
   const [isOpen, setIsOpen]           = useState(() => sessionStorage.getItem("sidebar_open") !== "0");
+  const isMobile = useIsMobile();
   const [activeId, setActiveId]       = useState(null);
   const [convos, setConvos]           = useState([]);
   const [messagesMap, setMessagesMap] = useState({});
@@ -1113,7 +1116,8 @@ export default function Chat() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000", display: "flex", overflowX: "hidden" }}>
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} showPlayer />
+      {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} showPlayer />}
+      {isMobile && !activeId && <MobileDock />}
 
       {/* 채팅 메뉴 드롭다운 */}
       {chatMenuOpen && (
@@ -1378,10 +1382,10 @@ export default function Chat() {
         </div>
       )}
 
-      <div style={{ flex: 1, paddingLeft: pad, transition: `padding-left ${DURATION} ${EASE}`, display: "flex", height: "100vh", minWidth: 900 }}>
+      <div style={{ flex: 1, paddingLeft: isMobile ? 0 : pad, transition: `padding-left ${DURATION} ${EASE}`, display: "flex", height: isMobile ? "100dvh" : "100vh", minWidth: isMobile ? 0 : 900 }}>
 
         {/* Conversation panel */}
-        <div style={{ width: 380, flexShrink: 0, borderRight: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", height: "100vh", paddingLeft: 4 }}>
+        <div style={{ width: isMobile ? "100%" : 380, flexShrink: 0, borderRight: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)", display: (isMobile && activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100dvh" : "100vh", paddingLeft: 4 }}>
 
           <div style={{ padding: "28px 24px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>Messages</div>
@@ -1400,7 +1404,7 @@ export default function Chat() {
             />
           </div>
 
-          <div className="no-scrollbar" style={{ flex: 1, overflowY: "auto", padding: "0 8px 24px" }}>
+          <div className="no-scrollbar" style={{ flex: 1, overflowY: "auto", padding: isMobile ? "0 8px 100px" : "0 8px 24px" }}>
             {convosLoading ? (
               <div style={{ display: "flex", justifyContent: "center", paddingTop: 48 }}>
                 <Spinner size={28} opacity={0.3} />
@@ -1438,7 +1442,7 @@ export default function Chat() {
         </div>
 
         {/* Chat thread */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", height: "100vh", minWidth: 0, position: "relative" }}>
+        <div style={{ flex: 1, display: (isMobile && !activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100dvh" : "100vh", minWidth: 0, position: "relative" }}>
 
           {activeId === null ? (
             <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1446,7 +1450,12 @@ export default function Chat() {
             </div>
           ) : (
             <>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, padding: "14px 24px", borderBottom: "1px solid rgba(255,255,255,0.08)", flexShrink: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, padding: isMobile ? "12px 16px" : "14px 24px", borderBottom: "1px solid rgba(255,255,255,0.08)", flexShrink: 0 }}>
+                {isMobile && (
+                  <button onClick={() => setActiveId(null)} aria-label="뒤로" style={{ all: "unset", cursor: "pointer", width: 34, height: 34, marginLeft: -6, display: "grid", placeItems: "center", color: "#fff", flexShrink: 0 }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+                  </button>
+                )}
                 <div onClick={() => active?.supabaseId ? navigate(`/profile/${active.supabaseId}`) : navigate("/artist", { state: { name: active?.name } })} style={{ cursor: "pointer" }}>
                   <Av av={active?.av} size={40} online={active?.online} avatarUrl={active?.avatarUrl} />
                 </div>
