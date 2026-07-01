@@ -23,16 +23,17 @@ function RankRow({ rank, cover, round, title, subtitle, onClick }) {
   );
 }
 
+// 데스크톱 우측 사이드바 Post 아이템과 동일: 제목 + 원형 작성자 아바타 + "이름 · 시간 · 카테고리"
 function PostRow({ p, onClick, first }) {
   return (
-    <div onClick={onClick} style={{ display: "flex", flexDirection: "column", gap: 11, padding: first ? "2px 0 16px" : "16px 0", borderTop: first ? "none" : "1px solid rgba(255,255,255,0.08)", cursor: "pointer" }}>
+    <div onClick={onClick} style={{ display: "flex", flexDirection: "column", gap: 10, padding: first ? "2px 0 16px" : "16px 0", borderTop: first ? "none" : "1px solid rgba(255,255,255,0.08)", cursor: "pointer" }}>
       <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.32, wordBreak: "keep-all", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{p.title || "(제목 없음)"}</div>
-      <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
-        <div style={{ width: 44, height: 44, borderRadius: 10, flex: "none", overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: p.coverUrl ? "#000" : FALLBACK }}>
-          {p.coverUrl && <img loading="eager" decoding="async" src={p.coverUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ width: 24, height: 24, borderRadius: "50%", flex: "none", overflow: "hidden", display: "grid", placeItems: "center", fontSize: 11, fontWeight: 700, color: "#fff", background: p.avatarUrl ? "#000" : (p.avBg || FALLBACK), boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+          {p.avatarUrl ? <img loading="eager" decoding="async" src={p.avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : (p.letter || "?")}
         </div>
         <span style={{ flex: 1, minWidth: 0, fontSize: 13, color: "rgba(255,255,255,0.5)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-          <b style={{ color: "rgba(255,255,255,0.72)", fontWeight: 600 }}>{p.name}</b>{p.time ? ` · ${p.time}` : ""}{p.cat ? ` · ${p.cat}` : ""}{p.cmts != null ? ` · ${p.cmts} posts` : ""}
+          <b style={{ color: "rgba(255,255,255,0.72)", fontWeight: 600 }}>{p.name}</b>{p.time ? ` · ${p.time}` : ""}{p.cat ? ` · ${p.cat}` : ""}
         </span>
         <span style={{ color: "rgba(255,255,255,0.35)", flex: "none" }}><MoreIcon /></span>
       </div>
