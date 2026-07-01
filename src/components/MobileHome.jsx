@@ -99,7 +99,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
     <div style={{ minHeight: "100dvh", background: "#000", color: "#fff", fontFamily: "inherit" }}>
       <style>{`.mh-rail::-webkit-scrollbar{display:none}@keyframes mhspin{to{transform:rotate(360deg)}}`}</style>
 
-      <div style={{ overflowY: "auto", padding: "0 0 110px", minHeight: "100dvh" }}>
+      <div style={{ overflowY: "auto", padding: "0 0 150px", minHeight: "100dvh" }}>
         {/* header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 8px" }}>
           <span style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>홈</span>
