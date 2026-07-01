@@ -1394,13 +1394,15 @@ export default function Chat() {
             </IconBtn>
           </div>
 
-          <div style={{ margin: isMobile ? "12px 12px 20px 8px" : "12px 24px 24px", display: "flex", alignItems: "center", gap: 10, padding: "0 14px", height: 42, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 999 }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={isMobile ? "#fff" : "rgba(255,255,255,0.45)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+          <div style={isMobile
+            ? { margin: "12px 12px 20px 8px", display: "flex", alignItems: "center", gap: 11, padding: "0 18px", height: 50, background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", borderRadius: 999 }
+            : { margin: "12px 24px 24px", display: "flex", alignItems: "center", gap: 10, padding: "0 14px", height: 42, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 999 }}>
+            <svg width={isMobile ? 20 : 15} height={isMobile ? 20 : 15} viewBox="0 0 24 24" fill="none" stroke={isMobile ? "#fff" : "rgba(255,255,255,0.45)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
             <input
               placeholder={t("chat.searchConversations")}
               value={convSearch}
               onChange={e => setConvSearch(e.target.value)}
-              style={{ background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 14, width: "100%" }}
+              style={{ background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: isMobile ? 16 : 14, width: "100%" }}
             />
           </div>
 
