@@ -72,7 +72,8 @@ export default function MobileHome({ avatarUrl, username, sections = [] }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
-  const { unreadCount } = useApp() ?? {};
+  const { unreadCount, session } = useApp() ?? {};
+  const loggedIn = !!session?.user;
   const { currentTrack, isPlaying, togglePlay, playNext, playTrack } = usePlayer();
   const [collapsed, setCollapsed] = useState(false);
   useEffect(() => { setCollapsed(false); }, [currentTrack?.id]);
@@ -103,12 +104,12 @@ export default function MobileHome({ avatarUrl, username, sections = [] }) {
         {/* header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 8px" }}>
           <span style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>홈</span>
-          <button onClick={() => navigate("/artist")} style={{ all: "unset", cursor: "pointer", width: 44, height: 44, borderRadius: 999, overflow: "hidden", flex: "none", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)", background: avatarUrl ? "#000" : username ? "linear-gradient(135deg,#FC3C44,#7c2d12)" : "rgba(255,255,255,0.08)", display: "grid", placeItems: "center" }}>
+          <button onClick={() => navigate("/artist")} style={{ all: "unset", cursor: "pointer", width: 44, height: 44, borderRadius: 999, overflow: "hidden", flex: "none", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)", background: avatarUrl ? "#000" : loggedIn ? "linear-gradient(135deg,#FC3C44,#7c2d12)" : "linear-gradient(135deg,#3a3a44,#15151b)", display: "grid", placeItems: "center" }}>
             {avatarUrl
               ? <img src={avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              : username
-                ? <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>{username[0].toUpperCase()}</span>
-                : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>}
+              : loggedIn
+                ? <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>{(username?.[0] ?? "?").toUpperCase()}</span>
+                : <svg width="26" height="26" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)"><path d="M12 12c2.7 0 5-2.2 5-5s-2.3-5-5-5-5 2.2-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" /></svg>}
           </button>
         </div>
 
