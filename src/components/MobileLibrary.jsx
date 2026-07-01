@@ -9,12 +9,14 @@ const HeartIcon = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentCol
 const GridIcon = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /></svg>;
 const ListIcon = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M21 15V6" /><path d="M19 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /><path d="M12 12H3" /><path d="M16 6H3" /><path d="M12 18H3" /></svg>;
 
-function EmptyState({ Icon, title, subtitle, button, onButton }) {
+function EmptyState({ Icon, title, subtitle, button, onButton, noIcon }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "80px 0" }}>
-      <div style={{ width: 88, height: 88, borderRadius: 24, display: "grid", placeItems: "center", marginBottom: 22, background: "radial-gradient(140% 120% at 30% 18%, rgba(255,90,77,0.2), transparent 60%), rgba(255,255,255,0.06)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
-        <Icon style={{ width: 38, height: 38, color: ACCENT }} />
-      </div>
+      {!noIcon && (
+        <div style={{ width: 88, height: 88, borderRadius: 24, display: "grid", placeItems: "center", marginBottom: 22, background: "radial-gradient(140% 120% at 30% 18%, rgba(255,90,77,0.2), transparent 60%), rgba(255,255,255,0.06)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+          <Icon style={{ width: 38, height: 38, color: ACCENT }} />
+        </div>
+      )}
       <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.02em" }}>{title}</div>
       <div style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", marginTop: 8, maxWidth: "26ch", lineHeight: 1.5 }}>{subtitle}</div>
       <button onClick={onButton} style={{ all: "unset", cursor: "pointer", marginTop: 22, height: 46, padding: "0 28px", borderRadius: 999, background: ACCENT, color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.02em", display: "inline-flex", alignItems: "center" }}>{button}</button>
@@ -100,7 +102,7 @@ export default function MobileLibrary({ likedSongs = [], posts = [], playlists =
         {activeTab === "songs" && (likedSongs.length ? likedSongs.map(s => (
           <SongRow key={s.id} s={s} onPlay={() => playTrack?.({ id: s.id, title: s.title, artist: s.artist, author_id: s.author_id, cover_url: s.cover_url, audio_url: s.audio_url }, likedSongs)} />
         )) : (
-          <EmptyState Icon={HeartIcon} title="좋아요한 음원이 없어요" subtitle="마음에 드는 트랙에 하트를 눌러 보관하세요." button="둘러보기" onButton={() => navigate("/new-songs")} />
+          <EmptyState noIcon title="좋아요한 음원이 없어요" subtitle="마음에 드는 트랙에 하트를 눌러 보관하세요." button="둘러보기" onButton={() => navigate("/new-songs")} />
         ))}
 
         {activeTab === "projects" && (posts.length ? posts.map((p, i) => (
