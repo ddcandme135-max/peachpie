@@ -78,8 +78,8 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
           </button>
         </div>
 
-        {/* 섹션: Collabo / New Songs / Recently Played / For You */}
-        {sections.filter(sec => sec.cards.length > 0).map(sec => (
+        {/* 섹션: Collabo / New Songs / Recently Played / For You (빈 섹션도 표시) */}
+        {sections.map(sec => (
           <section key={sec.title} style={{ marginTop: 28 }}>
             <div onClick={() => sec.route && navigate(sec.route)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "0 24px", marginBottom: 16, cursor: sec.route ? "pointer" : "default" }}>
               <span style={{ fontSize: 23, fontWeight: 800, letterSpacing: "-0.03em" }}>{sec.title}</span>
@@ -89,15 +89,19 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
                 </span>
               )}
             </div>
-            <div className="mh-rail" style={railStyle}>
-              {sec.type === "positions"
-                ? sec.cards.map((t, i) => (
-                    <PositionTile key={t.id ?? i} cover={t.cover_url} label={t.title} onClick={() => onCard(t, sec)} style={edgeStyle(i, sec.cards.length)} />
-                  ))
-                : sec.cards.map((t, i) => (
-                    <Tile key={t.id ?? i} cover={t.cover_url} title={t.title || t.position || "—"} subtitle={t.artist} onClick={() => onCard(t, sec)} style={edgeStyle(i, sec.cards.length)} />
-                  ))}
-            </div>
+            {sec.cards.length > 0 ? (
+              <div className="mh-rail" style={railStyle}>
+                {sec.type === "positions"
+                  ? sec.cards.map((t, i) => (
+                      <PositionTile key={t.id ?? i} cover={t.cover_url} label={t.title} onClick={() => onCard(t, sec)} style={edgeStyle(i, sec.cards.length)} />
+                    ))
+                  : sec.cards.map((t, i) => (
+                      <Tile key={t.id ?? i} cover={t.cover_url} title={t.title || t.position || "—"} subtitle={t.artist} onClick={() => onCard(t, sec)} style={edgeStyle(i, sec.cards.length)} />
+                    ))}
+              </div>
+            ) : (
+              <div style={{ padding: "4px 24px 8px", color: "rgba(255,255,255,0.35)", fontSize: 14 }}>{sec.emptyText || "아직 없어요"}</div>
+            )}
           </section>
         ))}
       </div>
