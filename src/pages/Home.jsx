@@ -1028,8 +1028,15 @@ export default function Home() {
   const [shareTrack, setShareTrack]           = useState(null);
   const [forYouTracks, setForYouTracks]       = useState([]);
   const [forYouLoading, setForYouLoading]     = useState(true);
+  const [isMobile, setIsMobile]               = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
 
   useEffect(() => { setReady(true); }, []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     if (songTracks.length > 0) {
@@ -1226,7 +1233,7 @@ export default function Home() {
 
       {/* Banner + Collabo: 사이드바와 함께 밀림 */}
       <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}` }}>
-        <HeroBanner padLeft={pad} />
+        {!isMobile && <HeroBanner padLeft={pad} />}
         <div className="mt-10">
           {shiftedSections.map(({ title, cards, type, arrow, route, emptyText, loading }) => (
             <section key={title} className="pt-12">
