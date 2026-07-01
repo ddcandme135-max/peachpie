@@ -1399,7 +1399,7 @@ export default function Chat() {
             : { margin: "12px 24px 24px", display: "flex", alignItems: "center", gap: 10, padding: "0 14px", height: 42, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 999 }}>
             <svg width={isMobile ? 20 : 15} height={isMobile ? 20 : 15} viewBox="0 0 24 24" fill="none" stroke={isMobile ? "#fff" : "rgba(255,255,255,0.45)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
             <input
-              placeholder={t("chat.searchConversations")}
+              placeholder={isMobile ? t("chat.searchPlaceholder") : t("chat.searchConversations")}
               value={convSearch}
               onChange={e => setConvSearch(e.target.value)}
               style={{ background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: isMobile ? 16 : 14, width: "100%" }}
