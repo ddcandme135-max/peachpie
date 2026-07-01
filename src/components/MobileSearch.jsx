@@ -1,10 +1,8 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import { Home, Search, Library, MessageCircle } from "lucide-react";
-import { useApp } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 import { CDCover } from "./MobileHome";
+import MobileDock from "./MobileDock";
 
 const ACCENT = "#FC3C44";
-const GLASS = { background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) saturate(200%)", WebkitBackdropFilter: "blur(30px) saturate(200%)", boxShadow: "0 12px 36px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 1px rgba(255,255,255,0.16)" };
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 const MoreIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
 
@@ -47,21 +45,12 @@ function PostRow({ p, onClick, first }) {
 
 export default function MobileSearch({ inputVal, setInputVal, activeTab, setActiveTab, music = [], artists = [], posts = [], query = "", playTrack }) {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { unreadCount } = useApp() ?? {};
   const hasQuery = !!query.trim();
 
   const segs = [
-    { key: "song", label: "Music", count: music.length },
-    { key: "artist", label: "Artists", count: artists.length },
-    { key: "project", label: "Post", count: posts.length },
-  ];
-
-  const bottomTabs = [
-    { key: "home", label: "홈", to: "/", Icon: Home },
-    { key: "search", label: "검색", to: "/search", Icon: Search },
-    { key: "library", label: "보관함", to: "/library", Icon: Library },
-    { key: "chat", label: "채팅", to: "/chat", Icon: MessageCircle, badge: unreadCount > 0 },
+    { key: "song", label: "Music" },
+    { key: "artist", label: "Artists" },
+    { key: "project", label: "Post" },
   ];
 
   return (
@@ -94,7 +83,7 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
       </nav>
 
       {/* body */}
-      <div className="ms-scroll" style={{ flex: 1, overflowY: "auto", padding: "18px 24px 130px" }}>
+      <div className="ms-scroll" style={{ flex: 1, overflowY: "auto", padding: "18px 24px 150px" }}>
         {activeTab === "song" && (music.length ? music.map((m, i) => (
           <RankRow key={m.id ?? i} cd cover={m.cover_url} title={m.title} subtitle={m.artist}
             onClick={() => playTrack?.({ id: m.id, title: m.title, artist: m.artist, author_id: m.author_id, cover_url: m.cover_url, audio_url: m.audio_url }, music)} />
@@ -110,23 +99,7 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
         )) : <Empty hasQuery={hasQuery} />)}
       </div>
 
-      {/* bottom tab bar */}
-      <div style={{ position: "fixed", left: 12, right: 12, bottom: 14, zIndex: 100 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 30, ...GLASS }}>
-          {bottomTabs.map(tab => {
-            const active = pathname === tab.to || (tab.to === "/search" && pathname.startsWith("/search"));
-            return (
-              <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: active ? ACCENT : "#fff" }}>
-                <span style={{ position: "relative", display: "grid", placeItems: "center" }}>
-                  <tab.Icon size={24} strokeWidth={2} />
-                  {tab.badge && <span style={{ position: "absolute", top: -2, right: -4, width: 7, height: 7, borderRadius: 999, background: ACCENT, boxShadow: "0 0 0 2px rgba(28,28,30,0.9)" }} />}
-                </span>
-                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "-0.02em" }}>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <MobileDock />
     </div>
   );
 }
