@@ -19,7 +19,7 @@ function EmptyState({ Icon, title, subtitle, button, onButton, noIcon }) {
       )}
       <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.02em" }}>{title}</div>
       <div style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", marginTop: 8, maxWidth: "26ch", lineHeight: 1.5 }}>{subtitle}</div>
-      <button onClick={onButton} style={{ all: "unset", cursor: "pointer", marginTop: 22, height: 46, padding: "0 28px", borderRadius: 999, background: ACCENT, color: "#fff", fontSize: 15, fontWeight: 700, letterSpacing: "-0.02em", display: "inline-flex", alignItems: "center" }}>{button}</button>
+      <button onClick={onButton} style={{ all: "unset", cursor: "pointer", marginTop: 22, height: 44, padding: "0 24px", borderRadius: 999, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", color: "#fff", fontSize: 14.5, fontWeight: 700, letterSpacing: "-0.01em", display: "inline-flex", alignItems: "center" }}>{button}</button>
     </div>
   );
 }
