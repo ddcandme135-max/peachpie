@@ -68,7 +68,7 @@ const GUTTER = 24;
 const railStyle = { display: "flex", gap: 16, overflowX: "auto", paddingTop: 0, paddingBottom: 4, scrollbarWidth: "none", msOverflowStyle: "none" };
 const edgeStyle = (i, len) => ({ marginLeft: i === 0 ? GUTTER : 0, marginRight: i === len - 1 ? GUTTER : 0 });
 
-export default function MobileHome({ avatarUrl, sections = [] }) {
+export default function MobileHome({ avatarUrl, username, sections = [] }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
@@ -103,10 +103,12 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
         {/* header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 8px" }}>
           <span style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>홈</span>
-          <button onClick={() => navigate("/artist")} style={{ all: "unset", cursor: "pointer", width: 44, height: 44, borderRadius: 999, overflow: "hidden", flex: "none", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)", background: avatarUrl ? "#000" : FALLBACK, display: "grid", placeItems: "center" }}>
+          <button onClick={() => navigate("/artist")} style={{ all: "unset", cursor: "pointer", width: 44, height: 44, borderRadius: 999, overflow: "hidden", flex: "none", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)", background: avatarUrl ? "#000" : username ? "linear-gradient(135deg,#FC3C44,#7c2d12)" : "rgba(255,255,255,0.08)", display: "grid", placeItems: "center" }}>
             {avatarUrl
               ? <img src={avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>}
+              : username
+                ? <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>{username[0].toUpperCase()}</span>
+                : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg>}
           </button>
         </div>
 

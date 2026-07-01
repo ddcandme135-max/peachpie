@@ -1231,7 +1231,7 @@ export default function Home() {
       { title: "Collabo Post", type: "positions", cards: POSITIONS.map(p => ({ id: p.key, key: p.key, title: p.label, cover_url: p.img })) },
       ...sections.filter(s => s.type !== "collabo"),
     ];
-    return <MobileHome avatarUrl={profile?.avatar_url ?? null} sections={mobileSections} />;
+    return <MobileHome avatarUrl={profile?.avatar_url ?? null} username={profile?.username ?? null} sections={mobileSections} />;
   }
 
   return (
