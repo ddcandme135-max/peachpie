@@ -1,19 +1,24 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Home, Search, Library, MessageCircle } from "lucide-react";
 import { useApp } from "../context/AppContext";
+import { CDCover } from "./MobileHome";
 
 const ACCENT = "#FC3C44";
 const GLASS = { background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) saturate(200%)", WebkitBackdropFilter: "blur(30px) saturate(200%)", boxShadow: "0 12px 36px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 1px rgba(255,255,255,0.16)" };
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 const MoreIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
 
-function RankRow({ rank, cover, round, title, subtitle, onClick }) {
+function RankRow({ rank, cover, round, cd, title, subtitle, onClick }) {
   return (
     <div onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 14, padding: "9px 0", cursor: "pointer" }}>
       <span style={{ width: 16, textAlign: "center", flex: "none", fontSize: 15, fontWeight: 600, color: ACCENT, fontVariantNumeric: "tabular-nums" }}>{rank}</span>
-      <div style={{ width: 50, height: 50, borderRadius: round ? 999 : 10, flex: "none", overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: typeof cover === "string" && cover.startsWith("linear") ? cover : cover ? "#000" : FALLBACK }}>
-        {cover && !cover.startsWith?.("linear") && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
-      </div>
+      {cd ? (
+        <CDCover cover={cover || null} size={50} />
+      ) : (
+        <div style={{ width: 50, height: 50, borderRadius: round ? 999 : 10, flex: "none", overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: typeof cover === "string" && cover.startsWith("linear") ? cover : cover ? "#000" : FALLBACK }}>
+          {cover && !cover.startsWith?.("linear") && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
+        </div>
+      )}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: 15.5, fontWeight: 600, letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
         <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.5)", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{subtitle}</div>
@@ -92,7 +97,7 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
       {/* body */}
       <div className="ms-scroll" style={{ flex: 1, overflowY: "auto", padding: "18px 24px 130px" }}>
         {activeTab === "song" && (music.length ? music.map((m, i) => (
-          <RankRow key={m.id ?? i} rank={i + 1} cover={m.cover_url} title={m.title} subtitle={m.artist}
+          <RankRow key={m.id ?? i} rank={i + 1} cd cover={m.cover_url} title={m.title} subtitle={m.artist}
             onClick={() => playTrack?.({ id: m.id, title: m.title, artist: m.artist, author_id: m.author_id, cover_url: m.cover_url, audio_url: m.audio_url }, music)} />
         )) : <Empty hasQuery={hasQuery} />)}
 

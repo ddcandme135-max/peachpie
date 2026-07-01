@@ -16,7 +16,7 @@ const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 1
 
 // CD 디스크 썸네일 — 170px 원본을 그대로 scale로 축소(테두리·그림자까지 정확히 비례)
 // spinning: 회전(중첩 래퍼 — 회전 래퍼 안에 스케일 래퍼, transform 충돌 방지)
-function CDCover({ cover, size, spinning }) {
+export function CDCover({ cover, size, spinning }) {
   const k = size / 170;
   // spinning === undefined → 회전 없음(정적 타일). true/false → 재생 중이면 회전, 정지 시 그 자리 멈춤.
   const spinStyle = spinning === undefined ? null : { animation: "mhspin 3.5s linear infinite", animationPlayState: spinning ? "running" : "paused" };
