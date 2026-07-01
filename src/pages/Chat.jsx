@@ -1388,7 +1388,7 @@ export default function Chat() {
         <div style={{ width: isMobile ? "100%" : 380, flexShrink: 0, borderRight: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)", display: (isMobile && activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100dvh" : "100vh", paddingLeft: 4 }}>
 
           <div style={{ padding: "28px 24px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>Messages</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>{ml("k097")}</div>
             <IconBtn onClick={() => setComposeOpen(true)}>
               <PencilLine size={20} />
             </IconBtn>
