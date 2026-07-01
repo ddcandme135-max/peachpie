@@ -59,7 +59,7 @@ function ConditionalMiniPlayer() {
   const { pathname } = useLocation();
   const { currentTrack, sidebarPlayer } = usePlayer();
   // 모바일 홈/검색은 자체 플로팅 독(미니 플레이어)을 렌더하므로 전역 미니플레이어 숨김
-  const isMobileDock = typeof window !== "undefined" && window.innerWidth < 768 && (pathname === "/" || pathname === "/search" || pathname === "/search-results");
+  const isMobileDock = typeof window !== "undefined" && window.innerWidth < 768 && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library");
   const hiddenRoute = isMobileDock || pathname === "/chat" || pathname === "/admin" || /^\/(track|song|collabo|project)\//.test(pathname);
   const visible = !hiddenRoute && !!currentTrack && !sidebarPlayer;
   useEffect(() => {

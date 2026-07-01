@@ -3,6 +3,8 @@ import RightSidebar from "../components/RightSidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../components/Sidebar";
+import MobileLibrary from "../components/MobileLibrary";
+import { useIsMobile } from "../lib/useIsMobile";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
 import { Play, X } from "lucide-react";
@@ -143,8 +145,9 @@ export default function Library() {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const lang = i18n.language?.slice(0, 2) ?? "en";
-  const { likedTracks } = usePlayer();
+  const { likedTracks, playTrack } = usePlayer();
   const { deletedTrackIds, deletedPostIds } = useApp();
+  const isMobile = useIsMobile();
   const [playlists, setPlaylists]       = useState([]);
   const [likedSongs, setLikedSongs]     = useState([]);
   const [likedProjects, setLikedProjects] = useState([]);
@@ -294,6 +297,23 @@ export default function Library() {
     { id: "projects",  label: lang === "ko" ? "포스트" : lang === "ja" ? "投稿" : "Post",      count: likedPosts.filter(p => !deletedPostIds.has(p.id)).length, icon: <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></> },
     { id: "playlists", label: ml("k136"),     count: playlists.length, icon: <><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></> },
   ];
+
+  if (isMobile) {
+    const songs = likedSongs.filter(s => !deletedTrackIds.has(s.id));
+    const posts = likedPosts.filter(p => !deletedPostIds.has(p.id));
+    return (
+      <>
+        <MobileLibrary
+          likedSongs={songs} posts={posts} playlists={playlists}
+          activeTab={activeTab} setActiveTab={setActiveTab}
+          playTrack={playTrack} onCreatePlaylist={() => setPlaylistModalOpen(true)}
+        />
+        {playlistModalOpen && (
+          <PlaylistCreateModal onClose={() => setPlaylistModalOpen(false)} onCreate={handlePlaylistCreated} />
+        )}
+      </>
+    );
+  }
 
   return (
     <>
