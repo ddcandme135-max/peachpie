@@ -6,7 +6,7 @@ import { useApp } from "../context/AppContext";
 
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
 const ACCENT = "#FC3C44";
-const GLASS = { background: "rgba(28,28,30,0.72)", backdropFilter: "blur(20px) saturate(140%)", WebkitBackdropFilter: "blur(20px) saturate(140%)", boxShadow: "0 12px 32px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.08)" };
+const GLASS = { background: "rgba(30,30,34,0.45)", backdropFilter: "blur(32px) saturate(180%)", WebkitBackdropFilter: "blur(32px) saturate(180%)", boxShadow: "0 12px 36px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.14), inset 0 1px 1px rgba(255,255,255,0.12)" };
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 
 function FeatureCard({ t, onPlay }) {
