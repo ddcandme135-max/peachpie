@@ -123,11 +123,11 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 30, height: 66, borderRadius: 22, ...GLASS }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 22, ...GLASS }}>
           {tabs.map(tab => {
             const active = pathname === tab.to;
             return (
-              <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: active ? ACCENT : "rgba(255,255,255,0.5)" }}>
+              <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: active ? ACCENT : "#fff" }}>
                 <span style={{ position: "relative", display: "grid", placeItems: "center" }}>
                   <tab.Icon size={24} strokeWidth={2} />
                   {tab.badge && <span style={{ position: "absolute", top: -2, right: -4, width: 7, height: 7, borderRadius: 999, background: ACCENT, boxShadow: "0 0 0 2px rgba(28,28,30,0.9)" }} />}
