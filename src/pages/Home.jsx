@@ -1227,10 +1227,7 @@ export default function Home() {
   );
 
   if (isMobile) {
-    const featured = (forYouTracks.length ? forYouTracks : songTracks).filter(t => !deletedTrackIds.has(t.id));
-    const recentTiles = enrichedRecent.filter(t => !deletedTrackIds.has(t.id) && !t.isProject && t.audio_url)
-      .map(c => ({ ...c, artist: c.author_id === myId ? (profile?.username ?? c.artist) : c.artist }));
-    return <MobileHome avatarUrl={profile?.avatar_url ?? null} featured={featured} recent={recentTiles} />;
+    return <MobileHome avatarUrl={profile?.avatar_url ?? null} sections={sections} />;
   }
 
   return (

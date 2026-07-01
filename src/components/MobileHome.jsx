@@ -9,36 +9,21 @@ const ACCENT = "#FC3C44";
 const GLASS = { background: "rgba(30,30,34,0.45)", backdropFilter: "blur(32px) saturate(180%)", WebkitBackdropFilter: "blur(32px) saturate(180%)", boxShadow: "0 12px 36px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.14), inset 0 1px 1px rgba(255,255,255,0.12)" };
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 
-function FeatureCard({ t, onPlay }) {
+function Tile({ cover, title, subtitle, onClick }) {
   return (
-    <div style={{ flex: "none", width: 300, scrollSnapAlign: "start", cursor: "pointer" }} onClick={onPlay}>
-      <div style={{ width: 300, height: 300, borderRadius: 18, overflow: "hidden", position: "relative", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: t.cover_url ? "#000" : FALLBACK }}>
-        {t.cover_url && <img loading="eager" decoding="async" src={t.cover_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 45%)" }} />
-        <div style={{ position: "absolute", left: 18, right: 18, bottom: 16, zIndex: 2 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.82)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.artist}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.02em", marginTop: 3, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</div>
-        </div>
+    <div style={{ flex: "none", width: 160, scrollSnapAlign: "start", cursor: "pointer" }} onClick={onClick}>
+      <div style={{ width: 160, height: 160, borderRadius: 14, overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: cover ? "#000" : FALLBACK }}>
+        {cover && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
       </div>
-    </div>
-  );
-}
-
-function Tile({ t, onPlay }) {
-  return (
-    <div style={{ flex: "none", width: 180, scrollSnapAlign: "start", cursor: "pointer" }} onClick={onPlay}>
-      <div style={{ width: 180, height: 180, borderRadius: 14, overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: t.cover_url ? "#000" : FALLBACK }}>
-        {t.cover_url && <img loading="eager" decoding="async" src={t.cover_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
-      </div>
-      <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", marginTop: 11, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.title}</div>
-      <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{t.artist}</div>
+      <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", marginTop: 11, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
+      {subtitle && <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{subtitle}</div>}
     </div>
   );
 }
 
 const railStyle = { display: "flex", gap: 16, overflowX: "auto", padding: "0 24px 4px", scrollSnapType: "x proximity", scrollbarWidth: "none", msOverflowStyle: "none" };
 
-export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
+export default function MobileHome({ avatarUrl, sections = [] }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
@@ -47,6 +32,11 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
 
   function play(t, list) {
     playTrack({ id: t.id, title: t.title, artist: t.artist, author_id: t.author_id, cover_url: t.cover_url, audio_url: t.audio_url }, list);
+  }
+
+  function onCard(t, sec) {
+    if (sec.type === "collabo") navigate(`/project/${t.id}`, { state: { project: t } });
+    else play(t, sec.cards);
   }
 
   // 사이드바와 동일한 메뉴
@@ -72,32 +62,24 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
           </button>
         </div>
 
-        {/* 인기 추천곡 */}
-        {featured.length > 0 && (
-          <section style={{ marginTop: 8 }}>
-            <div style={{ padding: "0 24px", marginBottom: 16 }}>
-              <span style={{ fontSize: 23, fontWeight: 800, letterSpacing: "-0.03em" }}>인기 추천곡</span>
+        {/* 섹션: Collabo / New Songs / Recently Played / For You */}
+        {sections.filter(sec => sec.cards.length > 0).map(sec => (
+          <section key={sec.title} style={{ marginTop: 28 }}>
+            <div onClick={() => sec.route && navigate(sec.route)} style={{ display: "flex", alignItems: "center", gap: 6, padding: "0 24px", marginBottom: 16, cursor: sec.route ? "pointer" : "default" }}>
+              <span style={{ fontSize: 23, fontWeight: 800, letterSpacing: "-0.03em" }}>{sec.title}</span>
+              {sec.route && (
+                <span style={{ color: "rgba(255,255,255,0.6)", display: "grid", placeItems: "center" }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+                </span>
+              )}
             </div>
             <div className="mh-rail" style={railStyle}>
-              {featured.map(t => <FeatureCard key={t.id} t={t} onPlay={() => play(t, featured)} />)}
+              {sec.cards.map((t, i) => (
+                <Tile key={t.id ?? i} cover={t.cover_url} title={t.title || t.position || "—"} subtitle={t.artist} onClick={() => onCard(t, sec)} />
+              ))}
             </div>
           </section>
-        )}
-
-        {/* 최근 재생한 음악 */}
-        {recent.length > 0 && (
-          <section style={{ marginTop: 32 }}>
-            <div onClick={() => navigate("/recently-played")} style={{ display: "flex", alignItems: "center", gap: 6, padding: "0 24px", marginBottom: 16, cursor: "pointer" }}>
-              <span style={{ fontSize: 23, fontWeight: 800, letterSpacing: "-0.03em" }}>최근 재생한 음악</span>
-              <span style={{ color: "rgba(255,255,255,0.6)", display: "grid", placeItems: "center" }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-              </span>
-            </div>
-            <div className="mh-rail" style={railStyle}>
-              {recent.map(t => <Tile key={t.id} t={t} onPlay={() => play(t, recent)} />)}
-            </div>
-          </section>
-        )}
+        ))}
       </div>
 
       {/* floating dock */}
