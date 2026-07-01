@@ -11,6 +11,7 @@ import stievieLacyImg from "../assets/Stievie Lacy.jpeg";
 import tameImpalaImg from "../assets/Tame Impala.jpeg";
 import { ChevronRight } from "lucide-react";
 import HeroBanner from "../components/HeroBanner";
+import MobileHome from "../components/MobileHome";
 import Sidebar from "../components/Sidebar";
 import ShareModal from "../components/ShareModal";
 import NewProjectModal from "../components/NewProjectModal";
@@ -1224,6 +1225,13 @@ export default function Home() {
       <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </div>
   );
+
+  if (isMobile) {
+    const featured = (forYouTracks.length ? forYouTracks : songTracks).filter(t => !deletedTrackIds.has(t.id));
+    const recentTiles = enrichedRecent.filter(t => !deletedTrackIds.has(t.id) && !t.isProject && t.audio_url)
+      .map(c => ({ ...c, artist: c.author_id === myId ? (profile?.username ?? c.artist) : c.artist }));
+    return <MobileHome avatarUrl={profile?.avatar_url ?? null} featured={featured} recent={recentTiles} />;
+  }
 
   return (
     <>

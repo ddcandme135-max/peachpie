@@ -58,7 +58,9 @@ function SpacebarHandler() {
 function ConditionalMiniPlayer() {
   const { pathname } = useLocation();
   const { currentTrack, sidebarPlayer } = usePlayer();
-  const hiddenRoute = pathname === "/chat" || pathname === "/admin" || /^\/(track|song|collabo|project)\//.test(pathname);
+  // 모바일 홈은 자체 플로팅 독(미니 플레이어)을 렌더하므로 전역 미니플레이어 숨김
+  const isMobileHome = pathname === "/" && typeof window !== "undefined" && window.innerWidth < 768;
+  const hiddenRoute = isMobileHome || pathname === "/chat" || pathname === "/admin" || /^\/(track|song|collabo|project)\//.test(pathname);
   const visible = !hiddenRoute && !!currentTrack && !sidebarPlayer;
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("miniplayer-visibility", { detail: { visible } }));
