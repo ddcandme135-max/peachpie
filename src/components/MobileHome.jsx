@@ -1,6 +1,7 @@
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, Search, Library, MessageCircle } from "lucide-react";
+import { Home, Search, Library, MessageCircle, Play, Pause, ChevronDown } from "lucide-react";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
 
@@ -44,6 +45,8 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
   const { t } = useTranslation();
   const { unreadCount } = useApp() ?? {};
   const { currentTrack, isPlaying, togglePlay, playNext, playTrack } = usePlayer();
+  const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => { setCollapsed(false); }, [currentTrack?.id]);
 
   function play(t, list) {
     playTrack({ id: t.id, title: t.title, artist: t.artist, author_id: t.author_id, cover_url: t.cover_url, audio_url: t.audio_url }, list);
@@ -108,22 +111,23 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
 
       {/* floating dock */}
       <div style={{ position: "fixed", left: 12, right: 12, bottom: 14, zIndex: 100, display: "flex", flexDirection: "column", gap: 12 }}>
-        {currentTrack && (
-          <div style={{ display: "flex", alignItems: "center", gap: 12, height: 60, padding: "0 14px 0 10px", borderRadius: 28, ...GLASS }}>
-            <div style={{ width: 42, height: 42, borderRadius: 9, flex: "none", overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: currentTrack.cover_url ? "#000" : FALLBACK }}
+        {currentTrack && !collapsed && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 60, padding: "0 12px 0 10px", margin: "0 24px", borderRadius: 28, ...GLASS }}>
+            <div style={{ width: 42, height: 42, borderRadius: 9, flex: "none", overflow: "hidden", cursor: "pointer", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: currentTrack.cover_url ? "#000" : FALLBACK }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
               {currentTrack.cover_url && <img src={currentTrack.cover_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: 16, fontWeight: 600, letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTrack.title}</div>
-              <div style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTrack.artist}</div>
+              <div style={{ fontSize: 15, fontWeight: 600, letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTrack.title}</div>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginTop: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTrack.artist}</div>
             </div>
-            <button onClick={togglePlay} aria-label="재생" style={{ all: "unset", cursor: "pointer", width: 40, height: 40, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", flex: "none" }}>
-              {isPlaying
-                ? <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1.2" /><rect x="14" y="4" width="4" height="16" rx="1.2" /></svg>
-                : <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14c0-1.32 1.43-2.15 2.58-1.49l11.04 6.36c1.15.66 1.15 2.32 0 2.98L10.58 19.35C9.43 20.01 8 19.18 8 17.86z" transform="translate(-1.5 0)" /></svg>}
+            <button onClick={() => setCollapsed(true)} aria-label="축소" style={{ all: "unset", cursor: "pointer", width: 34, height: 34, borderRadius: 999, display: "grid", placeItems: "center", color: "rgba(255,255,255,0.7)", flex: "none" }}>
+              <ChevronDown size={22} />
             </button>
-            <button onClick={() => playNext?.()} aria-label="다음" style={{ all: "unset", cursor: "pointer", width: 40, height: 40, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", flex: "none" }}>
+            <button onClick={togglePlay} aria-label="재생" style={{ all: "unset", cursor: "pointer", width: 34, height: 34, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", flex: "none" }}>
+              {isPlaying ? <Pause size={26} fill="#fff" /> : <Play size={26} fill="#fff" />}
+            </button>
+            <button onClick={() => playNext?.()} aria-label="다음" style={{ all: "unset", cursor: "pointer", width: 34, height: 34, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", flex: "none" }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14.6 6H17v12h-2.4zM4 6l9 6-9 6z" /></svg>
             </button>
           </div>
