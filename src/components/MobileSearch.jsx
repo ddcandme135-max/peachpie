@@ -74,7 +74,7 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
       </div>
 
       {/* search bar */}
-      <div style={{ flex: "none", margin: "0 24px 16px", display: "flex", alignItems: "center", gap: 11, height: 50, padding: "0 16px", borderRadius: 16, background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+      <div style={{ flex: "none", margin: "0 24px 16px", display: "flex", alignItems: "center", gap: 11, height: 50, padding: "0 18px", borderRadius: 999, background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
         <input value={inputVal} onChange={e => setInputVal(e.target.value)} placeholder="아티스트, 곡, 앨범, 콜라보 검색"
           style={{ all: "unset", flex: 1, minWidth: 0, fontSize: 16, color: "#fff" }} />
