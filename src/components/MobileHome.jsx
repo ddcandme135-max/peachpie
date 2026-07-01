@@ -1,5 +1,8 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Home, Search, Library, MessageCircle } from "lucide-react";
 import { usePlayer } from "../context/PlayerContext";
+import { useApp } from "../context/AppContext";
 
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
 const ACCENT = "#FC3C44";
@@ -38,17 +41,20 @@ const railStyle = { display: "flex", gap: 16, overflowX: "auto", padding: "0 24p
 export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { t } = useTranslation();
+  const { unreadCount } = useApp() ?? {};
   const { currentTrack, isPlaying, togglePlay, playNext, playTrack } = usePlayer();
 
   function play(t, list) {
     playTrack({ id: t.id, title: t.title, artist: t.artist, author_id: t.author_id, cover_url: t.cover_url, audio_url: t.audio_url }, list);
   }
 
+  // 사이드바와 동일한 메뉴
   const tabs = [
-    { key: "home", label: "홈", to: "/", active: pathname === "/", icon: <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeLinejoin="round"><path d="M3 9.5 12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z" /></svg> },
-    { key: "songs", label: "새로운 음악", to: "/new-songs", active: pathname === "/new-songs", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /></svg> },
-    { key: "radio", label: "라디오", to: "/for-you", active: pathname === "/for-you", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="2" /><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14" /></svg> },
-    { key: "library", label: "보관함", to: "/library", active: pathname === "/library", icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg> },
+    { key: "home",    label: t("nav.home"),    to: "/",        Icon: Home },
+    { key: "search",  label: t("nav.search"),  to: "/search",  Icon: Search },
+    { key: "library", label: t("nav.library"), to: "/library", Icon: Library },
+    { key: "chat",    label: t("nav.chat"),    to: "/chat",    Icon: MessageCircle, badge: unreadCount > 0 },
   ];
 
   return (
@@ -117,18 +123,19 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 22, ...GLASS }}>
-            {tabs.map(tab => (
-              <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: tab.active ? ACCENT : "rgba(255,255,255,0.5)" }}>
-                <span style={{ width: 24, height: 24, display: "grid", placeItems: "center" }}>{tab.icon}</span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 22, ...GLASS }}>
+          {tabs.map(tab => {
+            const active = pathname === tab.to;
+            return (
+              <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: active ? ACCENT : "rgba(255,255,255,0.5)" }}>
+                <span style={{ position: "relative", display: "grid", placeItems: "center" }}>
+                  <tab.Icon size={24} strokeWidth={2} />
+                  {tab.badge && <span style={{ position: "absolute", top: -2, right: -4, width: 7, height: 7, borderRadius: 999, background: ACCENT, boxShadow: "0 0 0 2px rgba(28,28,30,0.9)" }} />}
+                </span>
                 <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "-0.02em" }}>{tab.label}</span>
               </button>
-            ))}
-          </div>
-          <button onClick={() => navigate("/search")} aria-label="검색" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", color: "#fff", ...GLASS }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-          </button>
+            );
+          })}
         </div>
       </div>
     </div>
