@@ -157,7 +157,10 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
               {isPlaying ? <Pause size={26} fill="#fff" /> : <Play size={26} fill="#fff" />}
             </button>
             <button onClick={() => playNext?.()} aria-label="다음" style={{ all: "unset", cursor: "pointer", width: 34, height: 34, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", flex: "none" }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M14.6 6H17v12h-2.4zM4 6l9 6-9 6z" /></svg>
+              <svg width="22" height="22" viewBox="0 0 22 22">
+                <polygon points="3,4 11,11 3,18" fill="#fff" stroke="#fff" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+                <polygon points="12,4 20,11 12,18" fill="#fff" stroke="#fff" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
         )}
