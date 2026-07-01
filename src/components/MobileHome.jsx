@@ -11,7 +11,7 @@ const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 
 function Tile({ cover, title, subtitle, onClick, style }) {
   return (
-    <div style={{ flex: "none", width: 160, scrollSnapAlign: "start", cursor: "pointer", ...style }} onClick={onClick}>
+    <div style={{ flex: "none", width: 160, cursor: "pointer", ...style }} onClick={onClick}>
       <div style={{ width: 160, height: 160, borderRadius: 14, overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: cover ? "#000" : FALLBACK }}>
         {cover && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
       </div>
@@ -23,7 +23,7 @@ function Tile({ cover, title, subtitle, onClick, style }) {
 
 function PositionTile({ cover, label, onClick, style }) {
   return (
-    <div style={{ flex: "none", width: 248, scrollSnapAlign: "start", cursor: "pointer", ...style }} onClick={onClick}>
+    <div style={{ flex: "none", width: 248, cursor: "pointer", ...style }} onClick={onClick}>
       <div style={{ width: 248, height: 330, borderRadius: 24, overflow: "hidden", position: "relative", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: cover ? "#000" : FALLBACK }}>
         {cover && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 48%)" }} />
@@ -35,7 +35,7 @@ function PositionTile({ cover, label, onClick, style }) {
 
 const GUTTER = 24;
 // 첫/마지막 카드 인셋은 flex 자식 margin으로 처리(스크롤 flex 컨테이너는 padding-left가 무시됨)
-const railStyle = { display: "flex", gap: 16, overflowX: "auto", paddingTop: 0, paddingBottom: 4, scrollSnapType: "x proximity", scrollbarWidth: "none", msOverflowStyle: "none" };
+const railStyle = { display: "flex", gap: 16, overflowX: "auto", paddingTop: 0, paddingBottom: 4, scrollbarWidth: "none", msOverflowStyle: "none" };
 const edgeStyle = (i, len) => ({ marginLeft: i === 0 ? GUTTER : 0, marginRight: i === len - 1 ? GUTTER : 0 });
 
 export default function MobileHome({ avatarUrl, sections = [] }) {
