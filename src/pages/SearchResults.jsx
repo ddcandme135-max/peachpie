@@ -160,6 +160,7 @@ export default function SearchResults() {
   const [loading, setLoading]               = useState(false);
   const [trendTracks, setTrendTracks]       = useState([]);
   const [trendArtists, setTrendArtists]     = useState([]);
+  const [trendPosts, setTrendPosts]         = useState([]);
   const [landingLoading, setLandingLoading] = useState(true);
   const [recents, setRecents]               = useState(() => {
     try { return JSON.parse(localStorage.getItem("search_recents") ?? "[]"); } catch { return []; }
@@ -192,13 +193,15 @@ export default function SearchResults() {
 
   useEffect(() => {
     (async () => {
-      const [{ data: t }, { data: p }] = await Promise.all([
+      const [{ data: t }, { data: p }, { data: po }] = await Promise.all([
         supabase.from("tracks").select("id, title, artist, cover_url, audio_url, grad, genre, duration, author_id").eq("type", "song").order("created_at", { ascending: false }).limit(10),
         supabase.from("profiles").select("id, username, handle, avatar_url").neq("id", ADMIN_ID).order("created_at", { ascending: false }).limit(10),
+        supabase.from("posts").select("*, profiles!posts_author_id_fkey(username, handle, avatar_url)").order("created_at", { ascending: false }).limit(12),
       ]);
       preloadCovers(t);
       setTrendTracks(t ?? []);
       setTrendArtists(p ?? []);
+      setTrendPosts((po ?? []).map(mapDbPost));
       setLandingLoading(false);
     })();
   }, []);
@@ -271,7 +274,7 @@ export default function SearchResults() {
     const q = (state?.query ?? "").trim();
     const music = q ? songResults : (trendTracks ?? []).map(t => ({ id: t.id, title: t.title, artist: t.artist, cover_url: t.cover_url, audio_url: t.audio_url, author_id: t.author_id }));
     const artists = q ? artistResults : (trendArtists ?? []).map((p, i) => ({ name: p.username ?? p.handle ?? "아티스트", id: p.handle ? `@${p.handle}` : `@${p.username ?? ""}`, supabaseId: p.id, avatar_url: p.avatar_url ?? null, gradient: PROFILE_GRADIENTS[i % PROFILE_GRADIENTS.length] }));
-    const posts = q ? projectResults : [];
+    const posts = q ? projectResults : trendPosts;
     return (
       <MobileSearch
         inputVal={inputVal} setInputVal={setInputVal}
