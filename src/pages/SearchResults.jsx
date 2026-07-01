@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../components/Sidebar";
 import RightSidebar from "../components/RightSidebar";
+import MobileSearch from "../components/MobileSearch";
+import { useIsMobile } from "../lib/useIsMobile";
 import { usePlayer } from "../context/PlayerContext";
 import { supabase } from "../lib/supabase";
 import { PostCard, mapDbPost } from "./CollabFeed";
@@ -183,6 +185,7 @@ export default function SearchResults() {
     { key: "project", label: ml("k125"), count: projectResults.length,    icon: <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></> },
   ];
   const inputRef = useRef(null);
+  const isMobile = useIsMobile();
   const pad = isOpen ? 220 : 90;
 
   useEffect(() => { setInputVal(state?.query ?? ""); }, [state?.query]);
@@ -263,6 +266,21 @@ export default function SearchResults() {
   }, [inputVal]);
 
   const hasAny = artistResults.length > 0 || songResults.length > 0 || projectResults.length > 0 || postResults.length > 0;
+
+  if (isMobile) {
+    const q = (state?.query ?? "").trim();
+    const music = q ? songResults : (trendTracks ?? []).map(t => ({ id: t.id, title: t.title, artist: t.artist, cover_url: t.cover_url, audio_url: t.audio_url, author_id: t.author_id }));
+    const artists = q ? artistResults : (trendArtists ?? []).map((p, i) => ({ name: p.username ?? p.handle ?? "아티스트", id: p.handle ? `@${p.handle}` : `@${p.username ?? ""}`, supabaseId: p.id, avatar_url: p.avatar_url ?? null, gradient: PROFILE_GRADIENTS[i % PROFILE_GRADIENTS.length] }));
+    const posts = q ? projectResults : [];
+    return (
+      <MobileSearch
+        inputVal={inputVal} setInputVal={setInputVal}
+        activeTab={activeTab} setActiveTab={setActiveTab}
+        music={music} artists={artists} posts={posts}
+        playTrack={playTrack}
+      />
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
