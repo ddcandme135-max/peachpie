@@ -12,6 +12,8 @@ import tameImpalaImg from "../assets/Tame Impala.jpeg";
 import { ChevronRight } from "lucide-react";
 import HeroBanner from "../components/HeroBanner";
 import Sidebar from "../components/Sidebar";
+import MobileNav from "../components/MobileNav";
+import { useIsMobile } from "../lib/useIsMobile";
 import ShareModal from "../components/ShareModal";
 import NewProjectModal from "../components/NewProjectModal";
 import { usePlayer } from "../context/PlayerContext";
@@ -325,7 +327,7 @@ function SongRowCard({ id, art, cover_url, title, artist, duration, genre, audio
   );
 }
 
-function SongSquareCard({ c, i, cards = [], source }) {
+function SongSquareCard({ c, i, cards = [], source, size = 170 }) {
   const [hov, setHov] = useState(false);
   const { playTrack } = usePlayer();
   const navigate = useNavigate();
@@ -334,15 +336,18 @@ function SongSquareCard({ c, i, cards = [], source }) {
     const trackList = cards.map(t => ({ id: t.id, title: t.title, artist: t.artist, cover_url: t.cover_url, audio_url: t.audio_url }));
     playTrack({ id: c.id, title: c.title, artist: c.artist, author_id: c.author_id, cover_url: c.cover_url, audio_url: c.audio_url }, trackList);
   }
+  // 커버 마스크 반지름은 170px 디스크(박스 174px) 기준값을 카드 크기에 비례해 스케일
+  const ms = (size + 4) / 174;
+  const coverMask = `radial-gradient(circle at 50% 49.8%, transparent ${19 * ms}px, black ${20 * ms}px), radial-gradient(circle at 50% 49.8%, black, black ${82 * ms}px, transparent ${85 * ms}px)`;
   return (
     <div
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       onClick={handleClick}
-      style={{ flexShrink: 0, width: 170, cursor: "pointer", scrollSnapAlign: "start" }}
+      style={{ flexShrink: 0, width: size, cursor: "pointer", scrollSnapAlign: "start" }}
     >
       <div style={{
-        width: 170, height: 170, position: "relative",
+        width: size, height: size, position: "relative",
         transform: hov ? "translateY(-7px)" : "translateY(0)",
         transition: "transform 200ms cubic-bezier(0.2,0.7,0.2,1)",
       }}>
@@ -354,9 +359,9 @@ function SongSquareCard({ c, i, cards = [], source }) {
             position: "absolute", inset: "-2px", zIndex: 2,
             backgroundImage: `url(${c.cover_url})`,
             backgroundSize: "95.5%", backgroundPosition: "center",
-            WebkitMaskImage: "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)",
+            WebkitMaskImage: coverMask,
             WebkitMaskComposite: "source-in, source-over",
-            maskImage: "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)",
+            maskImage: coverMask,
             maskComposite: "intersect, add",
           }} />
         )}
@@ -441,7 +446,7 @@ const PCARD_STYLES = {
 };
 const PCARD_DEFAULT = { grad: "linear-gradient(160deg,#888,#222)", dot: "rgba(255,255,255,0.5)" };
 
-function PositionCard({ position, onPlus }) {
+function PositionCard({ position, onPlus, width = 248, height = 330 }) {
   const [hov, setHov] = useState(false);
   const navigate = useNavigate();
   const s = PCARD_STYLES[position.key] ?? PCARD_DEFAULT;
@@ -452,7 +457,7 @@ function PositionCard({ position, onPlus }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        position: "relative", flexShrink: 0, width: 248, height: 330,
+        position: "relative", flexShrink: 0, width, height,
         borderRadius: 24, overflow: "hidden", cursor: "pointer",
         scrollSnapAlign: "start",
         background: s.grad,
@@ -604,8 +609,9 @@ export function CollaboGrid({ cards, emptyText = "아직 프로젝트가 없습�
 }
 
 // 포지션 카드 가로 스크롤 행 — 사이드바 토글 시 스크롤 위치 보정 (SongScrollRow와 동일 모션)
-function PositionScrollRow({ pad, duration, ease, onPlus }) {
+function PositionScrollRow({ pad, duration, ease, onPlus, mobile = false }) {
   const scrollRef = useRef(null);
+  const cardWidth = mobile ? 280 : 248;
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -624,9 +630,9 @@ function PositionScrollRow({ pad, duration, ease, onPlus }) {
 
   return (
     <div ref={scrollRef} className="no-scrollbar" style={{ overflowX: "auto", marginLeft: -pad, paddingLeft: pad, paddingRight: 48, paddingTop: 4, paddingBottom: 18, scrollbarWidth: "none", msOverflowStyle: "none", transition: `margin-left ${duration} ${ease}, padding-left ${duration} ${ease}`, willChange: "transform", transform: "translateZ(0)", WebkitTransform: "translateZ(0)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${POSITIONS.length}, 248px)`, gap: 18, width: "fit-content" }}>
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${POSITIONS.length}, ${cardWidth}px)`, gap: 18, width: "fit-content" }}>
         {POSITIONS.map(pos => (
-          <PositionCard key={pos.key} position={pos} onPlus={onPlus} />
+          <PositionCard key={pos.key} position={pos} onPlus={onPlus} width={cardWidth} />
         ))}
       </div>
     </div>
@@ -755,8 +761,9 @@ function PostCardV3({ c }) {
 }
 
 
-function SongScrollRow({ cards, emptyText = "아직 업로드된 음원이 없습니다", pad = 0, duration = "0ms", ease = "ease", loading = false, source }) {
+function SongScrollRow({ cards, emptyText = "아직 업로드된 음원이 없습니다", pad = 0, duration = "0ms", ease = "ease", loading = false, source, mobile = false }) {
   const scrollRef = useRef(null);
+  const cardSize = mobile ? 150 : 170;
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -797,8 +804,8 @@ function SongScrollRow({ cards, emptyText = "아직 업로드된 음원이 없�
   }
   return (
     <div ref={scrollRef} className="no-scrollbar" style={{ overflowX: "auto", marginLeft: -pad, paddingLeft: pad, paddingRight: 48, paddingTop: 8, paddingBottom: 8, scrollbarWidth: "none", msOverflowStyle: "none", transition: `margin-left ${duration} ${ease}, padding-left ${duration} ${ease}`, willChange: "transform", transform: "translateZ(0)", WebkitTransform: "translateZ(0)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cards.length}, 170px)`, gap: 36, width: "fit-content", paddingBottom: 8, transform: "translateZ(0)", WebkitTransform: "translateZ(0)" }}>
-        {cards.map((c, i) => <SongSquareCard key={c.id ?? i} c={c} i={i} cards={cards} source={source} />)}
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cards.length}, ${cardSize}px)`, gap: mobile ? 20 : 36, width: "fit-content", paddingBottom: 8, transform: "translateZ(0)", WebkitTransform: "translateZ(0)" }}>
+        {cards.map((c, i) => <SongSquareCard key={c.id ?? i} c={c} i={i} cards={cards} source={source} size={cardSize} />)}
       </div>
     </div>
   );
@@ -1028,6 +1035,7 @@ export default function Home() {
   const [shareTrack, setShareTrack]           = useState(null);
   const [forYouTracks, setForYouTracks]       = useState([]);
   const [forYouLoading, setForYouLoading]     = useState(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => { setReady(true); }, []);
 
@@ -1038,7 +1046,7 @@ export default function Home() {
   }, [songTracks]);
   const { profile, session, deletedTrackIds } = useApp();
   const myId = session?.user?.id;
-  const pad = isOpen ? 260 : 120;
+  const pad = isMobile ? 0 : (isOpen ? 260 : 120);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -1222,15 +1230,15 @@ export default function Home() {
     <>
     <div className="min-h-screen bg-[#000000]" style={{ overflowX: "clip" }}>
       <style>{`@keyframes shimmer { 0% { background-position: -600px 0 } 100% { background-position: 600px 0 } }`}</style>
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />}
 
       {/* Banner + Collabo: 사이드바와 함께 밀림 */}
       <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}` }}>
-        <HeroBanner padLeft={pad} />
+        {!isMobile && <HeroBanner padLeft={pad} mobile={isMobile} />}
         <div className="mt-10">
           {shiftedSections.map(({ title, cards, type, arrow, route, emptyText, loading }) => (
-            <section key={title} className="pt-12">
-              <div className="px-8">
+            <section key={title} className={isMobile ? "pt-8" : "pt-12"}>
+              <div className={isMobile ? "px-4" : "px-8"}>
                 <SectionHead title={title} arrow={arrow} onArrowClick={() => navigate(route)} />
                 {cards.length > 6 && (
                   <button
@@ -1241,21 +1249,21 @@ export default function Home() {
                   >전체 보기</button>
                 )}
               </div>
-              <PositionScrollRow pad={pad} duration={DURATION} ease={EASE} onPlus={() => setNewProjectOpen(true)} />
+              <PositionScrollRow pad={pad} duration={DURATION} ease={EASE} onPlus={() => setNewProjectOpen(true)} mobile={isMobile} />
             </section>
           ))}
         </div>
       </div>
 
       {/* New Songs / Recently Played: 제자리 고정, 트랙 제목만 줄어듦 */}
-      <div className="pb-20" style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}` }}>
+      <div className="pb-20" style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, paddingBottom: isMobile ? 80 : undefined }}>
        {fixedSections.map(({ title, cards, type, arrow, route, emptyText, loading }) => (
-          <section key={title} className="pt-12">
-            <div className="px-8">
+          <section key={title} className={isMobile ? "pt-8" : "pt-12"}>
+            <div className={isMobile ? "px-4" : "px-8"}>
               <SectionHead title={title} arrow={arrow} onArrowClick={() => navigate(route)} />
             </div>
             {type === "songs-scroll"
-              ? <SongScrollRow cards={cards} emptyText={emptyText} pad={pad} duration={DURATION} ease={EASE} loading={loading} source={route === "/recently-played" ? "recentlyPlayed" : "newSongs"} />
+              ? <SongScrollRow cards={cards} emptyText={emptyText} pad={pad} duration={DURATION} ease={EASE} loading={loading} source={route === "/recently-played" ? "recentlyPlayed" : "newSongs"} mobile={isMobile} />
               : type === "songs-table"
               ? <SongTableList cards={cards} emptyText={emptyText} pad={pad} />
               : <SongGrid cards={cards} emptyText={emptyText} pad={pad} onShare={setShareTrack} />
@@ -1267,6 +1275,8 @@ export default function Home() {
       <footer style={{ textAlign: "center", padding: "20px", fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
         <Link to="/privacy" style={{ color: "rgba(255,255,255,0.3)", textDecoration: "underline" }}>{t("privacy.title")}</Link>
       </footer>
+
+      {isMobile && <MobileNav />}
     </div>
     <ShareModal
       isOpen={!!shareTrack}

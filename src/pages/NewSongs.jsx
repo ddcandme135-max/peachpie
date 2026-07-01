@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RightSidebar from "../components/RightSidebar";
+import MobileNav from "../components/MobileNav";
+import { useIsMobile } from "../lib/useIsMobile";
 import { useTranslation } from "react-i18next";
 import cdImg from "../assets/_-removebg-preview.png";
 import Sidebar from "../components/Sidebar";
@@ -343,7 +345,8 @@ export default function NewSongs() {
   const { showToast } = useToast();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const pad = isOpen ? 220 : 90;
+  const isMobile = useIsMobile();
+  const pad = isMobile ? 0 : (isOpen ? 220 : 90);
 
   // 페이지 진입 시 스크롤 최상단으로
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -403,7 +406,7 @@ export default function NewSongs() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />}
       {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
       <ShareModal isOpen={!!shareData} onClose={() => setShareData(null)} shareData={shareData} />
       <NewTrackModal
@@ -429,8 +432,8 @@ export default function NewSongs() {
         }}
       />
 
-      <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, display: "flex", alignItems: "flex-start", minWidth: 900 }}>
-        <main style={{ flex: 1, minWidth: 0, paddingBottom: 96 }}>
+      <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, display: "flex", alignItems: "flex-start", minWidth: isMobile ? 0 : 900 }}>
+        <main style={{ flex: 1, minWidth: 0, paddingBottom: isMobile ? 80 : 96 }}>
           <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(22px) saturate(150%)", WebkitBackdropFilter: "blur(22px) saturate(150%)" }}>
             <div style={{ padding: "20px 24px 14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -442,7 +445,7 @@ export default function NewSongs() {
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
                 </button>
-                <h1 style={{ margin: 0, fontSize: 26, fontWeight: 900, letterSpacing: "-0.03em" }}>{ml("k121")}</h1>
+                <h1 style={{ margin: 0, fontSize: isMobile ? 20 : 26, fontWeight: 900, letterSpacing: "-0.03em" }}>{ml("k121")}</h1>
               </div>
               <button onClick={() => setUploadOpen(true)}
                 style={{ all: "unset", display: "inline-flex", alignItems: "center", gap: 7, height: 38, padding: "0 18px", borderRadius: 999, background: "rgba(255,255,255,0.07)", color: "#fff", fontSize: 13.5, fontWeight: 700, cursor: "pointer", letterSpacing: "-0.01em", border: "1px solid rgba(255,255,255,0.12)", transition: "background 150ms" }}
@@ -504,7 +507,7 @@ export default function NewSongs() {
             ))}
           </div>
         </main>
-        <RightSidebar width={320} activeTab="songs" page="new-songs" />
+        {!isMobile && <RightSidebar width={320} activeTab="songs" page="new-songs" />}
       </div>
     </div>
   );

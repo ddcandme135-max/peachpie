@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { supabase } from "./lib/supabase";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { PlayerProvider, usePlayer } from "./context/PlayerContext";
@@ -24,82 +24,6 @@ const SearchResults   = lazy(() => import("./pages/SearchResults"));
 const Admin           = lazy(() => import("./pages/Admin"));
 const Playlist        = lazy(() => import("./pages/Playlist"));
 const Privacy         = lazy(() => import("./pages/Privacy"));
-
-function MobileBlock() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  if (!isMobile) return null;
-
-  const lang = navigator.language?.slice(0, 2) ?? "ko";
-
-  const messages = {
-    ko: {
-      title: "모바일에서는 사용이 어려워요..",
-      desc: "데스크톱으로 다시 방문 해주세요!"
-    },
-    en: {
-      title: "Not available on mobile..",
-      desc: "Please visit us on desktop!"
-    },
-    ja: {
-      title: "モバイルでは利用が難しいです..",
-      desc: "デスクトップからアクセスしてください!"
-    },
-    fr: {
-      title: "Difficile à utiliser sur mobile..",
-      desc: "Veuillez nous rendre visite sur ordinateur!"
-    },
-    es: {
-      title: "Difícil de usar en móvil..",
-      desc: "¡Por favor visítanos desde un escritorio!"
-    },
-    de: {
-      title: "Auf Mobilgeräten schwer zu nutzen..",
-      desc: "Bitte besuche uns auf dem Desktop!"
-    },
-    pt: {
-      title: "Difícil de usar no celular..",
-      desc: "Por favor, acesse pelo computador!"
-    },
-    it: {
-      title: "Difficile da usare su mobile..",
-      desc: "Si prega di visitarci dal desktop!"
-    },
-    id: {
-      title: "Sulit digunakan di ponsel..",
-      desc: "Silakan kunjungi kami di desktop!"
-    },
-  };
-
-  const msg = messages[lang] ?? messages.en;
-
-  return (
-    <div style={{
-      position: "fixed", top: 0, right: 0, bottom: 0, left: 0, zIndex: 99999,
-      background: "#00010D",
-      display: "flex", flexDirection: "column",
-      alignItems: "center", justifyContent: "center",
-      padding: 32, textAlign: "center"
-    }}>
-      <div style={{ fontFamily: "'Agbalumo', cursive", fontSize: 30, fontWeight: 400, color: "#F286C7", letterSpacing: "0.01em", marginBottom: 24 }}>
-        Peachpie
-      </div>
-      <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 12 }}>
-        {msg.title}
-      </div>
-      <div style={{ fontSize: 15, color: "rgba(255,255,255,0.5)", lineHeight: 1.6 }}>
-        {msg.desc}
-      </div>
-    </div>
-  );
-}
 
 function PageLoader() {
   return (
@@ -179,7 +103,6 @@ export default function App() {
     <LangProvider>
     <AppProvider>
     <PlayerProvider>
-      <MobileBlock />
       <SpacebarHandler />
       <ScrollToTop />
       <div className="text-white min-h-screen" style={{ background: "#000000" }}>

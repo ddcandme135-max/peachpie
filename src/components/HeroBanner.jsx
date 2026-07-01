@@ -105,7 +105,7 @@ const SLIDE_META = [
   },
 ];
 
-export default function HeroBanner({ padLeft = 0 }) {
+export default function HeroBanner({ padLeft = 0, mobile = false }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const slides = SLIDE_META.map((meta, i) => ({ ...meta, ...t("heroBanner", { returnObjects: true }).slice(1)[i] }));
@@ -148,7 +148,7 @@ export default function HeroBanner({ padLeft = 0 }) {
 
       <section
         className="hero-wrap"
-        style={{ position: "relative", width: "100%", height: 440, overflow: "visible" }}
+        style={{ position: "relative", width: "100%", height: mobile ? 260 : 440, overflow: "visible" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >

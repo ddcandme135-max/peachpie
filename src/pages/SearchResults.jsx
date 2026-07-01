@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../components/Sidebar";
 import RightSidebar from "../components/RightSidebar";
+import MobileNav from "../components/MobileNav";
+import { useIsMobile } from "../lib/useIsMobile";
 import { usePlayer } from "../context/PlayerContext";
 import { supabase } from "../lib/supabase";
 import { PostCard, mapDbPost } from "./CollabFeed";
@@ -183,7 +185,8 @@ export default function SearchResults() {
     { key: "project", label: ml("k125"), count: projectResults.length,    icon: <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></> },
   ];
   const inputRef = useRef(null);
-  const pad = isOpen ? 220 : 90;
+  const isMobile = useIsMobile();
+  const pad = isMobile ? 0 : (isOpen ? 220 : 90);
 
   useEffect(() => { setInputVal(state?.query ?? ""); }, [state?.query]);
 
@@ -266,10 +269,10 @@ export default function SearchResults() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />}
 
-      <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, display: "flex", alignItems: "flex-start", minWidth: 900 }}>
-        <main style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, display: "flex", alignItems: "flex-start", minWidth: isMobile ? 0 : 900 }}>
+        <main style={{ flex: 1, minWidth: 0, paddingBottom: isMobile ? 80 : 0 }}>
 
         {/* sticky 검색바 + 탭 */}
         <div style={{ position: "sticky", top: 0, zIndex: 30, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(22px) saturate(150%)", WebkitBackdropFilter: "blur(22px) saturate(150%)" }}>
@@ -459,8 +462,9 @@ export default function SearchResults() {
           )}
         </div>
         </main>
-        {state?.query && <RightSidebar width={320} activeTab={activeTab === "project" ? "projects" : activeTab} page={activeTab === "artist" ? "profile" : undefined} />}
+        {!isMobile && state?.query && <RightSidebar width={320} activeTab={activeTab === "project" ? "projects" : activeTab} page={activeTab === "artist" ? "profile" : undefined} />}
       </div>
+      {isMobile && <MobileNav />}
     </div>
   );
 }
