@@ -8,10 +8,9 @@ const GLASS = { background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) s
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 const MoreIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
 
-function RankRow({ rank, cover, round, cd, title, subtitle, onClick }) {
+function RankRow({ cover, round, cd, title, subtitle, onClick }) {
   return (
-    <div onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 14, padding: "9px 0", cursor: "pointer" }}>
-      <span style={{ width: 16, textAlign: "center", flex: "none", fontSize: 15, fontWeight: 600, color: ACCENT, fontVariantNumeric: "tabular-nums" }}>{rank}</span>
+    <div onClick={onClick} style={{ display: "flex", alignItems: "center", gap: 12, padding: "9px 0", cursor: "pointer" }}>
       {cd ? (
         <CDCover cover={cover || null} size={50} />
       ) : (
@@ -97,12 +96,12 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
       {/* body */}
       <div className="ms-scroll" style={{ flex: 1, overflowY: "auto", padding: "18px 24px 130px" }}>
         {activeTab === "song" && (music.length ? music.map((m, i) => (
-          <RankRow key={m.id ?? i} rank={i + 1} cd cover={m.cover_url} title={m.title} subtitle={m.artist}
+          <RankRow key={m.id ?? i} cd cover={m.cover_url} title={m.title} subtitle={m.artist}
             onClick={() => playTrack?.({ id: m.id, title: m.title, artist: m.artist, author_id: m.author_id, cover_url: m.cover_url, audio_url: m.audio_url }, music)} />
         )) : <Empty hasQuery={hasQuery} />)}
 
         {activeTab === "artist" && (artists.length ? artists.map((a, i) => (
-          <RankRow key={a.supabaseId ?? i} rank={i + 1} round cover={a.avatar_url || a.gradient} title={a.name} subtitle={a.id}
+          <RankRow key={a.supabaseId ?? i} round cover={a.avatar_url || a.gradient} title={a.name} subtitle={a.id}
             onClick={() => a.supabaseId && navigate(`/profile/${a.supabaseId}`)} />
         )) : <Empty hasQuery={hasQuery} />)}
 
