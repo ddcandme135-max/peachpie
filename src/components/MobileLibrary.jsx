@@ -11,7 +11,7 @@ const ListIcon = (p) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColo
 
 function EmptyState({ Icon, title, subtitle, button, onButton, noIcon }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "80px 0" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "62vh" }}>
       {!noIcon && (
         <div style={{ width: 88, height: 88, borderRadius: 24, display: "grid", placeItems: "center", marginBottom: 22, background: "radial-gradient(140% 120% at 30% 18%, rgba(255,90,77,0.2), transparent 60%), rgba(255,255,255,0.06)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
           <Icon style={{ width: 38, height: 38, color: ACCENT }} />
@@ -108,7 +108,7 @@ export default function MobileLibrary({ likedSongs = [], posts = [], playlists =
         {activeTab === "projects" && (posts.length ? posts.map((p, i) => (
           <PostRow key={p.id} p={p} first={i === 0} onClick={() => p.id && navigate(`/post/${p.id}`)} />
         )) : (
-          <EmptyState Icon={GridIcon} title="좋아요한 포스트가 없어요" subtitle="마음에 드는 콜라보 포스트에 좋아요를 눌러 보관하세요." button="둘러보기" onButton={() => navigate("/board")} />
+          <EmptyState noIcon title="좋아요한 포스트가 없어요" subtitle="마음에 드는 콜라보 포스트에 좋아요를 눌러 보관하세요." button="둘러보기" onButton={() => navigate("/board")} />
         ))}
 
         {activeTab === "playlists" && (playlists.length ? (
@@ -116,7 +116,7 @@ export default function MobileLibrary({ likedSongs = [], posts = [], playlists =
             {playlists.map(pl => <PlaylistItem key={pl.id} pl={pl} onClick={() => navigate(`/playlist/${pl.id}`)} />)}
           </div>
         ) : (
-          <EmptyState Icon={ListIcon} title="플레이리스트가 없어요" subtitle="좋아하는 트랙을 모아 나만의 흐름을 만들어요." button="플레이리스트 만들기" onButton={onCreatePlaylist} />
+          <EmptyState noIcon title="플레이리스트가 없어요" subtitle="좋아하는 트랙을 모아 나만의 흐름을 만들어요." button="플레이리스트 만들기" onButton={onCreatePlaylist} />
         ))}
       </div>
 
