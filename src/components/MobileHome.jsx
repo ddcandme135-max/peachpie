@@ -23,8 +23,8 @@ function Tile({ cover, title, subtitle, onClick }) {
 
 function PositionTile({ cover, label, onClick }) {
   return (
-    <div style={{ flex: "none", width: 150, scrollSnapAlign: "start", cursor: "pointer" }} onClick={onClick}>
-      <div style={{ width: 150, height: 200, borderRadius: 18, overflow: "hidden", position: "relative", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: cover ? "#000" : FALLBACK }}>
+    <div style={{ flex: "none", width: 200, scrollSnapAlign: "start", cursor: "pointer" }} onClick={onClick}>
+      <div style={{ width: 200, height: 266, borderRadius: 20, overflow: "hidden", position: "relative", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: cover ? "#000" : FALLBACK }}>
         {cover && <img loading="eager" decoding="async" src={cover} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 48%)" }} />
         <div style={{ position: "absolute", left: 0, right: 0, bottom: 14, textAlign: "center", fontSize: 18, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff" }}>{label}</div>
