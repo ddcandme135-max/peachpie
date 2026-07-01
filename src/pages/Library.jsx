@@ -3,8 +3,6 @@ import RightSidebar from "../components/RightSidebar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../components/Sidebar";
-import MobileNav from "../components/MobileNav";
-import { useIsMobile } from "../lib/useIsMobile";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
 import { Play, X } from "lucide-react";
@@ -271,8 +269,7 @@ export default function Library() {
     }
   }, [state?.openPlaylistCreate]);
 
-  const isMobile = useIsMobile();
-  const pad = isMobile ? 0 : (isOpen ? 220 : 90);
+  const pad = isOpen ? 220 : 90;
 
   function handlePlaylistCreated(pl) {
     setPlaylists(prev => [{
@@ -301,9 +298,9 @@ export default function Library() {
   return (
     <>
     <div style={{ minHeight: "100vh", background: "#000000", overflowX: "auto" }}>
-      {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />}
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div style={{ paddingLeft: pad, transition: `padding-left ${DURATION} ${EASE}`, minWidth: isMobile ? 0 : 1100, display: "flex", alignItems: "flex-start" }}>
+      <div style={{ paddingLeft: pad, transition: `padding-left ${DURATION} ${EASE}`, minWidth: 1100, display: "flex", alignItems: "flex-start" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
 
         {/* ── Sticky Header ── */}
@@ -419,7 +416,7 @@ export default function Library() {
             </div>
           ) : (
             <div style={{ padding: "12px 24px 80px 12px" }}>
-              <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(auto-fill, 178px)", gap: isMobile ? 14 : 20 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, 178px)", gap: 20 }}>
                 {playlists.map((pl, i) => (
                   <PlaylistCard key={pl.id} pl={pl} i={i} onDelete={deletePlaylist} onNavigate={id => navigate(`/playlist/${id}`)} />
                 ))}
@@ -458,9 +455,8 @@ export default function Library() {
 
 
         </div>{/* flex:1 wrapper */}
-        {!isMobile && <RightSidebar width={320} activeTab={activeTab} />}
+        <RightSidebar width={320} activeTab={activeTab} />
       </div>
-      {isMobile && <MobileNav />}
     </div>
 
     {playlistModalOpen && (

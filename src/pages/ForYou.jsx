@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "../components/Sidebar";
 import RightSidebar from "../components/RightSidebar";
-import MobileNav from "../components/MobileNav";
-import { useIsMobile } from "../lib/useIsMobile";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
 import { supabase } from "../lib/supabase";
@@ -52,8 +50,7 @@ export default function ForYou() {
   const { i18n } = useTranslation();
   const lang = i18n.language?.slice(0, 2) ?? "en";
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-  const pad = isMobile ? 0 : (isOpen ? 220 : 90);
+  const pad = isOpen ? 220 : 90;
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -88,10 +85,10 @@ export default function ForYou() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
-      {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />}
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, display: "flex", alignItems: "flex-start", minWidth: isMobile ? 0 : 900 }}>
-        <main style={{ flex: 1, minWidth: 0, paddingBottom: isMobile ? 80 : 96 }}>
+      <div style={{ marginLeft: pad, transition: `margin-left ${DURATION} ${EASE}`, display: "flex", alignItems: "flex-start", minWidth: 900 }}>
+        <main style={{ flex: 1, minWidth: 0, paddingBottom: 96 }}>
 
           <div style={{ position: "sticky", top: 0, zIndex: 20, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(22px) saturate(150%)", WebkitBackdropFilter: "blur(22px) saturate(150%)" }}>
             <div style={{ padding: "20px 24px 14px 16px", display: "flex", alignItems: "center", gap: 14 }}>
@@ -103,7 +100,7 @@ export default function ForYou() {
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m12 5-7 7 7 7"/></svg>
               </button>
-              <h1 style={{ margin: 0, fontSize: isMobile ? 20 : 26, fontWeight: 900, letterSpacing: "-0.03em" }}>{title}</h1>
+              <h1 style={{ margin: 0, fontSize: 26, fontWeight: 900, letterSpacing: "-0.03em" }}>{title}</h1>
             </div>
           </div>
 
@@ -145,9 +142,8 @@ export default function ForYou() {
           </div>
         </main>
 
-        {!isMobile && <RightSidebar width={320} activeTab="songs" page="for-you" />}
+        <RightSidebar width={320} activeTab="songs" page="for-you" />
       </div>
-      {isMobile && <MobileNav />}
     </div>
   );
 }
