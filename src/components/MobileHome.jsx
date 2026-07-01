@@ -103,7 +103,7 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
       {/* floating dock */}
       <div style={{ position: "fixed", left: 12, right: 12, bottom: 14, zIndex: 100, display: "flex", flexDirection: "column", gap: 12 }}>
         {currentTrack && (
-          <div style={{ display: "flex", alignItems: "center", gap: 12, height: 60, padding: "0 14px 0 10px", borderRadius: 20, ...GLASS }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, height: 60, padding: "0 14px 0 10px", borderRadius: 28, ...GLASS }}>
             <div style={{ width: 42, height: 42, borderRadius: 9, flex: "none", overflow: "hidden", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)", background: currentTrack.cover_url ? "#000" : FALLBACK }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
               {currentTrack.cover_url && <img src={currentTrack.cover_url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
@@ -123,7 +123,7 @@ export default function MobileHome({ avatarUrl, featured = [], recent = [] }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 22, ...GLASS }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 30, ...GLASS }}>
           {tabs.map(tab => {
             const active = pathname === tab.to;
             return (
