@@ -11,23 +11,32 @@ const ACCENT = "#FC3C44";
 const GLASS = { background: "rgba(30,30,34,0.45)", backdropFilter: "blur(32px) saturate(180%)", WebkitBackdropFilter: "blur(32px) saturate(180%)", boxShadow: "0 12px 36px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.14), inset 0 1px 1px rgba(255,255,255,0.12)" };
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 
-// CD 디스크 썸네일 — 170px(박스 174) 기준 마스크 반지름을 크기에 비례 스케일
-function CDCover({ cover, size }) {
-  const ms = (size + 4) / 174;
-  const coverMask = `radial-gradient(circle at 50% 49.8%, transparent ${19 * ms}px, black ${20 * ms}px), radial-gradient(circle at 50% 49.8%, black, black ${82 * ms}px, transparent ${85 * ms}px)`;
+const COVER_MASK = "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)";
+const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)";
+
+// CD 디스크 썸네일 — 170px 원본을 그대로 scale로 축소(테두리·그림자까지 정확히 비례)
+// spinning: 회전(중첩 래퍼 — 회전 래퍼 안에 스케일 래퍼, transform 충돌 방지)
+function CDCover({ cover, size, spinning }) {
+  const k = size / 170;
+  // spinning === undefined → 회전 없음(정적 타일). true/false → 재생 중이면 회전, 정지 시 그 자리 멈춤.
+  const spinStyle = spinning === undefined ? null : { animation: "mhspin 3.5s linear infinite", animationPlayState: spinning ? "running" : "paused" };
   return (
     <div style={{ width: size, height: size, position: "relative", flex: "none" }}>
-      <img loading="eager" decoding="async" src={cdImg} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", zIndex: 1 }} />
-      {cover && (
-        <div style={{
-          position: "absolute", inset: "-2px", zIndex: 2,
-          backgroundImage: `url(${cover})`, backgroundSize: "95.5%", backgroundPosition: "center",
-          WebkitMaskImage: coverMask, WebkitMaskComposite: "source-in, source-over",
-          maskImage: coverMask, maskComposite: "intersect, add",
-        }} />
-      )}
-      <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none", borderRadius: "50%", background: "radial-gradient(circle closest-side, transparent 97.5%, rgba(200,210,230,0.25) 98.5%, rgba(160,170,195,0.15) 100%)" }} />
-      <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", borderRadius: "50%", overflow: "hidden", boxShadow: "inset 0 0 0 1.5px rgba(255,255,255,0.3), inset 0 0 8px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(255,255,255,0.1)", WebkitMaskImage: "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)", maskImage: "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)" }} />
+      <div style={{ position: "absolute", inset: 0, ...spinStyle }}>
+        <div style={{ position: "absolute", top: 0, left: 0, width: 170, height: 170, transform: `scale(${k})`, transformOrigin: "top left" }}>
+          <img loading="eager" decoding="async" src={cdImg} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", zIndex: 1 }} />
+          {cover && (
+            <div style={{
+              position: "absolute", inset: "-2px", zIndex: 2,
+              backgroundImage: `url(${cover})`, backgroundSize: "95.5%", backgroundPosition: "center",
+              WebkitMaskImage: COVER_MASK, WebkitMaskComposite: "source-in, source-over",
+              maskImage: COVER_MASK, maskComposite: "intersect, add",
+            }} />
+          )}
+          <div style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none", borderRadius: "50%", background: "radial-gradient(circle closest-side, transparent 97.5%, rgba(200,210,230,0.25) 98.5%, rgba(160,170,195,0.15) 100%)" }} />
+          <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", borderRadius: "50%", overflow: "hidden", boxShadow: "inset 0 0 0 1.5px rgba(255,255,255,0.3), inset 0 0 8px rgba(0,0,0,0.4), inset 0 -1px 2px rgba(255,255,255,0.1)", WebkitMaskImage: RING_MASK, maskImage: RING_MASK }} />
+        </div>
+      </div>
     </div>
   );
 }
@@ -135,7 +144,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
           <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, ...GLASS }}>
             <div style={{ flex: "none", cursor: "pointer" }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
-              <CDCover cover={currentTrack.cover_url} size={42} />
+              <CDCover cover={currentTrack.cover_url} size={42} spinning={isPlaying} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 13.5, fontWeight: 600, letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTrack.title}</div>
@@ -170,9 +179,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
           </div>
           {currentTrack && collapsed && (
             <button onClick={() => setCollapsed(false)} aria-label="플레이어 펼치기" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", ...GLASS }}>
-              <div style={{ animation: "mhspin 3.5s linear infinite", animationPlayState: isPlaying ? "running" : "paused", lineHeight: 0 }}>
-                <CDCover cover={currentTrack.cover_url} size={52} />
-              </div>
+              <CDCover cover={currentTrack.cover_url} size={52} spinning={isPlaying} />
             </button>
           )}
         </div>
