@@ -88,7 +88,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
 
   return (
     <div style={{ minHeight: "100dvh", background: "#000", color: "#fff", fontFamily: "inherit" }}>
-      <style>{`.mh-rail::-webkit-scrollbar{display:none}`}</style>
+      <style>{`.mh-rail::-webkit-scrollbar{display:none}@keyframes mhspin{to{transform:rotate(360deg)}}`}</style>
 
       <div style={{ overflowY: "auto", padding: "0 0 190px", minHeight: "100dvh" }}>
         {/* header */}
@@ -153,19 +153,28 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 30, ...GLASS }}>
-          {tabs.map(tab => {
-            const active = pathname === tab.to;
-            return (
-              <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: active ? ACCENT : "#fff" }}>
-                <span style={{ position: "relative", display: "grid", placeItems: "center" }}>
-                  <tab.Icon size={24} strokeWidth={2} />
-                  {tab.badge && <span style={{ position: "absolute", top: -2, right: -4, width: 7, height: 7, borderRadius: 999, background: ACCENT, boxShadow: "0 0 0 2px rgba(28,28,30,0.9)" }} />}
-                </span>
-                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "-0.02em" }}>{tab.label}</span>
-              </button>
-            );
-          })}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "space-around", height: 66, borderRadius: 30, ...GLASS }}>
+            {tabs.map(tab => {
+              const active = pathname === tab.to;
+              return (
+                <button key={tab.key} onClick={() => navigate(tab.to)} style={{ all: "unset", cursor: "pointer", position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: active ? ACCENT : "#fff" }}>
+                  <span style={{ position: "relative", display: "grid", placeItems: "center" }}>
+                    <tab.Icon size={24} strokeWidth={2} />
+                    {tab.badge && <span style={{ position: "absolute", top: -2, right: -4, width: 7, height: 7, borderRadius: 999, background: ACCENT, boxShadow: "0 0 0 2px rgba(28,28,30,0.9)" }} />}
+                  </span>
+                  <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "-0.02em" }}>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          {currentTrack && collapsed && (
+            <button onClick={() => setCollapsed(false)} aria-label="플레이어 펼치기" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", ...GLASS }}>
+              <div style={{ animation: "mhspin 3.5s linear infinite", animationPlayState: isPlaying ? "running" : "paused", lineHeight: 0 }}>
+                <CDCover cover={currentTrack.cover_url} size={52} />
+              </div>
+            </button>
+          )}
         </div>
       </div>
     </div>
