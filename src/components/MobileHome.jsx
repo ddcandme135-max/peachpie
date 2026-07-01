@@ -33,7 +33,8 @@ function PositionTile({ cover, label, onClick }) {
   );
 }
 
-const railStyle = { display: "flex", gap: 16, overflowX: "auto", padding: "0 24px 4px", scrollSnapType: "x proximity", scrollbarWidth: "none", msOverflowStyle: "none" };
+const GUTTER = 24;
+const railStyle = { display: "flex", gap: 16, overflowX: "auto", paddingLeft: GUTTER, paddingRight: GUTTER, paddingTop: 0, paddingBottom: 4, scrollSnapType: "x proximity", scrollbarWidth: "none", msOverflowStyle: "none", boxSizing: "border-box" };
 
 export default function MobileHome({ avatarUrl, sections = [] }) {
   const navigate = useNavigate();
