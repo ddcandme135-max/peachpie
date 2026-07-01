@@ -76,11 +76,13 @@ export default function MobileLibrary({ likedSongs = [], posts = [], playlists =
       <style>{`.ml-scroll::-webkit-scrollbar{display:none}`}</style>
 
       {/* header */}
-      <div style={{ flex: "none", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 12px" }}>
+      <div style={{ flex: "none", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 26px" }}>
         <span style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>라이브러리</span>
-        <button onClick={onCreatePlaylist} aria-label="새 플레이리스트" style={{ all: "unset", cursor: "pointer", width: 42, height: 42, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
-        </button>
+        {activeTab === "playlists" && (
+          <button onClick={onCreatePlaylist} aria-label="새 플레이리스트" style={{ all: "unset", cursor: "pointer", width: 42, height: 42, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+          </button>
+        )}
       </div>
 
       {/* section tabs */}
