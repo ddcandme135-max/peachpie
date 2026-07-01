@@ -8,7 +8,7 @@ import cdImg from "../assets/_-removebg-preview.png";
 
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
 const ACCENT = "#FC3C44";
-const GLASS = { background: "rgba(30,30,34,0.45)", backdropFilter: "blur(32px) saturate(180%)", WebkitBackdropFilter: "blur(32px) saturate(180%)", boxShadow: "0 12px 36px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.14), inset 0 1px 1px rgba(255,255,255,0.12)" };
+const GLASS = { background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) saturate(200%)", WebkitBackdropFilter: "blur(30px) saturate(200%)", boxShadow: "0 12px 36px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 1px rgba(255,255,255,0.16)" };
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 
 const COVER_MASK = "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)";
@@ -141,7 +141,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
       {/* floating dock */}
       <div style={{ position: "fixed", left: 12, right: 12, bottom: 14, zIndex: 100, display: "flex", flexDirection: "column", gap: 12 }}>
         {currentTrack && !collapsed && (
-          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) saturate(200%)", WebkitBackdropFilter: "blur(30px) saturate(200%)", boxShadow: "0 12px 36px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 1px rgba(255,255,255,0.16)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, ...GLASS }}>
             <div style={{ flex: "none", cursor: "pointer" }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
               <CDCover cover={currentTrack.cover_url} size={42} spinning={isPlaying} />
