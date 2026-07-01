@@ -1227,7 +1227,11 @@ export default function Home() {
   );
 
   if (isMobile) {
-    return <MobileHome avatarUrl={profile?.avatar_url ?? null} sections={sections} />;
+    const mobileSections = [
+      { title: "Collabo", type: "positions", route: "/board", cards: POSITIONS.map(p => ({ id: p.key, key: p.key, title: p.label, cover_url: p.img })) },
+      ...sections.filter(s => s.type !== "collabo"),
+    ];
+    return <MobileHome avatarUrl={profile?.avatar_url ?? null} sections={mobileSections} />;
   }
 
   return (

@@ -35,7 +35,8 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
   }
 
   function onCard(t, sec) {
-    if (sec.type === "collabo") navigate(`/project/${t.id}`, { state: { project: t } });
+    if (sec.type === "positions") navigate(`/position/${t.key.toLowerCase().replace(/\s/g, "-")}`);
+    else if (sec.type === "collabo") navigate(`/project/${t.id}`, { state: { project: t } });
     else play(t, sec.cards);
   }
 
