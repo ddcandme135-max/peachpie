@@ -86,7 +86,7 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
           <div key={s.key} style={{ display: "contents" }}>
             <button onClick={() => setActiveTab(s.key)} style={{ all: "unset", cursor: "pointer", position: "relative", padding: "0 0 13px", display: "flex", alignItems: "center", fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: activeTab === s.key ? "#fff" : "rgba(255,255,255,0.5)" }}>
               {s.label}
-              {activeTab === s.key && <span style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 3, borderRadius: 2, background: ACCENT }} />}
+              {activeTab === s.key && <span style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", bottom: -1, width: 22, height: 3, borderRadius: 2, background: ACCENT }} />}
             </button>
             {i < segs.length - 1 && <span style={{ flex: 1 }} />}
           </div>
