@@ -99,7 +99,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
     <div style={{ minHeight: "100dvh", background: "#000", color: "#fff", fontFamily: "inherit" }}>
       <style>{`.mh-rail::-webkit-scrollbar{display:none}@keyframes mhspin{to{transform:rotate(360deg)}}`}</style>
 
-      <div style={{ overflowY: "auto", padding: "0 0 190px", minHeight: "100dvh" }}>
+      <div style={{ overflowY: "auto", padding: "0 0 150px", minHeight: "100dvh" }}>
         {/* header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 8px" }}>
           <span style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>홈</span>
@@ -141,7 +141,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
       {/* floating dock */}
       <div style={{ position: "fixed", left: 12, right: 12, bottom: 14, zIndex: 100, display: "flex", flexDirection: "column", gap: 12 }}>
         {currentTrack && !collapsed && (
-          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, ...GLASS }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, background: "rgba(40,40,48,0.28)", backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)", boxShadow: "0 12px 36px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.16), inset 0 1px 1px rgba(255,255,255,0.14)" }}>
             <div style={{ flex: "none", cursor: "pointer" }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
               <CDCover cover={currentTrack.cover_url} size={42} spinning={isPlaying} />
