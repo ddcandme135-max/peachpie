@@ -141,7 +141,7 @@ export default function MobileHome({ avatarUrl, sections = [] }) {
       {/* floating dock */}
       <div style={{ position: "fixed", left: 12, right: 12, bottom: 14, zIndex: 100, display: "flex", flexDirection: "column", gap: 12 }}>
         {currentTrack && !collapsed && (
-          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, background: "rgba(40,40,48,0.28)", backdropFilter: "blur(24px) saturate(180%)", WebkitBackdropFilter: "blur(24px) saturate(180%)", boxShadow: "0 12px 36px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.16), inset 0 1px 1px rgba(255,255,255,0.14)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) saturate(200%)", WebkitBackdropFilter: "blur(30px) saturate(200%)", boxShadow: "0 12px 36px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 1px rgba(255,255,255,0.16)" }}>
             <div style={{ flex: "none", cursor: "pointer" }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
               <CDCover cover={currentTrack.cover_url} size={42} spinning={isPlaying} />
