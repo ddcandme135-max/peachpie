@@ -104,7 +104,7 @@ export default function MobileHome({ avatarUrl, username, sections = [] }) {
         {/* header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 24px 8px" }}>
           <span style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-0.03em" }}>홈</span>
-          <button onClick={() => navigate("/artist")} style={{ all: "unset", cursor: "pointer", width: 52, height: 52, borderRadius: 999, overflow: "hidden", flex: "none", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)", background: avatarUrl ? "#000" : loggedIn ? "linear-gradient(135deg,#FC3C44,#7c2d12)" : "linear-gradient(135deg,#3a3a44,#15151b)", display: "grid", placeItems: "center" }}>
+          <button onClick={() => navigate("/artist")} style={{ all: "unset", cursor: "pointer", width: 49, height: 49, borderRadius: 999, overflow: "hidden", flex: "none", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.1)", background: avatarUrl ? "#000" : loggedIn ? "linear-gradient(135deg,#FC3C44,#7c2d12)" : "linear-gradient(135deg,#3a3a44,#15151b)", display: "grid", placeItems: "center" }}>
             {avatarUrl
               ? <img src={avatarUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               : loggedIn
