@@ -40,10 +40,11 @@ function PostRow({ p, onClick, first }) {
   );
 }
 
-export default function MobileSearch({ inputVal, setInputVal, activeTab, setActiveTab, music = [], artists = [], posts = [], playTrack }) {
+export default function MobileSearch({ inputVal, setInputVal, activeTab, setActiveTab, music = [], artists = [], posts = [], query = "", playTrack }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { unreadCount } = useApp() ?? {};
+  const hasQuery = !!query.trim();
 
   const segs = [
     { key: "song", label: "Music", count: music.length },
@@ -93,16 +94,16 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
         {activeTab === "song" && (music.length ? music.map((m, i) => (
           <RankRow key={m.id ?? i} rank={i + 1} cover={m.cover_url} title={m.title} subtitle={m.artist}
             onClick={() => playTrack?.({ id: m.id, title: m.title, artist: m.artist, author_id: m.author_id, cover_url: m.cover_url, audio_url: m.audio_url }, music)} />
-        )) : <Empty />)}
+        )) : <Empty hasQuery={hasQuery} />)}
 
         {activeTab === "artist" && (artists.length ? artists.map((a, i) => (
           <RankRow key={a.supabaseId ?? i} rank={i + 1} round cover={a.avatar_url || a.gradient} title={a.name} subtitle={a.id}
             onClick={() => a.supabaseId && navigate(`/profile/${a.supabaseId}`)} />
-        )) : <Empty />)}
+        )) : <Empty hasQuery={hasQuery} />)}
 
         {activeTab === "project" && (posts.length ? posts.map((p, i) => (
           <PostRow key={p.id ?? i} p={p} first={i === 0} onClick={() => p.id && navigate(`/post/${p.id}`)} />
-        )) : <Empty />)}
+        )) : <Empty hasQuery={hasQuery} />)}
       </div>
 
       {/* bottom tab bar */}
@@ -126,6 +127,6 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
   );
 }
 
-function Empty() {
-  return <div style={{ padding: "40px 0", textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: 14 }}>검색 결과가 없어요</div>;
+function Empty({ hasQuery }) {
+  return <div style={{ padding: "40px 0", textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: 14 }}>{hasQuery ? "검색 결과가 없어요" : "검색어를 입력해보세요"}</div>;
 }

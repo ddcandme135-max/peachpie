@@ -277,7 +277,7 @@ export default function SearchResults() {
         inputVal={inputVal} setInputVal={setInputVal}
         activeTab={activeTab} setActiveTab={setActiveTab}
         music={music} artists={artists} posts={posts}
-        playTrack={playTrack}
+        query={q} playTrack={playTrack}
       />
     );
   }
