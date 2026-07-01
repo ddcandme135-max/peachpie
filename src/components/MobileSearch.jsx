@@ -80,9 +80,8 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
       <nav style={{ flex: "none", display: "flex", alignItems: "center", padding: "0 24px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         {segs.map((s, i) => (
           <div key={s.key} style={{ display: "contents" }}>
-            <button onClick={() => setActiveTab(s.key)} style={{ all: "unset", cursor: "pointer", position: "relative", padding: "0 0 13px", display: "flex", alignItems: "center", gap: 7, fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: activeTab === s.key ? "#fff" : "rgba(255,255,255,0.5)" }}>
+            <button onClick={() => setActiveTab(s.key)} style={{ all: "unset", cursor: "pointer", position: "relative", padding: "0 0 13px", display: "flex", alignItems: "center", fontSize: 16, fontWeight: 700, letterSpacing: "-0.02em", color: activeTab === s.key ? "#fff" : "rgba(255,255,255,0.5)" }}>
               {s.label}
-              {s.count > 0 && <span style={{ fontSize: 12.5, fontWeight: 600, color: activeTab === s.key ? ACCENT : "rgba(255,255,255,0.35)", fontVariantNumeric: "tabular-nums" }}>{s.count}</span>}
               {activeTab === s.key && <span style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 3, borderRadius: 2, background: ACCENT }} />}
             </button>
             {i < segs.length - 1 && <span style={{ flex: 1 }} />}
