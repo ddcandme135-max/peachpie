@@ -1277,24 +1277,26 @@ export default function Chat() {
           onClick={() => { setComposeOpen(false); setComposeQuery(""); setComposeResults([]); }}
           style={{
             position: "fixed", inset: 0, zIndex: 200,
-            background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)",
-            display: "flex", alignItems: "center", justifyContent: "center",
+            background: isMobile ? "#000" : "rgba(0,0,0,0.6)", backdropFilter: isMobile ? "none" : "blur(4px)",
+            display: "flex", alignItems: isMobile ? "stretch" : "center", justifyContent: isMobile ? "stretch" : "center",
             animation: "fadeIn 150ms ease both",
           }}
         >
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              width: isMobile ? "calc(100vw - 32px)" : 420, maxWidth: 420, background: "#1a1a2e",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 16, overflow: "hidden",
-              boxShadow: "0 24px 64px rgba(0,0,0,0.8)",
-              animation: "slideUp 200ms ease both",
+              width: isMobile ? "100vw" : 420, maxWidth: isMobile ? "none" : 420, height: isMobile ? "100dvh" : "auto",
+              display: "flex", flexDirection: "column",
+              background: isMobile ? "#000" : "#1a1a2e",
+              border: isMobile ? "none" : "1px solid rgba(255,255,255,0.1)",
+              borderRadius: isMobile ? 0 : 16, overflow: "hidden",
+              boxShadow: isMobile ? "none" : "0 24px 64px rgba(0,0,0,0.8)",
+              animation: isMobile ? "none" : "slideUp 200ms ease both",
             }}
           >
             {/* 모달 헤더 */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 20px 16px" }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{t("chat.newMessage")}</div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: isMobile ? "calc(env(safe-area-inset-top) + 18px) 20px 16px" : "20px 20px 16px" }}>
+              <div style={{ fontSize: isMobile ? 20 : 16, fontWeight: 700, color: "#fff" }}>{t("chat.newMessage")}</div>
               <button
                 onClick={() => { setComposeOpen(false); setComposeQuery(""); setComposeResults([]); }}
                 style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", display: "flex" }}
@@ -1333,7 +1335,7 @@ export default function Chat() {
             </div>
 
             {/* 검색 결과 / 기본 추천 */}
-            <div style={{ maxHeight: 300, overflowY: "auto", padding: "0 12px 16px" }}>
+            <div style={{ maxHeight: isMobile ? "none" : 300, flex: isMobile ? 1 : "none", overflowY: "auto", padding: "0 12px 16px" }}>
               {composeResults.length === 0 && composeQuery.trim() && !composeSearching && (
                 <div style={{ textAlign: "center", color: "rgba(255,255,255,0.25)", fontSize: 13, paddingTop: 24 }}>{t("chat.noResults")}</div>
               )}
