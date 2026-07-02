@@ -1427,26 +1427,26 @@ export default function Chat() {
               </div>
             ) : convos.filter(c => !convSearch.trim() || c.name?.toLowerCase().includes(convSearch.trim().toLowerCase())).map(c => (
               <div key={c.id} onClick={() => openConvo(c.id)}
-                style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 16px", borderRadius: 8, cursor: "pointer", background: activeId === c.id ? "rgba(255,255,255,0.06)" : "transparent", transition: "background 120ms ease" }}
+                style={{ display: "flex", alignItems: "center", gap: 12, padding: isMobile ? "0 16px" : "8px 16px", borderRadius: 8, cursor: "pointer", background: activeId === c.id ? "rgba(255,255,255,0.06)" : "transparent", transition: "background 120ms ease" }}
                 onMouseEnter={e => { if (activeId !== c.id) e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
                 onMouseLeave={e => { if (activeId !== c.id) e.currentTarget.style.background = "transparent"; }}
               >
                 <div onClick={isMobile ? undefined : (e => { e.stopPropagation(); c.supabaseId ? navigate(`/profile/${c.supabaseId}`) : navigate("/artist", { state: { name: c.name } }); })} style={{ cursor: "pointer" }}>
                   <Av av={c.av} size={56} online={c.online} avatarUrl={c.avatarUrl} />
                 </div>
-                <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 3 }}>
-                  <div style={{ fontSize: 14.5, fontWeight: c.unread ? 700 : 600, color: "#fff" }}>{c.name}</div>
-                  <div style={{ fontSize: 13, color: c.unread ? "#fff" : "rgba(255,255,255,0.5)", fontWeight: c.unread ? 600 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-       
-       {c.lastSentByMe
-  ? `${t("chat.youPrefix")} ${toPreviewText(c.preview)}`
-  : toPreviewText(c.preview)}
-
+                <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 12, ...(isMobile ? { borderBottom: "1px solid rgba(255,255,255,0.08)", paddingTop: 10, paddingBottom: 10 } : null) }}>
+                  <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 3 }}>
+                    <div style={{ fontSize: 14.5, fontWeight: c.unread ? 700 : 600, color: "#fff" }}>{c.name}</div>
+                    <div style={{ fontSize: 13, color: c.unread ? "#fff" : "rgba(255,255,255,0.5)", fontWeight: c.unread ? 600 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {c.lastSentByMe
+                        ? `${t("chat.youPrefix")} ${toPreviewText(c.preview)}`
+                        : toPreviewText(c.preview)}
+                    </div>
                   </div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
-                  <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)" }}>{getTimeAgo(c.time)}</div>
-                  {c.unread && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#FC3C44", boxShadow: "0 0 8px rgba(252,60,68,0.5)" }} />}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
+                    <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.4)" }}>{getTimeAgo(c.time)}</div>
+                    {c.unread && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#FC3C44", boxShadow: "0 0 8px rgba(252,60,68,0.5)" }} />}
+                  </div>
                 </div>
               </div>
             ))}
