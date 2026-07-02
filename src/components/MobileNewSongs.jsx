@@ -6,9 +6,10 @@ import { ml } from "../lib/ml";
 // 모바일 New Songs — 데스크톱과 동일하게 음원을 세로 리스트로 표시
 function Row({ s, isMe, onEdit, onDelete, onShare, onPlay, divider }) {
   return (
-    <div style={{ borderBottom: divider ? "1px solid rgba(255,255,255,0.1)" : "none" }}>
-      <div onClick={onPlay} style={{ display: "flex", alignItems: "center", gap: 13, padding: "11px 0", cursor: "pointer" }}>
-        <CDCover cover={s.cover_url || null} size={52} />
+    <div onClick={onPlay} style={{ display: "flex", alignItems: "center", gap: 13, cursor: "pointer" }}>
+      <CDCover cover={s.cover_url || null} size={52} />
+      {/* 구분선은 썸네일 이후부터 표시(썸네일 아래로는 안 지나감) */}
+      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 12, padding: "11px 0", borderBottom: divider ? "1px solid rgba(255,255,255,0.1)" : "none" }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
             <span style={{ fontSize: 15.5, fontWeight: 600, letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: "#fff" }}>{s.title}</span>
@@ -16,9 +17,6 @@ function Row({ s, isMe, onEdit, onDelete, onShare, onPlay, divider }) {
           </div>
           <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.5)", marginTop: 3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{s.artist}</div>
         </div>
-        {s.duration && s.duration !== "—" && (
-          <span style={{ flex: "none", fontSize: 12.5, color: "rgba(255,255,255,0.35)", fontVariantNumeric: "tabular-nums" }}>{s.duration}</span>
-        )}
         <div onClick={e => e.stopPropagation()} style={{ flex: "none", display: "grid", placeItems: "center" }}>
           <SongActionMenu s={s} isMe={isMe} onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
         </div>
