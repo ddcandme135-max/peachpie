@@ -1429,7 +1429,7 @@ export default function Chat() {
                 onMouseEnter={e => { if (activeId !== c.id) e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
                 onMouseLeave={e => { if (activeId !== c.id) e.currentTarget.style.background = "transparent"; }}
               >
-                <div onClick={e => { e.stopPropagation(); c.supabaseId ? navigate(`/profile/${c.supabaseId}`) : navigate("/artist", { state: { name: c.name } }); }} style={{ cursor: "pointer" }}>
+                <div onClick={isMobile ? undefined : (e => { e.stopPropagation(); c.supabaseId ? navigate(`/profile/${c.supabaseId}`) : navigate("/artist", { state: { name: c.name } }); })} style={{ cursor: "pointer" }}>
                   <Av av={c.av} size={56} online={c.online} avatarUrl={c.avatarUrl} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 3 }}>
