@@ -70,7 +70,7 @@ function MobileDockGate() {
     return () => window.removeEventListener("chat-thread-open", h);
   }, []);
   const onChat = pathname === "/chat";
-  const show = isMobile && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library" || (onChat && !chatThreadOpen));
+  const show = isMobile && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library" || pathname === "/new-songs" || (onChat && !chatThreadOpen));
   if (!show) return null;
   return <MobileDock />;
 }
@@ -79,7 +79,7 @@ function ConditionalMiniPlayer() {
   const { pathname } = useLocation();
   const { currentTrack, sidebarPlayer } = usePlayer();
   // 모바일 홈/검색은 자체 플로팅 독(미니 플레이어)을 렌더하므로 전역 미니플레이어 숨김
-  const isMobileDock = typeof window !== "undefined" && window.innerWidth < 768 && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library");
+  const isMobileDock = typeof window !== "undefined" && window.innerWidth < 768 && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library" || pathname === "/new-songs");
   const hiddenRoute = isMobileDock || pathname === "/chat" || pathname === "/admin" || /^\/(track|song|collabo|project)\//.test(pathname);
   const visible = !hiddenRoute && !!currentTrack && !sidebarPlayer;
   useEffect(() => {
