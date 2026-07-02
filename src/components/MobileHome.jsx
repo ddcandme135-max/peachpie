@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
@@ -7,11 +7,33 @@ import cdImg from "../assets/_-removebg-preview.png";
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 const SPIN_DUR = 3.5; // CD 회전 주기(초)
-const SPIN_START = Date.now(); // 모듈 로드 기준 — 페이지 이동해도 회전 위치 이어짐
-let SPIN_PAUSE_TIME = null; // 마지막으로 정지된 시각(ms) — 정지 각도를 이 시점 기준으로 고정(축소/펼침·이동해도 동일)
-// 재생/정지 전환 시 dock에서 호출 → 정지 각도 기준 시각 관리
-export function markSpinPlaying() { SPIN_PAUSE_TIME = null; }
-export function markSpinPaused() { if (SPIN_PAUSE_TIME == null) SPIN_PAUSE_TIME = Date.now(); }
+
+// --- CD 회전 엔진 ---------------------------------------------------------
+// 단일 공용 각도(spinAngle) 하나만 존재. 재생 중일 때만 rAF로 각도를 증가시켜
+// 등록된 모든 CD 노드의 transform에 직접 적용(React 리렌더/CSS delay 개입 없음).
+//  · 정지 → 루프 정지, 각도 그대로 = 그 자리에서 멈춤(리셋/점프 없음)
+//  · 새로 마운트 → 등록 즉시 현재 각도 적용 = 축소/펼침·페이지 이동해도 위치 동일
+const DEG_PER_MS = 360 / (SPIN_DUR * 1000);
+let spinAngle = 0, spinLast = 0, spinPlaying = false, spinRaf = null;
+const spinNodes = new Set();
+function applySpin() { const t = `rotate(${spinAngle}deg)`; spinNodes.forEach(n => { n.style.transform = t; }); }
+function spinFrame(now) {
+  if (!spinPlaying) { spinRaf = null; return; }
+  if (spinLast) spinAngle = (spinAngle + (now - spinLast) * DEG_PER_MS) % 360;
+  spinLast = now; applySpin();
+  spinRaf = requestAnimationFrame(spinFrame);
+}
+export function setSpinPlaying(v) {
+  if (v === spinPlaying) return;
+  spinPlaying = v;
+  if (v) { spinLast = 0; if (spinRaf == null) spinRaf = requestAnimationFrame(spinFrame); }
+}
+function registerSpinNode(n) {
+  if (!n) return () => {};
+  spinNodes.add(n);
+  n.style.transform = `rotate(${spinAngle}deg)`; // 마운트 즉시 현재 각도 적용
+  return () => spinNodes.delete(n);
+}
 
 const COVER_MASK = "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)";
 const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)";
@@ -20,21 +42,16 @@ const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 1
 // spinning: 회전(중첩 래퍼 — 회전 래퍼 안에 스케일 래퍼, transform 충돌 방지)
 export function CDCover({ cover, size, spinning }) {
   const k = size / 170;
-  // 재생 delay: 마운트 시 1회 계산(SPIN_START 연속 동기화 → 재렌더로 애니메이션 재시작 방지)
-  const playDelay = useMemo(() => -(((Date.now() - SPIN_START) / 1000) % SPIN_DUR), []);
-  const mountSpinning = useMemo(() => spinning, []); // 최초 마운트 시 재생 여부
-  // undefined면 정적 타일. 재생 중이면 회전. 정지 시:
-  //  - 재생 중 마운트된 요소는 자기 delay 유지 → play-state만 멈춰서 그 자리에 정확히 멈춤(점프 없음)
-  //  - 정지 상태에서 새로 마운트된 요소(축소/펼침·페이지 이동)는 정지 시각 기준 → 각도 동일(둘은 같은 각도)
-  let spinStyle = null;
-  if (spinning !== undefined) {
-    const pauseDelay = mountSpinning ? playDelay : -((((SPIN_PAUSE_TIME ?? Date.now()) - SPIN_START) / 1000) % SPIN_DUR);
-    const delay = spinning ? playDelay : pauseDelay;
-    spinStyle = { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationPlayState: spinning ? "running" : "paused", animationDelay: `${delay}s` };
-  }
+  // spinning !== undefined면 회전 엔진에 연결(공용 각도 적용). undefined면 정적 타일(0도).
+  const active = spinning !== undefined;
+  const spinRef = useRef(null);
+  useEffect(() => {
+    if (!active) return;
+    return registerSpinNode(spinRef.current);
+  }, [active]);
   return (
     <div style={{ width: size, height: size, position: "relative", flex: "none" }}>
-      <div style={{ position: "absolute", inset: 0, ...spinStyle }}>
+      <div ref={spinRef} style={{ position: "absolute", inset: 0, willChange: active ? "transform" : undefined }}>
         <div style={{ position: "absolute", top: 0, left: 0, width: 170, height: 170, transform: `scale(${k})`, transformOrigin: "top left" }}>
           <img loading="eager" decoding="async" src={cdImg} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", zIndex: 1 }} />
           {cover && (
