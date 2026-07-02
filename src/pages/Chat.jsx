@@ -1786,24 +1786,12 @@ export default function Chat() {
 
               {/* composer */}
               <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px 14px", background: "#000000", flexShrink: 0 }}>
-                {/* 이미지 */}
-                <input type="file" accept="image/*" hidden ref={el => { if (el) el._imgRef = true; }} id="chat-img-input" onChange={e => { if (e.target.files[0]) { sendImage(e.target.files[0]); e.target.value = ""; } }} />
-                <button onClick={() => document.getElementById("chat-img-input").click()}
+                {/* 첨부(사진/파일 통합) */}
+                <input type="file" hidden id="chat-attach-input" onChange={e => { const f = e.target.files[0]; if (f) { (f.type.startsWith("image/") ? sendImage(f) : sendFile(f)); e.target.value = ""; } }} />
+                <button onClick={() => document.getElementById("chat-attach-input").click()} aria-label="첨부"
                   style={{ width: 36, height: 36, display: "grid", placeItems: "center", background: "transparent", border: "none", color: "#fff", cursor: "pointer", flexShrink: 0 }}
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>
-                  </svg>
-                </button>
-
-                {/* 파일 */}
-                <input type="file" hidden id="chat-file-input" onChange={e => { if (e.target.files[0]) { sendFile(e.target.files[0]); e.target.value = ""; } }} />
-                <button onClick={() => document.getElementById("chat-file-input").click()}
-                  style={{ width: 36, height: 36, display: "grid", placeItems: "center", background: "transparent", border: "none", color: "#fff", cursor: "pointer", flexShrink: 0 }}
-                >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-                  </svg>
+                  <Plus size={24} />
                 </button>
 
                 <input
