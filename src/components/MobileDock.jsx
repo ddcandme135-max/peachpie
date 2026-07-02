@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Home, Search, Library, MessageCircle, Play, Pause, ChevronDown } from "lucide-react";
@@ -16,8 +16,16 @@ export default function MobileDock() {
   const { t } = useTranslation();
   const { unreadCount } = useApp() ?? {};
   const { currentTrack, isPlaying, togglePlay, playNext } = usePlayer();
-  const [collapsed, setCollapsed] = useState(false);
-  useEffect(() => { setCollapsed(false); }, [currentTrack?.id]);
+  // 축소 상태를 세션에 유지 → 페이지 이동해도 유지. 곡이 실제로 바뀔 때만 펼침.
+  const [collapsed, setCollapsed] = useState(() => sessionStorage.getItem("mp_collapsed") === "1");
+  useEffect(() => { sessionStorage.setItem("mp_collapsed", collapsed ? "1" : "0"); }, [collapsed]);
+  const prevTrackId = useRef(currentTrack?.id);
+  useEffect(() => {
+    if (prevTrackId.current !== currentTrack?.id) {
+      prevTrackId.current = currentTrack?.id;
+      setCollapsed(false);
+    }
+  }, [currentTrack?.id]);
 
   const tabs = [
     { key: "home", label: t("nav.home"), to: "/", Icon: Home },
