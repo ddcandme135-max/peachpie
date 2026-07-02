@@ -1115,7 +1115,7 @@ export default function Chat() {
 
 
   return (
-    <div style={{ minHeight: isMobile ? undefined : "100vh", height: isMobile ? "100dvh" : undefined, background: "#000000", display: "flex", overflowX: "hidden", overflow: isMobile ? "hidden" : undefined }}>
+    <div style={{ ...(isMobile ? { position: "fixed", inset: 0, overflow: "hidden" } : { minHeight: "100vh", overflowX: "hidden" }), background: "#000000", display: "flex" }}>
       {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} showPlayer />}
       {isMobile && !activeId && <MobileDock />}
 
@@ -1385,10 +1385,10 @@ export default function Chat() {
         </div>
       )}
 
-      <div style={{ flex: 1, paddingLeft: isMobile ? 0 : pad, transition: `padding-left ${DURATION} ${EASE}`, display: "flex", height: isMobile ? "100dvh" : "100vh", minWidth: isMobile ? 0 : 900 }}>
+      <div style={{ flex: 1, paddingLeft: isMobile ? 0 : pad, transition: `padding-left ${DURATION} ${EASE}`, display: "flex", height: isMobile ? "100%" : "100vh", minWidth: isMobile ? 0 : 900 }}>
 
         {/* Conversation panel */}
-        <div style={{ width: isMobile ? "100%" : 380, flexShrink: 0, borderRight: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)", display: (isMobile && activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100dvh" : "100vh", paddingLeft: 4 }}>
+        <div style={{ width: isMobile ? "100%" : 380, flexShrink: 0, borderRight: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)", display: (isMobile && activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100%" : "100vh", paddingLeft: 4 }}>
 
           <div style={{ padding: "28px 24px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>{ml("k097")}</div>
@@ -1453,7 +1453,7 @@ export default function Chat() {
         </div>
 
         {/* Chat thread */}
-        <div style={{ flex: 1, display: (isMobile && !activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100dvh" : "100vh", minWidth: 0, position: "relative" }}>
+        <div style={{ flex: 1, display: (isMobile && !activeId) ? "none" : "flex", flexDirection: "column", height: isMobile ? "100%" : "100vh", minWidth: 0, position: "relative" }}>
 
           {activeId === null ? (
             <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
