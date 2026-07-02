@@ -1375,7 +1375,7 @@ export default function Chat() {
                   onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
                   <Av av={AV_KEYS[0]} size={isMobile ? 56 : 38} avatarUrl={p.avatar_url} />
-                  <div style={{ flex: 1, minWidth: 0, ...(isMobile ? { borderBottom: "1px solid rgba(255,255,255,0.15)", paddingTop: 10, paddingBottom: 10 } : null) }}>
+                  <div style={{ flex: 1, minWidth: 0, ...(isMobile ? { borderBottom: "1px solid rgba(255,255,255,0.15)", paddingTop: 14, paddingBottom: 14 } : null) }}>
                     <div style={{ fontSize: 14, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.username ?? p.handle}</div>
                     {p.handle && <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>@{p.handle}</div>}
                   </div>
