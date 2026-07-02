@@ -26,10 +26,10 @@ i18n
       pt: { translation: pt },
       de: { translation: de },
     },
-    fallbackLng: "en",
+    fallbackLng: "ko",
     interpolation: { escapeValue: false },
-    // 사용자가 고른 언어(전용 키) 우선, 없으면 브라우저 언어를 따름. (기존 i18nextLng stale 값 무시)
-    detection: { order: ["localStorage", "navigator"], caches: ["localStorage"], lookupLocalStorage: "peachpie_lang" },
+    // 사용자가 직접 고른 언어(전용 키)만 사용, 없으면 기본 한국어. (기존 i18nextLng stale 값 무시)
+    detection: { order: ["localStorage"], caches: ["localStorage"], lookupLocalStorage: "peachpie_lang" },
     react: {
       bindI18n: "languageChanged loaded",
       bindI18nStore: "added removed",
