@@ -11,6 +11,8 @@ import { supabase } from "../lib/supabase";
 import { TruncTitle } from "./NewSongs";
 import ShareModal from "../components/ShareModal";
 import NewTrackModal from "../components/NewTrackModal";
+import MobileNewSongs from "../components/MobileNewSongs";
+import { useIsMobile } from "../lib/useIsMobile";
 import { ml } from "../lib/ml";
 import { ob } from "../lib/onboardingI18n";
 import { preloadCovers } from "../lib/preloadCovers";
@@ -326,7 +328,8 @@ export default function RecentlyPlayed() {
   const [myId, setMyId]         = useState(null);
   const [editTrack, setEditTrack] = useState(null);
   const [shareData, setShareData] = useState(null);
-  const { recentlyPlayed, playHistory } = usePlayer();
+  const { recentlyPlayed, playHistory, playTrack } = usePlayer();
+  const isMobile = useIsMobile();
   const { i18n } = useTranslation();
   const { showToast } = useToast();
   const lang = i18n.language?.slice(0, 2) ?? "en";
@@ -391,6 +394,36 @@ export default function RecentlyPlayed() {
 
   const showGenre = !isOpen;
   const cols = showGenre ? "68px 1.5fr 1fr 1fr 60px 32px" : "68px 1.5fr 1fr 60px 32px";
+
+  if (isMobile) {
+    return (
+      <>
+        <MobileNewSongs
+          tracks={allTracks} loading={false} myId={myId} playTrack={playTrack}
+          title={ml("k034")} source="recently-played" emptyText={ob("noRecentlyPlayed", lang)}
+          onEdit={s => setEditTrack({ id: s.id, title: s.title, genre: s.genre, cover_url: s.cover_url, audio_url: s.audio_url, audio_name: s.audio_name ?? null, duration: s.duration })}
+          onDelete={async (s) => {
+            const { data: snapshot } = await supabase.from("tracks").select("*").eq("id", s.id).single();
+            await supabase.from("tracks").delete().eq("id", s.id);
+            setTracks(prev => prev.filter(t => t.id !== s.id));
+            showToast(lang === "ko" ? "음원을 삭제했습니다" : "Track deleted", "info", snapshot ? async () => {
+              const { id: _, ...data } = snapshot;
+              const { data: restored } = await supabase.from("tracks").insert({ ...data, id: s.id }).select().single();
+              if (restored) setTracks(prev => [s, ...prev]);
+            } : undefined);
+          }}
+          onShare={s => setShareData({ type: "track", trackId: s.id, title: s.title, coverUrl: s.cover_url, artist: s.artist })}
+        />
+        <ShareModal isOpen={!!shareData} onClose={() => setShareData(null)} shareData={shareData} />
+        <NewTrackModal open={!!editTrack} onClose={() => setEditTrack(null)} editData={editTrack}
+          onSaved={saved => {
+            if (!saved) return;
+            setTracks(prev => prev.map(t => t.id === saved.id ? { ...t, ...saved, genre: parseGenre(saved.genre), duration: parseDur(saved.duration) } : t));
+            setEditTrack(null);
+          }} />
+      </>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>

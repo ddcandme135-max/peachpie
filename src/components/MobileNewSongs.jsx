@@ -25,7 +25,7 @@ function Row({ s, isMe, onEdit, onDelete, onShare, onPlay, divider }) {
   );
 }
 
-export default function MobileNewSongs({ tracks = [], loading, myId, onEdit, onDelete, onShare, onUpload, playTrack }) {
+export default function MobileNewSongs({ tracks = [], loading, myId, onEdit, onDelete, onShare, onUpload, playTrack, title, emptyText = "아직 음원이 없어요", source = "new-songs" }) {
   const navigate = useNavigate();
 
   return (
@@ -38,11 +38,13 @@ export default function MobileNewSongs({ tracks = [], loading, myId, onEdit, onD
           <button onClick={() => navigate(-1)} aria-label="뒤로" style={{ all: "unset", cursor: "pointer", width: 38, height: 38, borderRadius: 12, flex: "none", display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.06)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="m12 5-7 7 7 7" /></svg>
           </button>
-          <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.03em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{ml("k121")}</span>
+          <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.03em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title ?? ml("k121")}</span>
         </div>
-        <button onClick={onUpload} aria-label={ml("k026")} style={{ all: "unset", cursor: "pointer", width: 42, height: 42, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
-        </button>
+        {onUpload && (
+          <button onClick={onUpload} aria-label={ml("k026")} style={{ all: "unset", cursor: "pointer", width: 42, height: 42, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.08)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>
+          </button>
+        )}
       </div>
 
       {/* list */}
@@ -66,13 +68,13 @@ export default function MobileNewSongs({ tracks = [], loading, myId, onEdit, onD
             onDelete={() => onDelete?.(s)}
             onShare={() => onShare?.(s)}
             onPlay={() => {
-              sessionStorage.setItem("playSource", "new-songs");
+              sessionStorage.setItem("playSource", source);
               playTrack?.({ id: s.id, title: s.title, artist: s.artist, cover_url: s.cover_url, audio_url: s.audio_url, grad: s.grad, type: s.type, genre: s.genre, duration: s.duration });
             }}
             divider={i < tracks.length - 1}
           />
         )) : (
-          <div style={{ padding: "60px 0", textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: 14 }}>아직 음원이 없어요</div>
+          <div style={{ padding: "60px 0", textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: 14 }}>{emptyText}</div>
         )}
       </div>
     </div>

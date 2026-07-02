@@ -7,6 +7,8 @@ import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
 import { supabase } from "../lib/supabase";
 import { SongRow } from "./NewSongs";
+import MobileNewSongs from "../components/MobileNewSongs";
+import { useIsMobile } from "../lib/useIsMobile";
 import { fetchForYou } from "../lib/api";
 import { ml } from "../lib/ml";
 import { ob } from "../lib/onboardingI18n";
@@ -46,7 +48,8 @@ export default function ForYou() {
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [myId, setMyId] = useState(null);
-  const { recentlyPlayed } = usePlayer();
+  const { recentlyPlayed, playTrack } = usePlayer();
+  const isMobile = useIsMobile();
   const { i18n } = useTranslation();
   const lang = i18n.language?.slice(0, 2) ?? "en";
   const navigate = useNavigate();
@@ -82,6 +85,16 @@ export default function ForYou() {
 
   const showGenre = !isOpen;
   const title = lang === "ko" ? "추천 음원" : lang === "ja" ? "あなたへのおすすめ" : "For You";
+
+  if (isMobile) {
+    return (
+      <MobileNewSongs
+        tracks={tracks} loading={loading} myId={myId} playTrack={playTrack}
+        title={title} source="for-you"
+        emptyText={lang === "ko" ? "추천할 음원이 없어요" : lang === "ja" ? "おすすめできる音源がありません" : "No recommendations yet"}
+      />
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
