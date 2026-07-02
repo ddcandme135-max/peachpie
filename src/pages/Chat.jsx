@@ -1342,11 +1342,12 @@ export default function Chat() {
               {(composeQuery.trim() ? composeResults : defaultUsers).map(p => (
                 <div
                   key={p.id}
-                  onClick={() => {
+                  onClick={async () => {
                     setComposeOpen(false);
                     setComposeQuery("");
                     setComposeResults([]);
-                    const myId = myIdRef.current;
+                    let myId = myIdRef.current;
+                    if (!myId) { const { data: { session } } = await supabase.auth.getSession(); myId = session?.user?.id; }
                     if (!myId) return;
                     const convId = [myId, p.id].sort().join("_");
                     const existing = convosRef.current.find(c => c.conversationId === convId || c.supabaseId === p.id);
