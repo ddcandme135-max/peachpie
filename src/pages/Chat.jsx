@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { CDPlayer } from "./CollabFeed";
 import { useNavigate, useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import MobileDock from "../components/MobileDock";
 import { useIsMobile } from "../lib/useIsMobile";
 import AttachMenu from "../components/AttachMenu";
 import { Plus, Smile, Mic, Send, X, Paperclip, PencilLine, CornerUpLeft } from "lucide-react";
@@ -254,6 +253,12 @@ export default function Chat() {
   const [isOpen, setIsOpen]           = useState(() => sessionStorage.getItem("sidebar_open") !== "0");
   const isMobile = useIsMobile();
   const [activeId, setActiveId]       = useState(null);
+  // 전역 모바일 독(App)에게 스레드 열림 상태 알림 → 목록에선 전역 독 표시, 스레드에선 숨김
+  // (채팅 전용 독을 없애고 전역 독을 재사용 → 다른 페이지와 동일하게 CD 위치 유지)
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("chat-thread-open", { detail: isMobile && !!activeId }));
+    return () => window.dispatchEvent(new CustomEvent("chat-thread-open", { detail: false }));
+  }, [isMobile, activeId]);
   const [convos, setConvos]           = useState([]);
   const [messagesMap, setMessagesMap] = useState({});
   const [input, setInput]             = useState("");
@@ -1118,7 +1123,6 @@ export default function Chat() {
   return (
     <div style={{ ...(isMobile ? { position: "fixed", inset: 0, overflow: "hidden" } : { minHeight: "100vh", overflowX: "hidden" }), background: "#000000", display: "flex" }}>
       {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} showPlayer />}
-      {isMobile && !activeId && <MobileDock />}
 
       {/* 채팅 메뉴 드롭다운 */}
       {chatMenuOpen && (

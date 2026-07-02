@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { supabase } from "./lib/supabase";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { PlayerProvider, usePlayer } from "./context/PlayerContext";
@@ -62,7 +62,15 @@ function SpacebarHandler() {
 function MobileDockGate() {
   const { pathname } = useLocation();
   const isMobile = useIsMobile();
-  const show = isMobile && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library");
+  // 채팅은 목록에선 전역 독 표시, 스레드 열리면 숨김(Chat이 이벤트로 알림)
+  const [chatThreadOpen, setChatThreadOpen] = useState(false);
+  useEffect(() => {
+    const h = (e) => setChatThreadOpen(!!e.detail);
+    window.addEventListener("chat-thread-open", h);
+    return () => window.removeEventListener("chat-thread-open", h);
+  }, []);
+  const onChat = pathname === "/chat";
+  const show = isMobile && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library" || (onChat && !chatThreadOpen));
   if (!show) return null;
   return <MobileDock />;
 }
