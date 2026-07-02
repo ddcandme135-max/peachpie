@@ -1370,14 +1370,14 @@ export default function Chat() {
                       setTimeout(() => inputRef.current?.focus(), 80);
                     }
                   }}
-                  style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 8px", borderRadius: 10, cursor: "pointer", transition: "background 100ms" }}
+                  style={{ display: "flex", alignItems: "center", gap: 12, padding: isMobile ? "0 8px" : "10px 8px", borderRadius: 10, cursor: "pointer", transition: "background 100ms" }}
                   onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
                   onMouseLeave={e => e.currentTarget.style.background = "transparent"}
                 >
-                  <Av av={AV_KEYS[0]} size={38} avatarUrl={p.avatar_url} />
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>{p.username ?? p.handle}</div>
-                    {p.handle && <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>@{p.handle}</div>}
+                  <Av av={AV_KEYS[0]} size={isMobile ? 56 : 38} avatarUrl={p.avatar_url} />
+                  <div style={{ flex: 1, minWidth: 0, ...(isMobile ? { borderBottom: "1px solid rgba(255,255,255,0.15)", paddingTop: 10, paddingBottom: 10 } : null) }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.username ?? p.handle}</div>
+                    {p.handle && <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>@{p.handle}</div>}
                   </div>
                 </div>
               ))}
