@@ -1826,6 +1826,7 @@ export default function Chat() {
                     </button>
                   )}
                 </div>
+              </div>
             </>
           )}
         </div>
