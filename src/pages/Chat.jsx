@@ -527,7 +527,8 @@ export default function Chat() {
         }
       }
 
-      const finalActiveId = loaded.length ? loaded[0].id : null;
+      // 모바일에선 첫 대화 자동 선택 안 함(목록 유지). 데스크톱만 오른쪽 창에 첫 대화 표시.
+      const finalActiveId = (loaded.length && window.innerWidth >= 768) ? loaded[0].id : null;
 
       setConvos(loaded.map(c =>
         finalActiveId !== null && c.id === finalActiveId ? { ...c, unread: false } : c
