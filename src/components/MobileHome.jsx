@@ -6,6 +6,8 @@ import cdImg from "../assets/_-removebg-preview.png";
 
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
+const SPIN_DUR = 3.5; // CD 회전 주기(초)
+const SPIN_START = Date.now(); // 모듈 로드 기준 — 페이지 이동해도 회전 위치 이어짐
 
 const COVER_MASK = "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)";
 const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)";
@@ -15,7 +17,7 @@ const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 1
 export function CDCover({ cover, size, spinning }) {
   const k = size / 170;
   // spinning === undefined → 회전 없음(정적 타일). true/false → 재생 중이면 회전, 정지 시 그 자리 멈춤.
-  const spinStyle = spinning === undefined ? null : { animation: "mhspin 3.5s linear infinite", animationPlayState: spinning ? "running" : "paused" };
+  const spinStyle = spinning === undefined ? null : { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationPlayState: spinning ? "running" : "paused", animationDelay: `-${((Date.now() - SPIN_START) / 1000) % SPIN_DUR}s` };
   return (
     <div style={{ width: size, height: size, position: "relative", flex: "none" }}>
       <div style={{ position: "absolute", inset: 0, ...spinStyle }}>
