@@ -33,7 +33,7 @@ export default function MobileNewSongs({ tracks = [], loading, myId, onEdit, onD
       <style>{`.mns-scroll::-webkit-scrollbar{display:none}`}</style>
 
       {/* header */}
-      <div style={{ flex: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "14px 20px 12px" }}>
+      <div style={{ flex: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "14px 20px 26px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
           <button onClick={() => navigate(-1)} aria-label="뒤로" style={{ all: "unset", cursor: "pointer", width: 38, height: 38, borderRadius: 12, flex: "none", display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.06)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="m12 5-7 7 7 7" /></svg>
@@ -46,7 +46,7 @@ export default function MobileNewSongs({ tracks = [], loading, myId, onEdit, onD
       </div>
 
       {/* list */}
-      <div className="mns-scroll" style={{ flex: 1, overflowY: "auto", padding: "6px 20px 150px" }}>
+      <div className="mns-scroll" style={{ flex: 1, overflowY: "auto", padding: "10px 20px 150px" }}>
         {loading ? (
           [...Array(8)].map((_, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 13, padding: "11px 0" }}>
