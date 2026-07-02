@@ -12,6 +12,8 @@ import { fetchTracks } from "../lib/api";
 import ShareModal from "../components/ShareModal";
 import NewTrackModal from "../components/NewTrackModal";
 import AuthModal from "../components/AuthModal";
+import MobileNewSongs from "../components/MobileNewSongs";
+import { useIsMobile } from "../lib/useIsMobile";
 import { ml } from "../lib/ml";
 
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
@@ -37,7 +39,7 @@ export const SONG_HEADERS = [
   { label: "",      align: "left" },
 ];
 
-function SongActionMenu({ s, onOpenChange, isMe, onEdit, onDelete, onShare }) {
+export function SongActionMenu({ s, onOpenChange, isMe, onEdit, onDelete, onShare }) {
   const [open, setOpen]   = useState(false);
   const notify = (v) => { setOpen(v); onOpenChange?.(v); };
   const [liked, setLiked] = useState(false);
@@ -341,6 +343,8 @@ export default function NewSongs() {
   const lang = i18n.language?.slice(0, 2) ?? "en";
   const { session } = useApp();
   const { showToast } = useToast();
+  const { playTrack } = usePlayer();
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
   const { state } = useLocation();
   const pad = isOpen ? 220 : 90;
@@ -400,6 +404,52 @@ export default function NewSongs() {
   }, []);
 
   const myId = session?.user?.id;
+
+  async function handleDelete(s) {
+    const { data: snapshot } = await supabase.from("tracks").select("*").eq("id", s.id).single();
+    await supabase.from("tracks").delete().eq("id", s.id);
+    setTracks(prev => prev.filter(t => t.id !== s.id));
+    showToast(lang === "ko" ? "음원을 삭제했습니다" : "Track deleted", "info", snapshot ? async () => {
+      const { id: _, ...data } = snapshot;
+      const { data: restored } = await supabase.from("tracks").insert({ ...data, id: s.id }).select().single();
+      if (restored) setTracks(prev => [{ ...s }, ...prev]);
+    } : undefined);
+  }
+
+  if (isMobile) {
+    return (
+      <>
+        <MobileNewSongs
+          tracks={tracks} loading={loading} myId={myId} playTrack={playTrack}
+          onUpload={() => setUploadOpen(true)}
+          onEdit={s => setEditTrack({ id: s.id, title: s.title, genre: s.genre, cover_url: s.cover_url, audio_url: s.audio_url, audio_name: s.audio_name ?? null, duration: s.duration })}
+          onDelete={handleDelete}
+          onShare={s => setShareData({ type: "track", trackId: s.id, title: s.title, coverUrl: s.cover_url, artist: s.artist })}
+        />
+        {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
+        <ShareModal isOpen={!!shareData} onClose={() => setShareData(null)} shareData={shareData} />
+        <NewTrackModal
+          open={!!editTrack || uploadOpen}
+          onClose={() => { setUploadOpen(false); setEditTrack(null); }}
+          editData={editTrack}
+          onSaved={saved => {
+            if (!saved) return;
+            const norm = {
+              ...saved,
+              artist: saved.profiles?.username ?? saved.artist ?? "아티스트",
+              grad: GRAD_FALLBACKS[0],
+              genre: (() => { const g = Array.isArray(saved.genre) ? saved.genre[0] : saved.genre; if (!g) return "—"; if (typeof g === "string" && g.startsWith("[")) { try { const p = JSON.parse(g); return Array.isArray(p) ? p[0] ?? "—" : g; } catch { return g; } } return g; })(),
+              duration: (() => { const d = saved.duration; if (!d) return "—"; if (typeof d === "string" && d.includes(":")) return d; const sec = typeof d === "number" ? d : parseInt(d, 10); return isNaN(sec) ? "—" : `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`; })(),
+            };
+            if (editTrack) setTracks(prev => prev.map(t => t.id === norm.id ? { ...t, ...norm } : t));
+            else setTracks(prev => [norm, ...prev].slice(0, 25));
+            setUploadOpen(false);
+            setEditTrack(null);
+          }}
+        />
+      </>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#000000" }}>
