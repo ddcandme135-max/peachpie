@@ -80,7 +80,7 @@ export default function MobileDock() {
           </div>
           {currentTrack && collapsed && (
             <button onClick={() => setCollapsed(false)} aria-label="플레이어 펼치기" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", ...GLASS }}>
-              <CDCover cover={currentTrack.cover_url} size={52} spinning={isPlaying} />
+              <CDCover cover={currentTrack.cover_url} size={46} spinning={isPlaying} />
             </button>
           )}
         </div>
