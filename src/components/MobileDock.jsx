@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Home, Search, Library, MessageCircle, Play, Pause, ChevronDown } from "lucide-react";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
-import { CDCover } from "./MobileHome";
+import { CDCover, markSpinPlaying, markSpinPaused } from "./MobileHome";
 
 const ACCENT = "#FC3C44";
 const GLASS = { background: "rgba(50,50,58,0.14)", backdropFilter: "blur(30px) saturate(200%)", WebkitBackdropFilter: "blur(30px) saturate(200%)", boxShadow: "0 12px 36px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 1px rgba(255,255,255,0.16)" };
@@ -19,6 +19,8 @@ export default function MobileDock() {
   // 축소 상태를 세션에 유지 → 페이지 이동해도 유지. 곡이 실제로 바뀔 때만 펼침.
   const [collapsed, setCollapsed] = useState(() => sessionStorage.getItem("mp_collapsed") === "1");
   useEffect(() => { sessionStorage.setItem("mp_collapsed", collapsed ? "1" : "0"); }, [collapsed]);
+  // 정지 각도 고정용: 재생/정지 전환 시 정지 시각 기록(축소/펼침해도 각도 유지)
+  useEffect(() => { if (isPlaying) markSpinPlaying(); else markSpinPaused(); }, [isPlaying]);
   const prevTrackId = useRef(currentTrack?.id);
   useEffect(() => {
     if (prevTrackId.current !== currentTrack?.id) {

@@ -8,6 +8,10 @@ import cdImg from "../assets/_-removebg-preview.png";
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
 const SPIN_DUR = 3.5; // CD 회전 주기(초)
 const SPIN_START = Date.now(); // 모듈 로드 기준 — 페이지 이동해도 회전 위치 이어짐
+let SPIN_PAUSE_TIME = null; // 마지막으로 정지된 시각(ms) — 정지 각도를 이 시점 기준으로 고정(축소/펼침·이동해도 동일)
+// 재생/정지 전환 시 dock에서 호출 → 정지 각도 기준 시각 관리
+export function markSpinPlaying() { SPIN_PAUSE_TIME = null; }
+export function markSpinPaused() { if (SPIN_PAUSE_TIME == null) SPIN_PAUSE_TIME = Date.now(); }
 
 const COVER_MASK = "radial-gradient(circle at 50% 49.8%, transparent 19px, black 20px), radial-gradient(circle at 50% 49.8%, black, black 82px, transparent 85px)";
 const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 15%)";
@@ -16,9 +20,14 @@ const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 1
 // spinning: 회전(중첩 래퍼 — 회전 래퍼 안에 스케일 래퍼, transform 충돌 방지)
 export function CDCover({ cover, size, spinning }) {
   const k = size / 170;
-  // 재생 중이면 회전(SPIN_START 동기화), 정지 시엔 현재 각도에서 멈춤(freeze). undefined면 정적 타일.
-  const spinDelay = useMemo(() => -(((Date.now() - SPIN_START) / 1000) % SPIN_DUR), []);
-  const spinStyle = spinning === undefined ? null : { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationPlayState: spinning ? "running" : "paused", animationDelay: `${spinDelay}s` };
+  // 재생 delay: 마운트 시 1회 계산(SPIN_START 연속 동기화 → 재렌더로 애니메이션 재시작 방지)
+  const playDelay = useMemo(() => -(((Date.now() - SPIN_START) / 1000) % SPIN_DUR), []);
+  // 재생 중이면 회전(연속 동기화), 정지 시엔 정지 시각(SPIN_PAUSE_TIME) 기준 각도로 고정 → 축소/펼침·이동해도 동일. undefined면 정적 타일.
+  let spinStyle = null;
+  if (spinning !== undefined) {
+    const delay = spinning ? playDelay : -((((SPIN_PAUSE_TIME ?? Date.now()) - SPIN_START) / 1000) % SPIN_DUR);
+    spinStyle = { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationPlayState: spinning ? "running" : "paused", animationDelay: `${delay}s` };
+  }
   return (
     <div style={{ width: size, height: size, position: "relative", flex: "none" }}>
       <div style={{ position: "absolute", inset: 0, ...spinStyle }}>
