@@ -22,10 +22,14 @@ export function CDCover({ cover, size, spinning }) {
   const k = size / 170;
   // 재생 delay: 마운트 시 1회 계산(SPIN_START 연속 동기화 → 재렌더로 애니메이션 재시작 방지)
   const playDelay = useMemo(() => -(((Date.now() - SPIN_START) / 1000) % SPIN_DUR), []);
-  // 재생 중이면 회전(연속 동기화), 정지 시엔 정지 시각(SPIN_PAUSE_TIME) 기준 각도로 고정 → 축소/펼침·이동해도 동일. undefined면 정적 타일.
+  const mountSpinning = useMemo(() => spinning, []); // 최초 마운트 시 재생 여부
+  // undefined면 정적 타일. 재생 중이면 회전. 정지 시:
+  //  - 재생 중 마운트된 요소는 자기 delay 유지 → play-state만 멈춰서 그 자리에 정확히 멈춤(점프 없음)
+  //  - 정지 상태에서 새로 마운트된 요소(축소/펼침·페이지 이동)는 정지 시각 기준 → 각도 동일(둘은 같은 각도)
   let spinStyle = null;
   if (spinning !== undefined) {
-    const delay = spinning ? playDelay : -((((SPIN_PAUSE_TIME ?? Date.now()) - SPIN_START) / 1000) % SPIN_DUR);
+    const pauseDelay = mountSpinning ? playDelay : -((((SPIN_PAUSE_TIME ?? Date.now()) - SPIN_START) / 1000) % SPIN_DUR);
+    const delay = spinning ? playDelay : pauseDelay;
     spinStyle = { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationPlayState: spinning ? "running" : "paused", animationDelay: `${delay}s` };
   }
   return (
