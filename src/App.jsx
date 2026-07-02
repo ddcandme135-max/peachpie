@@ -6,6 +6,8 @@ import { AppProvider } from "./context/AppContext";
 import { ToastProvider } from "./context/ToastContext";
 import { LangProvider } from "./context/LangContext";
 import MiniPlayer from "./components/MiniPlayer";
+import MobileDock from "./components/MobileDock";
+import { useIsMobile } from "./lib/useIsMobile";
 
 const Home            = lazy(() => import("./pages/Home"));
 const Library         = lazy(() => import("./pages/Library"));
@@ -53,6 +55,16 @@ function SpacebarHandler() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [togglePlay]);
   return null;
+}
+
+// 전역 모바일 하단 독 — 라우트 밖에서 한 번만 렌더(탭 이동 시 리마운트 없음 → CD 깜빡임/회전 리셋 방지).
+// 채팅은 목록/스레드 전환 로직이 있어 자체 독을 사용하므로 여기선 제외.
+function MobileDockGate() {
+  const { pathname } = useLocation();
+  const isMobile = useIsMobile();
+  const show = isMobile && (pathname === "/" || pathname === "/search" || pathname === "/search-results" || pathname === "/library");
+  if (!show) return null;
+  return <MobileDock />;
 }
 
 function ConditionalMiniPlayer() {
@@ -135,6 +147,7 @@ export default function App() {
           </Routes>
         </Suspense>
         <ConditionalMiniPlayer />
+        <MobileDockGate />
       </div>
     </PlayerProvider>
     </AppProvider>

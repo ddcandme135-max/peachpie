@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePlayer } from "../context/PlayerContext";
 import { useApp } from "../context/AppContext";
-import MobileDock from "./MobileDock";
 import cdImg from "../assets/_-removebg-preview.png";
 
 // 모바일 홈 화면 — Apple Music 스타일 (Mobile-Home.html 디자인 적용)
@@ -129,8 +128,6 @@ export default function MobileHome({ avatarUrl, username, sections = [] }) {
           </section>
         ))}
       </div>
-
-      <MobileDock />
     </div>
   );
 }

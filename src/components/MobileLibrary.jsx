@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { CDCover } from "./MobileHome";
-import MobileDock from "./MobileDock";
 
 const ACCENT = "#FC3C44";
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
@@ -121,8 +120,6 @@ export default function MobileLibrary({ likedSongs = [], posts = [], playlists =
           <EmptyState noIcon title="플레이리스트가 없어요" subtitle="좋아하는 트랙을 모아 나만의 흐름을 만들어요." button="플레이리스트 만들기" onButton={onCreatePlaylist} />
         ))}
       </div>
-
-      <MobileDock />
     </div>
   );
 }

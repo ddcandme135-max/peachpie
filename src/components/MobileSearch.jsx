@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { CDCover } from "./MobileHome";
-import MobileDock from "./MobileDock";
 
 const ACCENT = "#FC3C44";
 const FALLBACK = "linear-gradient(135deg,#3a3a44,#15151b)";
@@ -98,8 +97,6 @@ export default function MobileSearch({ inputVal, setInputVal, activeTab, setActi
           <PostRow key={p.id ?? i} p={p} first={i === 0} onClick={() => p.id && navigate(`/post/${p.id}`)} />
         )) : <Empty hasQuery={hasQuery} />)}
       </div>
-
-      <MobileDock />
     </div>
   );
 }
