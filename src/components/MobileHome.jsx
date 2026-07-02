@@ -16,10 +16,9 @@ const RING_MASK = "radial-gradient(circle at 50% 50.5%, transparent 14%, black 1
 // spinning: 회전(중첩 래퍼 — 회전 래퍼 안에 스케일 래퍼, transform 충돌 방지)
 export function CDCover({ cover, size, spinning }) {
   const k = size / 170;
-  // spinning === undefined → 회전 없음(정적 타일). true/false → 재생 중이면 회전, 정지 시 그 자리 멈춤.
-  // 마운트당 한 번만 계산(리렌더로 애니메이션 재시작 방지). 재마운트 시 회전 위치 이어짐.
+  // 재생 중일 때만 회전(SPIN_START 기준 동기화 → 모든 인스턴스 각도 일치). 정지 시엔 애니메이션 미적용(항상 0도) → 페이지마다 위치 안 바뀜.
   const spinDelay = useMemo(() => -(((Date.now() - SPIN_START) / 1000) % SPIN_DUR), []);
-  const spinStyle = spinning === undefined ? null : { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationPlayState: spinning ? "running" : "paused", animationDelay: `${spinDelay}s` };
+  const spinStyle = spinning ? { animation: `mhspin ${SPIN_DUR}s linear infinite`, animationDelay: `${spinDelay}s` } : null;
   return (
     <div style={{ width: size, height: size, position: "relative", flex: "none" }}>
       <div style={{ position: "absolute", inset: 0, ...spinStyle }}>

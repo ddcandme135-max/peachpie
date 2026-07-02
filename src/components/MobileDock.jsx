@@ -79,8 +79,8 @@ export default function MobileDock() {
             })}
           </div>
           {currentTrack && collapsed && (
-            <button onClick={() => setCollapsed(false)} aria-label="플레이어 펼치기" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", ...GLASS }}>
-              <CDCover cover={currentTrack.cover_url} size={46} spinning={isPlaying} />
+            <button onClick={() => setCollapsed(false)} aria-label="플레이어 펼치기" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", ...GLASS, border: "2px solid rgba(255,255,255,0.9)" }}>
+              <CDCover cover={currentTrack.cover_url} size={50} spinning={isPlaying} />
             </button>
           )}
         </div>
