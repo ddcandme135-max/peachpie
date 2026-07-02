@@ -1794,37 +1794,38 @@ export default function Chat() {
                   <Plus size={24} />
                 </button>
 
-                <input
-                  ref={inputRef}
-                  autoFocus
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onCompositionStart={() => { isComposing.current = true; }}
-                  onCompositionEnd={e => {
-                    isComposing.current = false;
-                    if (e.data === "" && inputRef.current) {
-                      inputRef.current.value = input;
-                    }
-                  }}
-                  onKeyDown={e => {
-                    if (e.key === "Enter" && !isComposing.current) {
-                      e.preventDefault();
-                      send();
-                    }
-                  }}
-                  placeholder={t("chat.messagePlaceholder")}
-                  style={{ flex: 1, height: 48, borderRadius: 999, background: "rgba(255,255,255,0.08)", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 450, padding: "0 20px" }}
-                />
-
-                {input.trim() && (
-                  <button onClick={send} style={{ width: 36, height: 36, display: "grid", placeItems: "center", background: "#FC3C44", borderRadius: "50%", border: "none", color: "#fff", cursor: "pointer", flexShrink: 0, transition: "transform 120ms", boxShadow: "0 4px 12px rgba(252,60,68,0.4)" }}
-                    onMouseEnter={e => e.currentTarget.style.transform = "scale(1.08)"}
-                    onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-                  >
-                    <Send size={16} />
-                  </button>
-                )}
-              </div>
+                {/* 입력 바 (전송 버튼을 바 안쪽에 배치 — iMessage 스타일) */}
+                <div style={{ flex: 1, display: "flex", alignItems: "center", minHeight: 48, borderRadius: 999, background: "rgba(255,255,255,0.08)", paddingLeft: 20, paddingRight: 6 }}>
+                  <input
+                    ref={inputRef}
+                    autoFocus
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
+                    onCompositionStart={() => { isComposing.current = true; }}
+                    onCompositionEnd={e => {
+                      isComposing.current = false;
+                      if (e.data === "" && inputRef.current) {
+                        inputRef.current.value = input;
+                      }
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === "Enter" && !isComposing.current) {
+                        e.preventDefault();
+                        send();
+                      }
+                    }}
+                    placeholder={t("chat.messagePlaceholder")}
+                    style={{ flex: 1, minWidth: 0, height: 44, background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 15, fontWeight: 450, padding: 0 }}
+                  />
+                  {input.trim() && (
+                    <button onClick={send} aria-label="보내기" style={{ width: 34, height: 34, display: "grid", placeItems: "center", background: "#FC3C44", borderRadius: "50%", border: "none", color: "#fff", cursor: "pointer", flexShrink: 0, marginLeft: 6, transition: "transform 120ms" }}
+                      onMouseEnter={e => e.currentTarget.style.transform = "scale(1.08)"}
+                      onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
+                    >
+                      <Send size={15} />
+                    </button>
+                  )}
+                </div>
             </>
           )}
         </div>
