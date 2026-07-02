@@ -1789,9 +1789,9 @@ export default function Chat() {
                 {/* 첨부(사진/파일 통합) */}
                 <input type="file" hidden id="chat-attach-input" onChange={e => { const f = e.target.files[0]; if (f) { (f.type.startsWith("image/") ? sendImage(f) : sendFile(f)); e.target.value = ""; } }} />
                 <button onClick={() => document.getElementById("chat-attach-input").click()} aria-label="첨부"
-                  style={{ width: 36, height: 36, display: "grid", placeItems: "center", background: "transparent", border: "none", color: "#fff", cursor: "pointer", flexShrink: 0 }}
+                  style={{ width: 36, height: 36, display: "grid", placeItems: "center", background: "transparent", border: "1px solid rgba(255,255,255,0.25)", borderRadius: "50%", color: "#fff", cursor: "pointer", flexShrink: 0 }}
                 >
-                  <Plus size={24} />
+                  <Plus size={20} />
                 </button>
 
                 {/* 입력 바 (전송 버튼을 바 안쪽에 배치 — iMessage 스타일) */}
