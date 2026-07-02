@@ -1307,9 +1307,9 @@ export default function Chat() {
             </div>
 
             {/* 검색 입력 */}
-            <div style={{ padding: "0 20px 12px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 14px", height: 44, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 999 }}>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
+            <div style={{ padding: isMobile ? "10px 20px 22px" : "0 20px 12px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "0 16px", height: isMobile ? 50 : 44, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 999 }}>
+                <svg width={isMobile ? 20 : 15} height={isMobile ? 20 : 15} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
                 <input
                   autoFocus
                   placeholder={t("chat.searchPlaceholder")}
