@@ -1434,7 +1434,7 @@ export default function Chat() {
                 <div onClick={isMobile ? undefined : (e => { e.stopPropagation(); c.supabaseId ? navigate(`/profile/${c.supabaseId}`) : navigate("/artist", { state: { name: c.name } }); })} style={{ cursor: "pointer" }}>
                   <Av av={c.av} size={56} online={c.online} avatarUrl={c.avatarUrl} />
                 </div>
-                <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 12, ...(isMobile ? { borderBottom: "1px solid rgba(255,255,255,0.15)", paddingTop: 10, paddingBottom: 10 } : null) }}>
+                <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", gap: 12, ...(isMobile ? { borderBottom: "1px solid rgba(255,255,255,0.15)", paddingTop: 14, paddingBottom: 14 } : null) }}>
                   <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", gap: 3 }}>
                     <div style={{ fontSize: 14.5, fontWeight: c.unread ? 700 : 600, color: "#fff" }}>{c.name}</div>
                     <div style={{ fontSize: 13, color: c.unread ? "#fff" : "rgba(255,255,255,0.5)", fontWeight: c.unread ? 600 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
