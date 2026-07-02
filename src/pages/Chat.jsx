@@ -1115,7 +1115,7 @@ export default function Chat() {
 
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000000", display: "flex", overflowX: "hidden" }}>
+    <div style={{ minHeight: isMobile ? undefined : "100vh", height: isMobile ? "100dvh" : undefined, background: "#000000", display: "flex", overflowX: "hidden", overflow: isMobile ? "hidden" : undefined }}>
       {!isMobile && <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} showPlayer />}
       {isMobile && !activeId && <MobileDock />}
 
