@@ -42,7 +42,7 @@ export default function MobileDock() {
           <div style={{ display: "flex", alignItems: "center", gap: 10, height: 52, padding: "0 12px 0 10px", borderRadius: 26, ...GLASS }}>
             <div style={{ flex: "none", cursor: "pointer" }}
               onClick={() => { const id = currentTrack.id; if (id) navigate(`/track/${id}`); }}>
-              <CDCover cover={currentTrack.cover_url} size={42} spinning={isPlaying} />
+              <CDCover cover={currentTrack.cover_url} size={42} spinning={true} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 13.5, fontWeight: 600, letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{currentTrack.title}</div>
@@ -80,7 +80,7 @@ export default function MobileDock() {
           </div>
           {currentTrack && collapsed && (
             <button onClick={() => setCollapsed(false)} aria-label="플레이어 펼치기" style={{ all: "unset", cursor: "pointer", width: 66, height: 66, borderRadius: 999, flex: "none", display: "grid", placeItems: "center", ...GLASS }}>
-              <CDCover cover={currentTrack.cover_url} size={52} spinning={isPlaying} />
+              <CDCover cover={currentTrack.cover_url} size={52} spinning={true} />
             </button>
           )}
         </div>
