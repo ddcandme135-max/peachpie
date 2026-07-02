@@ -1285,7 +1285,7 @@ export default function Chat() {
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              width: 420, background: "#1a1a2e",
+              width: isMobile ? "calc(100vw - 32px)" : 420, maxWidth: 420, background: "#1a1a2e",
               border: "1px solid rgba(255,255,255,0.1)",
               borderRadius: 16, overflow: "hidden",
               boxShadow: "0 24px 64px rgba(0,0,0,0.8)",
@@ -1389,9 +1389,15 @@ export default function Chat() {
 
           <div style={{ padding: "28px 24px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>{ml("k097")}</div>
-            <IconBtn onClick={() => setComposeOpen(true)}>
-              <PencilLine size={20} />
-            </IconBtn>
+            {isMobile ? (
+              <button onClick={() => setComposeOpen(true)} aria-label="새 메시지" style={{ all: "unset", cursor: "pointer", width: 42, height: 42, borderRadius: 999, display: "grid", placeItems: "center", color: "#fff", background: "rgba(255,255,255,0.06)", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>
+              </button>
+            ) : (
+              <IconBtn onClick={() => setComposeOpen(true)}>
+                <PencilLine size={20} />
+              </IconBtn>
+            )}
           </div>
 
           <div style={isMobile
