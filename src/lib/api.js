@@ -313,7 +313,7 @@ export function subscribeToMessages(myId, partnerId, onNewMessage) {
 export async function fetchForYou({ userId, recentlyPlayed = [], limit = 20 } = {}) {
   const { supabase } = await import("./supabase");
 
-  const CACHE_KEY = `for_you_${userId ?? "guest"}_${limit}`;
+  const CACHE_KEY = `for_you_v2_${userId ?? "guest"}_${limit}`;
   const CACHE_TTL = 12 * 60 * 60 * 1000; // 12시간
 
   // 캐시 확인 (12시간)
@@ -382,15 +382,17 @@ export async function fetchForYou({ userId, recentlyPlayed = [], limit = 20 } = 
     if (data?.length) result = data;
   }
 
-  // 폴백: New Songs 무작위
-  if (!result.length) {
+  // 개인화 결과가 limit보다 적으면 New Songs로 채워 넣음(항상 풍부한 리스트 유지)
+  if (result.length < limit) {
+    const haveIds = new Set([...result.map(t => t.id), ...excludeIds]);
     const { data: newSongs } = await supabase
       .from("tracks")
       .select("id, title, genre, duration, cover_url, audio_url, author_id, profiles!tracks_author_id_fkey(username)")
       .eq("type", "song")
       .order("created_at", { ascending: false })
       .limit(50);
-    result = (newSongs ?? []).sort(() => Math.random() - 0.5).slice(0, limit);
+    const extra = (newSongs ?? []).filter(t => !haveIds.has(t.id)).sort(() => Math.random() - 0.5);
+    result = [...result, ...extra].slice(0, limit);
   }
 
   // 캐시 저장 (12시간)
